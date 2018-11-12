@@ -1,3 +1,6 @@
+# STEP
+SISTEMA DE INFORMACION DE UN MOTOR VEHICULAR DE TRASPORTE ESPECIAL DE PASAJEROS
+
 npm init define el archivo packege.json con el detalle del servidor
 npm install express body-parser ejs mongojs --save instala express, ejs y mongojs
 se crea el archivo server.js
@@ -21,3 +24,4 @@ npm install morgan
 
 ----------------------------------------------------------------------------
 iniciar angular con: ng serve
+npm install jquery — save
