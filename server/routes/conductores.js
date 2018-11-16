@@ -7,7 +7,7 @@ router.get('/', conductorCtrl.getConductores );
 router.post('/', conductorCtrl.createConductor);
 router.get('/:id', conductorCtrl.getConductor );
 router.put('/:id', conductorCtrl.updateConductor );
-router.delete('/:id', conductorCtrl.deleteConductor);
+router.put('/delete/:id', conductorCtrl.deleteConductor);
 
 
 module.exports = router;
