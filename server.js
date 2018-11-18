@@ -29,6 +29,7 @@ app.use(bodyParser.urlencoded({
 //routes backend
 //app.use('/', index);
 app.use('/api/conductores', require('./server/routes/conductores'));
+app.use('/api/vehiculos', require('./server/routes/vehiculos'));
 
 app.listen(app.get('port'), function () {
     console.log('Servidor STEP Activo por el puerto: ' + app.get('port'));

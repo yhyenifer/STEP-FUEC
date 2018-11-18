@@ -10,6 +10,7 @@ en la carpeta views se crea un archivo index.html
 npm install -g nodemon
 npm install mysql se instala el conector de mysql
 ***** el servidor se inicia con node server *******
+npm run dev 
 
 npm install @angular/cli instalar angular o npm install -g @angular/cli@latest
 ng new nombre
@@ -19,6 +20,7 @@ npm install express-session
  npm install connect-mongo
 
 npm run dev -> ejecuta el server de desarrollo
+cmd como admin, mongod enter
 
 npm install morgan
 

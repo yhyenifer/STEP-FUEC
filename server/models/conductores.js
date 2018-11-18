@@ -26,6 +26,8 @@ const ConductorShema = new Schema({
     // senses_expiration: {type: Date},
     // car_security_expiration: {type: Date},
     // road_security_expiration: {type: Date},
+    state: { type: Boolean, default: true }
+
 
 
 }, { timestamps: true });
