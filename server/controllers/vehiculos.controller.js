@@ -11,7 +11,26 @@ vehiculoCtrl.getVehiculos = async (req,res) =>{
 //crear vehiculo
 vehiculoCtrl.createVehiculo = async (req,res) =>{
     
-    const vehiculo = new Vehiculo(req.body);
+    const vehiculo = new Vehiculo({
+        
+        plate: req.body.plate,
+        model: req.body.model,
+        year: req.body.year,
+        lateral: req.body.lateral,
+        class: req.body.class,
+        passengers: req.body.passengers,
+        operation_card: req.body.operation_card,
+        exp_to: req.body.exp_to,
+        exp_soat: req.body.exp_soat,
+        exp_tech: req.body.exp_tech,
+        exp_prev: req.body.exp_prev,
+        GNV: req.body.GNV,
+        exp_rcc: req.body.exp_rcc,
+        active: req.body.active,
+        internal: req.body.internal,
+        state: true
+        
+    });
     console.log(vehiculo);
     await vehiculo.save();
      res.json( { 'status': 'Vehiculo Guardado Exitosamente'});

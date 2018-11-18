@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-const ConductorShema = new Schema({
+const ConductorSchema = new Schema({
     name: { type: String, required: true },
     CC: { type: String, required: true },
     // active: {type: Boolean, default: true}, // activo o inactivo
@@ -32,4 +32,4 @@ const ConductorShema = new Schema({
 
 }, { timestamps: true });
 
-module.exports = mongoose.model('Conductores', ConductorShema);
+module.exports = mongoose.model('Conductores', ConductorSchema);
