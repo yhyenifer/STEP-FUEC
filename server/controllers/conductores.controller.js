@@ -2,15 +2,9 @@ const Conductor = require('../models/conductores');
 
 const conductorCtrl = {};
 
-<<<<<<< HEAD
-//listar consuctores
-conductorCtrl.getConductores = async (req, res) => {
-    const conductores = await Conductor.find();
-=======
 //listar conductores
-conductorCtrl.getConductores = async (req,res) =>{
-    const conductores = await Conductor.find({state:"true"});
->>>>>>> 22a6cc794da6b6b5ef2bc56e07ffeae6ea1b73c9
+conductorCtrl.getConductores = async (req, res) => {
+    const conductores = await Conductor.find({ state: "true" });
     res.json(conductores);
     // otra forma de hacerlo, para ver el error
     // Conductor.find()
