@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
-const {Schema}= mongoose;
+const { Schema } = mongoose;
 
 const ConductorShema = new Schema({
-    name: {type: String, required: true},
-    CC : {type: String, required:true},
+    name: { type: String, required: true },
+    CC: { type: String, required: true },
     // active: {type: Boolean, default: true}, // activo o inactivo
     // internal: {type: Boolean, default: true}, // interno o externo
-     license: {type: String, required: true}, // num de icencia de conduccion
+    license: { type: String, required: true }, // num de icencia de conduccion
     // license_expiration: {type: Date, required: true},
     // health_expiration: {type: Date , required: true}, // fecha en que hace aportes de salud 
     // drug_expiration: {type: Date, required: true},
@@ -26,8 +26,8 @@ const ConductorShema = new Schema({
     // senses_expiration: {type: Date},
     // car_security_expiration: {type: Date},
     // road_security_expiration: {type: Date},
-    
 
-}, {timestamps: true});
+
+}, { timestamps: true });
 
 module.exports = mongoose.model('Conductores', ConductorShema);
