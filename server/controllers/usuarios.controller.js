@@ -19,7 +19,7 @@ usuarioCtrl.createUsuario = async (req, res) => {
         username:req.body.username,
         name:req.body.name,
         password:req.body.password,
-        role: req.body.name,
+        role: req.body.role,
         state: true
 
     });
@@ -42,7 +42,7 @@ usuarioCtrl.updateUsuario = async (req, res) => {
         username:req.body.username,
         name:req.body.name,
         password:req.body.password,
-        role: req.body.name,
+        role: req.body.role,
         state: true
     }
     await Usuario.findByIdAndUpdate(id, { $set: newUsuario }, { new: true });

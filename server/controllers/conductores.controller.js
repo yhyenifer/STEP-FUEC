@@ -13,11 +13,12 @@ conductorCtrl.getConductores = async (req, res) => {
 
 };
 
+
 // crear conductor
 conductorCtrl.createConductor = async (req, res) => {
     const conductor = new Conductor({
         name: req.body.name,
-        CC: req.body.CC,
+        CC:req.body.CC,
         active: req.body.active,
         internal: req.body.internal,
         license: req.body.license,
