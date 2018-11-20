@@ -17,6 +17,7 @@ async function validar_cedula(cedula) {
     return await Conductor.find({ CC: cedula });
 }
 
+
 // crear conductor
 conductorCtrl.createConductor = async (req, res) => {
     console.log('guardar');
