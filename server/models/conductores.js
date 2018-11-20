@@ -7,7 +7,7 @@ const ConductorSchema = new Schema({
     // active: {type: Boolean, default: true}, // activo o inactivo
     // internal: {type: Boolean, default: true}, // interno o externo
     license: { type: String, required: true }, // num de icencia de conduccion
-    //license_expiration: { type: Date, required: true },
+    license_expiration: { type: Date, required: true },
     // health_expiration: {type: Date , required: true}, // fecha en que hace aportes de salud 
     // drug_expiration: {type: Date, required: true},
     // simit_expiration : {type: Date, required: true},
