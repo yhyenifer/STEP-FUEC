@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 
 const conductorCtrl= require('../controllers/conductores.controller');
-
 router.get('/', conductorCtrl.getConductores );
 router.post('/', conductorCtrl.createConductor);
 router.get('/:id', conductorCtrl.getConductor );

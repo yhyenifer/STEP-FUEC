@@ -18,6 +18,7 @@ async function validar_cedula(cedula) {
 }
 
 
+
 // crear conductor
 conductorCtrl.createConductor = async (req, res) => {
     console.log('guardar');
@@ -62,6 +63,7 @@ conductorCtrl.createConductor = async (req, res) => {
     }
 };
 
+
 // consultar por un conductor especifico
 conductorCtrl.getConductor = async (req, res) => {
     const conductor = await Conductor.findById(req.params.id);
@@ -102,7 +104,7 @@ conductorCtrl.updateConductor = async (req, res) => {
         state: true
     }
     await Conductor.findByIdAndUpdate(id, { $set: newConductor }, { new: true });
-    res.json({ status: 'Conductor Actualizado Exitosamente' });
+    res.json({ status: 'Conductor Actualizado Exitosamente', success: 'true' });
 };
 
 // Eliminar un conductor especifico
@@ -113,7 +115,7 @@ conductorCtrl.deleteConductor = async (req, res) => {
         state: req.body.state
     }
     await Conductor.findByIdAndUpdate(id, { $set: newState }, { new: true });
-    res.json({ status: 'Conductor Eliminado Exitosamente' });
+    res.json({ status: 'Conductor Eliminado Exitosamente', success: 'true' });
 };
 
 
