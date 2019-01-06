@@ -1,0 +1,303 @@
+<div class="continer">
+
+  <div class="row">
+    <div class="col s12">
+      <ul class="collapsible popout">
+        <li class="active">
+          <div class="collapsible-header">
+            <i class="material-icons">person_add</i>Agregar Conductor</div>
+
+          <div class="collapsible-body card">
+            <div class="card-content">
+              <form #conductorForm="ngForm" (ngSubmit)="addConductor(conductorForm)">
+                <div class="row">
+                  <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="conductoresService.selectedConductor._id">
+                  <div class="input-field col s12 m6 l4">
+                    <input type="text" name="name" #name="ngModel" [(ngModel)]="conductoresService.selectedConductor.name" placeholder="Escriba el Nombre"
+                      required>
+                    <label>Nombre Completo del Conductor*:</label>
+                    <div *ngIf="name.touched && !name.valid">
+                      <div class="required" *ngIf="name.errors.required">EL Nombre es Requerido</div>
+                    </div>
+                  </div>
+
+                  <div class="input-field col s12 m6 l4">
+                    <input type="text" name="CC" #CC="ngModel" (blur)="onBlur()" [(ngModel)]="conductoresService.selectedConductor.CC" placeholder="Escriba el número de identificación"
+                      required maxlength="10" minlength="7">
+                    <label>Número de Identificación del Conductor:</label>
+                    <div *ngIf="CC.touched && !CC.valid">
+                      <div class="required" *ngIf="CC.errors.required">La Identificación es Requerido</div>
+                      <div class="required" *ngIf="CC.errors.maxlength">La Identificación debe contener máximo {{CC.errors.maxlength.requiredLength}} caracteres</div>
+                      <div class="required" *ngIf="CC.errors.minlength">La Identificación debe contener mínimo {{CC.errors.minlength.requiredLength}} caracteres</div>
+                    </div>
+                  </div>
+
+                  <div class="input-field  col s12 m6 l4">
+                    <input type="text" name="license" #license="ngModel" [(ngModel)]="conductoresService.selectedConductor.license" placeholder="Escriba el número de licencia"
+                      required maxlength="10" minlength="7">
+                    <label>Número de Licencia de Conducción:</label>
+                    <div *ngIf="license.touched && !license.valid">
+                      <div class="required" *ngIf="license.errors.required">El número de Licencia es Requerido</div>
+                      <div class="required" *ngIf="license.errors.maxlength">El número de Licencia debe contener máximo {{license.errors.maxlength.requiredLength}} caracteres</div>
+                      <div class="required" *ngIf="license.errors.minlength">El número de Licencia debe contener mínimo {{license.errors.minlength.requiredLength}} caracteres</div>
+                    </div>
+                  </div>
+                  <div class="col s12 m6 l3">
+                    <!-- <input type="text" class="datepicker " name="license_expiration" #license_expiration="ngModel" [(ngModel)]="conductoresService.selectedConductor.license_expiration"
+                      placeholder="Seleccione">
+                    <label>Fecha Expiración Licencia:</label> -->
+                    <mat-form-field>
+                      <input matInput class="example-full-width" [matDatepicker]="picker_license" name="license_expiration" #license_expiration="ngModel"
+                        [(ngModel)]="conductoresService.selectedConductor.license_expiration" placeholder="Fecha de Expiración Licencia"
+                        required>
+                      <mat-datepicker-toggle matSuffix [for]="picker_license"></mat-datepicker-toggle>
+                      <mat-datepicker touchUi #picker_license></mat-datepicker>
+                    </mat-form-field>
+                    <div *ngIf="license_expiration.touched && !license_expiration.valid">
+                      <div class="required" *ngIf="license_expiration.errors.required">La Fecha de Expiración de la Licencia es Requerida</div>
+                    </div>
+                  </div>
+                  <div class="col s12 m6 l3">
+                    <mat-form-field>
+                      <input matInput class="example-full-width" [matDatepicker]="picker_healt" name="health_expiration" #health_expiration="ngModel"
+                        [(ngModel)]="conductoresService.selectedConductor.health_expiration" placeholder="Fecha de Aportes a Salud">
+                      <mat-datepicker-toggle matSuffix [for]="picker_healt"></mat-datepicker-toggle>
+                      <mat-datepicker touchUi #picker_healt></mat-datepicker>
+                    </mat-form-field>
+                    <div *ngIf="health_expiration.touched && !health_expiration.valid">
+                      <div class="required" *ngIf="health_expiration.errors.required">La Fecha de Aportes a Salud es Requerida</div>
+                    </div>
+                  </div>
+                  <div class="col s12 m6 l3">
+                    <mat-form-field>
+                      <input matInput class="example-full-width" [matDatepicker]="picker_drug" name="drug_expiration" #drug_expiration="ngModel"
+                        [(ngModel)]="conductoresService.selectedConductor.drug_expiration" placeholder="Fecha de Drogas y Alcoholemia">
+                      <mat-datepicker-toggle matSuffix [for]="picker_drug"></mat-datepicker-toggle>
+                      <mat-datepicker touchUi #picker_drug></mat-datepicker>
+                    </mat-form-field>
+                    <div *ngIf="drug_expiration.touched && !drug_expiration.valid">
+                      <div class="required" *ngIf="drug_expiration.errors.required">La Fecha de Drogas y Alcohholemia es Requerida</div>
+                    </div>
+                  </div>
+                  <div class="col s12 m6 l3">
+                    <mat-form-field>
+                      <input matInput class="example-full-width" [matDatepicker]="picker_simit" name="simit_expiration" #simit_expiration="ngModel"
+                        [(ngModel)]="conductoresService.selectedConductor.simit_expiration" placeholder="Fecha de Consultas en el SIMIT">
+                      <mat-datepicker-toggle matSuffix [for]="picker_simit"></mat-datepicker-toggle>
+                      <mat-datepicker touchUi #picker_simit></mat-datepicker>
+                    </mat-form-field>
+                    <div *ngIf="simit_expiration.touched && !simit_expiration.valid">
+                      <div class="required" *ngIf="simit_expiration.errors.required">La Fecha de Conultas en el SIMIT es Requerida</div>
+                    </div>
+                  </div>
+                  <div class="col s12 m6 l3">
+                    <mat-form-field>
+                      <input matInput class="example-full-width" [matDatepicker]="picker_so" name="health_exam_expiration" #health_exam_expiration="ngModel"
+                        [(ngModel)]="conductoresService.selectedConductor.health_exam_expiration" placeholder="Fecha de Exámenes Salud Ocupacional">
+                      <mat-datepicker-toggle matSuffix [for]="picker_so"></mat-datepicker-toggle>
+                      <mat-datepicker touchUi #picker_so></mat-datepicker>
+                    </mat-form-field>
+                    <div *ngIf="health_exam_expiration.touched && !health_exam_expiration.valid">
+                      <div class="required" *ngIf="health_exam_expiration.errors.required">La Fecha de Exámenes de Salud Ocupacional es Requerida</div>
+                    </div>
+                  </div>
+                  <div class="col s12 m6 l3">
+                    <mat-card-content>
+                      <label class="tamaño-letra">Estado:</label>
+                      <section class="example-section">
+                        <mat-slide-toggle class="example-margin" name="active" #active="ngModel" [(ngModel)]="conductoresService.selectedConductor.active">
+                          <p class="tamaño-letra-19" *ngIf="conductoresService.selectedConductor.active">Activo</p>
+                          <p class="tamaño-letra-19" *ngIf="!conductoresService.selectedConductor.active">Inactivo</p>
+                        </mat-slide-toggle>
+                      </section>
+                    </mat-card-content>
+                  </div>
+                  <div class="col s12 m6 l3">
+                    <mat-card-content>
+                      <label class="tamaño-letra">Tipo:</label>
+                      <section class="example-section">
+                        <mat-slide-toggle class="example-margin" name="internal" #internal="ngModel" [(ngModel)]="conductoresService.selectedConductor.internal">
+                          <p class="tamaño-letra-19" *ngIf="conductoresService.selectedConductor.internal">Interno</p>
+                          <p class="tamaño-letra-19" *ngIf="!conductoresService.selectedConductor.internal">Externo</p>
+                        </mat-slide-toggle>
+                      </section>
+                    </mat-card-content>
+                  </div>
+                </div>
+                <div class="row">
+                  <ul class="collapsible popout">
+                    <li class="">
+                      <div class="collapsible-header">
+                        <i class="material-icons">more_horiz
+                        </i>Otros Campos
+                        <p class="description">Presione aqui, para diligenciar los otros campos</p>
+                      </div>
+                      <div class="collapsible-body card">
+                        <div class="card-content">
+                          <div class="row">
+                            <div class="col s12 m6 l3 ">
+                              <mat-form-field>
+                                <input matInput class="example-full-width" [matDatepicker]="picker_driving" name="driving_exam_expiration" #driving_exam_expiration="ngModel"
+                                  [(ngModel)]="conductoresService.selectedConductor.driving_exam_expiration" placeholder="Fecha de Expiración Exámen Conducción">
+                                <mat-datepicker-toggle matSuffix [for]="picker_driving"></mat-datepicker-toggle>
+                                <mat-datepicker touchUi #picker_driving></mat-datepicker>
+                              </mat-form-field>
+                            </div>
+                            <div class="col s12 m6 l3">
+                              <mat-form-field>
+                                <input matInput class="example-full-width" [matDatepicker]="picker_automotive" name="automotive_law_expiration" #automotive_law_expiration="ngModel"
+                                  [(ngModel)]="conductoresService.selectedConductor.automotive_law_expiration" placeholder="Fecha de Expiración Normas TTTA">
+                                <mat-datepicker-toggle matSuffix [for]="picker_automotive"></mat-datepicker-toggle>
+                                <mat-datepicker touchUi #picker_automotive></mat-datepicker>
+                              </mat-form-field>
+                            </div>
+                            <div class="col s12 m6 l3">
+                              <mat-form-field>
+                                <input matInput class="example-full-width" [matDatepicker]="picker_transit" name="transit_law_expiration" #transit_law_expiration="ngModel"
+                                  [(ngModel)]="conductoresService.selectedConductor.transit_law_expiration" placeholder="Fecha de Expiración Normas TTO">
+                                <mat-datepicker-toggle matSuffix [for]="picker_transit"></mat-datepicker-toggle>
+                                <mat-datepicker touchUi #picker_transit></mat-datepicker>
+                              </mat-form-field>
+                            </div>
+                            <div class="col s12 m6 l3">
+                              <mat-form-field>
+                                <input matInput class="example-full-width" [matDatepicker]="picker_law_tips" name="law_tips_expiration" #law_tips_expiration="ngModel"
+                                  [(ngModel)]="conductoresService.selectedConductor.law_tips_expiration" placeholder="Fecha de Tips Normativos">
+                                <mat-datepicker-toggle matSuffix [for]="picker_law_tips"></mat-datepicker-toggle>
+                                <mat-datepicker touchUi #picker_law_tips></mat-datepicker>
+                              </mat-form-field>
+                            </div>
+                            <div class="col s12 m6 l3">
+                              <mat-form-field>
+                                <input matInput class="example-full-width" [matDatepicker]="picker_accident" name="accident_expiration" #accident_expiration="ngModel"
+                                  [(ngModel)]="conductoresService.selectedConductor.accident_expiration" placeholder="Fecha de Accidentalidad de TTO">
+                                <mat-datepicker-toggle matSuffix [for]="picker_accident"></mat-datepicker-toggle>
+                                <mat-datepicker touchUi #picker_accident></mat-datepicker>
+                              </mat-form-field>
+                            </div>
+                            <div class="col s12 m6 l3">
+                              <mat-form-field>
+                                <input matInput class="example-full-width" [matDatepicker]="picker_driving_methods" name="driving_methods_expiration" #driving_methods_expiration="ngModel"
+                                  [(ngModel)]="conductoresService.selectedConductor.driving_methods_expiration" placeholder="Fecha de Métodos de Conducción">
+                                <mat-datepicker-toggle matSuffix [for]="picker_driving_methods"></mat-datepicker-toggle>
+                                <mat-datepicker touchUi #picker_driving_methods></mat-datepicker>
+                              </mat-form-field>
+                            </div>
+                            <div class="col s12 m6 l3">
+                              <mat-form-field>
+                                <input matInput class="example-full-width" [matDatepicker]="picker_defensive_expiration" name="defensive_expiration" #defensive_expiration="ngModel"
+                                  [(ngModel)]="conductoresService.selectedConductor.defensive_expiration" placeholder="Fecha de Manejo Defensivo">
+                                <mat-datepicker-toggle matSuffix [for]="picker_defensive_expiration"></mat-datepicker-toggle>
+                                <mat-datepicker touchUi #picker_defensive_expiration></mat-datepicker>
+                              </mat-form-field>
+                            </div>
+                            <div class="col s12 m6 l3">
+                              <mat-form-field>
+                                <input matInput class="example-full-width" [matDatepicker]="picker_distractions" name="distractions_expiration" #distractions_expiration="ngModel"
+                                  [(ngModel)]="conductoresService.selectedConductor.distractions_expiration" placeholder="Fecha de Distracciones">
+                                <mat-datepicker-toggle matSuffix [for]="picker_distractions"></mat-datepicker-toggle>
+                                <mat-datepicker touchUi #picker_distractions></mat-datepicker>
+                              </mat-form-field>
+                            </div>
+                            <div class="col s12 m6 l3">
+                              <mat-form-field>
+                                <input matInput class="example-full-width" [matDatepicker]="picker_first_aid" name="first_aid_expiration" #first_aid_expiration="ngModel"
+                                  [(ngModel)]="conductoresService.selectedConductor.first_aid_expiration" placeholder="Fecha de Primeros Auxilios">
+                                <mat-datepicker-toggle matSuffix [for]="picker_first_aid"></mat-datepicker-toggle>
+                                <mat-datepicker touchUi #picker_first_aid></mat-datepicker>
+                              </mat-form-field>
+                            </div>
+                            <div class="col s12 m6 l3">
+                              <mat-form-field>
+                                <input matInput class="example-full-width" [matDatepicker]="picker_first_answer" name="first_answer_expiration" #first_answer_expiration="ngModel"
+                                  [(ngModel)]="conductoresService.selectedConductor.first_answer_expiration" placeholder="Fecha de Primero Respondiente">
+                                <mat-datepicker-toggle matSuffix [for]="picker_first_answer"></mat-datepicker-toggle>
+                                <mat-datepicker touchUi #picker_first_answer></mat-datepicker>
+                              </mat-form-field>
+                            </div>
+                            <div class="col s12 m6 l3">
+                              <mat-form-field>
+                                <input matInput class="example-full-width" [matDatepicker]="picker_senses_expiration" name="senses_expiration" #senses_expiration="ngModel"
+                                  [(ngModel)]="conductoresService.selectedConductor.senses_expiration" placeholder="Fecha de los 5 Sentidos de la Conducción">
+                                <mat-datepicker-toggle matSuffix [for]="picker_senses_expiration"></mat-datepicker-toggle>
+                                <mat-datepicker touchUi #picker_senses_expiration></mat-datepicker>
+                              </mat-form-field>
+                            </div>
+                            <div class="col s12 m6 l3">
+                              <mat-form-field>
+                                <input matInput class="example-full-width" [matDatepicker]="picker_car_security" name="car_security_expiration" #car_security_expiration="ngModel"
+                                  [(ngModel)]="conductoresService.selectedConductor.car_security_expiration" placeholder="Fecha de la Seguridad Activa y Pasiva del V">
+                                <mat-datepicker-toggle matSuffix [for]="picker_car_security"></mat-datepicker-toggle>
+                                <mat-datepicker touchUi #picker_car_security></mat-datepicker>
+                              </mat-form-field>
+                            </div>
+                            <div class="col s12 m6 l3">
+                              <mat-form-field>
+                                <input matInput class="example-full-width" [matDatepicker]="picker_road_security" name="road_security_expiration" #road_security_expiration="ngModel"
+                                  [(ngModel)]="conductoresService.selectedConductor.road_security_expiration" placeholder="Fecha de la Seguridad Activa y Pasiva del V">
+                                <mat-datepicker-toggle matSuffix [for]="picker_road_security"></mat-datepicker-toggle>
+                                <mat-datepicker touchUi #picker_road_security></mat-datepicker>
+                              </mat-form-field>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+
+                <div class="row">
+                  <div class="card-action">
+                    <div class="input-field col col s12 ">
+                      <button class="btn btn-default right darkgray " (click)="resetForm(conductorForm)"> Cancelar </button>
+                      <button class="btn right waves-effect black margin-separe"> Guardar </button>
+                    </div>
+                  </div>
+                </div>
+
+              </form>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col s12">
+      <div class="card">
+        <div class="card-header">
+          <i class="material-icons">people</i>Lista de Conductores
+        </div>
+        <div class="card-conten">
+          <table #dataTable ng="dataTable" class="display" style="width: 90%; margin: 0px 26px;">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Identificación</th>
+                <th>Num. Licencia</th>
+                <th>Opciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let conductor of conductoresService.conductores">
+                <td>{{conductor.name}}</td>
+                <td>{{conductor.CC}}</td>
+                <td>{{conductor.license}}</td>
+                <td>
+                  <button class="btn black margin-separe" (click)="editConductor(conductor)" type="button">
+                    <i class="material-icons">edit</i>
+                  </button>
+                  <button class="btn darkgray " type="button" (click)="deleteConductor(conductor._id)">
+                    <i class="material-icons">delete</i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
