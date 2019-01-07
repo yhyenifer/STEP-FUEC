@@ -54,6 +54,14 @@
                     </div>
                   </div>
                   <div class="input-field col s12 m6 l4">
+                    <input type="text" name="operation_card" #operation_card="ngModel" [(ngModel)]="vehiculosService.selectedVehiculo.operation_card"
+                      placeholder="Escriba el operation_card del Vehículo" required>
+                    <label>Tarjeta de Operación:</label>
+                    <div *ngIf="operation_card.touched && !operation_card.valid">
+                      <div class="required" *ngIf="operation_card.errors.required">la Tarjeta de Operación es Requerida</div>
+                    </div>
+                  </div>
+                  <div class="input-field col s12 m6 l4">
                     <mat-form-field>
                       <label class="tamaño-letra">Clase del Vehículo:</label>
                       <mat-select class="border-select" name="class" #class="ngModel" [(ngModel)]="vehiculosService.selectedVehiculo.class" [(value)]="vehiculosService.selectedVehiculo.class">
@@ -65,22 +73,15 @@
                       </mat-select>
                     </mat-form-field>
                   </div>
-                  <div class="input-field col s12 m6 l4">
-                    <input type="number" name="passengers" #passengers="ngModel" [(ngModel)]="vehiculosService.selectedVehiculo.passengers" placeholder="Escriba el passengers del Vehículo"
+                  <div class="input-field col s12 m6 l3">
+                    <input type="text" name="passengers" #passengers="ngModel" [(ngModel)]="vehiculosService.selectedVehiculo.passengers" placeholder="Escriba el passengers del Vehículo"
                       required>
                     <label>Cant. Pasajeros:</label>
                     <div *ngIf="passengers.touched && !passengers.valid">
                       <div class="required" *ngIf="passengers.errors.required">la Cantidad de Pasajeros es Requerido</div>
                     </div>
                   </div>
-                  <div class="input-field col s12 m6 l3">
-                    <input type="number" name="operation_card" #operation_card="ngModel" [(ngModel)]="vehiculosService.selectedVehiculo.operation_card"
-                      placeholder="Escriba el operation_card del Vehículo" required>
-                    <label>Tarjeta de Operación:</label>
-                    <div *ngIf="operation_card.touched && !operation_card.valid">
-                      <div class="required" *ngIf="operation_card.errors.required">la Tarjeta de Operación es Requerida</div>
-                    </div>
-                  </div>
+
                   <div class="col s12 m6 l3">
                     <mat-form-field>
                       <input matInput class="example-full-width" [matDatepicker]="picker_exp_to" name="exp_to" #exp_to="ngModel" [(ngModel)]="vehiculosService.selectedVehiculo.exp_to"
