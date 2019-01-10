@@ -12,9 +12,9 @@ export class Vehiculos {
     exp_tech: Date;
     exp_prev: Date;
     GNV: Boolean;
+    exp_gnv: Date;
     exp_rcc: Date;
-    active: Boolean = true;
-    internal: Boolean = true;
-    state: Boolean = true;
-
+    active: Boolean;
+    internal: Boolean;
+    state: Boolean;
 }

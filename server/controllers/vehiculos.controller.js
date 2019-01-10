@@ -4,7 +4,7 @@ const vehiculoCtrl = {};
 
 //listar Vehiculos
 vehiculoCtrl.getVehiculos = async (req, res) => {
-    const vehiculos = await Vehiculo.find({ state: "true" });
+    const vehiculos = await Vehiculo.find({ state: "true" }).sort({ createdAt: -1 }); // ordenada desc
     res.json(vehiculos);
 };
 
@@ -31,6 +31,10 @@ vehiculoCtrl.createVehiculo = async (req, res) => {
         state: true
 
     });
+
+    if (vehiculo.GNV) {
+        vehiculo.exp_gnv = req.body.exp_gnv;
+    }
     console.log(vehiculo);
     await vehiculo.save();
     res.json({ 'status': 'Vehiculo Guardado Exitosamente', success: 'true' });
@@ -61,10 +65,14 @@ vehiculoCtrl.updateVehiculo = async (req, res) => {
         exp_tech: req.body.exp_tech,
         exp_prev: req.body.exp_prev,
         GNV: req.body.GNV,
+        exp_gnv: '',
         exp_rcc: req.body.exp_rcc,
         active: req.body.active,
         internal: req.body.internal,
         state: true
+    }
+    if (newVehiculo.GNV) {
+        newVehiculo.exp_gnv = req.body.exp_gnv;
     }
     await Vehiculo.findByIdAndUpdate(id, { $set: newVehiculo }, { new: true });
     res.json({ status: 'Vehiculo Actualizado Exitosamente', success: 'true' });

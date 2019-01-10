@@ -55,6 +55,9 @@ import { LoginComponent } from './components/login/login.component';
 
 import { app_routing } from './app.routes';
 import { VehiculosComponent } from './components/vehiculos/vehiculos.component';
+import { UsuariosComponent } from './components/usuarios/usuarios.component';
+import { EstadisticasComponent } from './components/estadisticas/estadisticas.component';
+import { CalidadComponent } from './components/calidad/calidad.component';
 
 
 @NgModule({
@@ -64,7 +67,10 @@ import { VehiculosComponent } from './components/vehiculos/vehiculos.component';
     ConductoresComponent,
     HomeComponent,
     LoginComponent,
-    VehiculosComponent
+    VehiculosComponent,
+    UsuariosComponent,
+    EstadisticasComponent,
+    CalidadComponent
   ],
   imports: [
     BrowserModule,

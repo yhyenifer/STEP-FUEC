@@ -15,18 +15,18 @@ export class VehiculosService {
   readonly URL_API = 'http://localhost:8000/api/vehiculos';
   constructor(private http: HttpClient) {
     this.selectedVehiculo = new Vehiculos();
-   }
+  }
 
-     //listar los vehiculos
+  //listar los vehiculos
   getVehiculos(): Observable<Vehiculos[]> {
     return this.http.get<Vehiculos[]>(this.URL_API);
   };
   //crear vehiculo
-  addVehiculo(Vehiculo: Vehiculos) {
+  addVehiculo(Vehiculo: any) {
     return this.http.post<respond>(this.URL_API, Vehiculo);
   };
   //actualizar vehiculo
-  updateVehiculo(vehiculo: Vehiculos) {
+  updateVehiculo(vehiculo: any) {
 
     return this.http.put<respond>(this.URL_API + `/${vehiculo._id}`, vehiculo);
   };

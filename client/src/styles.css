@@ -32,3 +32,17 @@ input:not([type]):focus:not([readonly])+label, input[type="text"]:not(.browser-d
 .mat-form-field-prefix .mat-icon-button, .mat-form-field-suffix .mat-icon-button {
     width: 30px !important;
 }
+
+.style-head-table {
+    font-size: 15px !important;
+    color: black !important;
+}
+
+.style-search {
+    width: 50%;
+    padding-left: 18px;
+}
+
+.margin-button-input {
+    margin-bottom: 3px !important;
+}

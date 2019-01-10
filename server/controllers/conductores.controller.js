@@ -5,7 +5,7 @@ const conductorCtrl = {};
 
 //listar conductores
 conductorCtrl.getConductores = async (req, res) => {
-    const conductores = await Conductor.find({ state: "true" });
+    const conductores = await Conductor.find({ state: "true" }).sort({ createdAt: -1 }); // ordenada desc
     res.json(conductores);
     // otra forma de hacerlo, para ver el error
     // Conductor.find()

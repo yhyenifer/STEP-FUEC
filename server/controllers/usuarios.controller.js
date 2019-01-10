@@ -4,7 +4,7 @@ const usuarioCtrl = {};
 
 //listar usuarios
 usuarioCtrl.getUsuarios = async (req, res) => {
-    const usuarios = await Usuario.find({ state: "true" });
+    const usuarios = await Usuario.find({ state: "true" }).sort({ createdAt: -1 }); // ordenada desc
     res.json(usuarios);
     // otra forma de hacerlo, para ver el error
     // Conductor.find()
@@ -16,16 +16,16 @@ usuarioCtrl.getUsuarios = async (req, res) => {
 // crear usuario
 usuarioCtrl.createUsuario = async (req, res) => {
     const usuario = new Usuario({
-        username:req.body.username,
-        name:req.body.name,
-        password:req.body.password,
+        username: req.body.username,
+        name: req.body.name,
+        password: req.body.password,
         role: req.body.role,
         state: true
 
     });
     console.log(usuario);
     await usuario.save();
-    res.json({ 'status': 'Usuario Guardado Exitosamente' });
+    res.json({ 'status': 'Usuario Guardado Exitosamente', 'success': 'true' });
 };
 
 // consultar por un usuario especifico
@@ -39,9 +39,9 @@ usuarioCtrl.getUsuario = async (req, res) => {
 usuarioCtrl.updateUsuario = async (req, res) => {
     const { id } = req.params;
     const newUsuario = {
-        username:req.body.username,
-        name:req.body.name,
-        password:req.body.password,
+        username: req.body.username,
+        name: req.body.name,
+        password: req.body.password,
         role: req.body.role,
         state: true
     }
@@ -56,7 +56,7 @@ usuarioCtrl.deleteUsuario = async (req, res) => {
         state: req.body.state
     }
     await Usuario.findByIdAndUpdate(id, { $set: newState }, { new: true });
-    res.json({ status: 'Usuario Eliminado Exitosamente' });
+    res.json({ status: 'Usuario Eliminado Exitosamente', success: 'true' });
 };
 
 

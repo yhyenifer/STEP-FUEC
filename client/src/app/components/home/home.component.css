@@ -28,8 +28,24 @@
      background-color: #a2ffee;
  }
 
+ .back-azul-claro {
+     background-color: #42cbc1 !important;
+ }
+
+ .back-amarillo-claro {
+     background-color: #d4cc2e !important;
+ }
+
  .border-carta {
      border-top: solid 3px #217413;
+ }
+
+ .border-carta-admin {
+     border-top: solid 3px #42cbc1;
+ }
+
+ .border-carta-calidad {
+     border-top: solid 3px #d4cc2e;
  }
 
  .top-40 {

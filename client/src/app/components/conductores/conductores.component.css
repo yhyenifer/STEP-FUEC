@@ -10,6 +10,10 @@
     margin-right: 4px;
 }
 
+.margin-separe-lado {
+    margin-right: 8px !important;
+}
+
 .card-header {
     background-color: #ececec;
     display: -webkit-box;
@@ -66,4 +70,12 @@
     margin-left: 30% !important;
     font-weight: 500 !important;
     color: #727d84 !important;
+}
+
+.description1 {
+    margin-left: 30% !important;
+    font-weight: 500 !important;
+    color: #727d84 !important;
+    margin-bottom: -10px;
+    margin-top: 2px;
 }
