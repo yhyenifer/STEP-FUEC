@@ -97,10 +97,18 @@
                   <h6 class="color-gris-letra negrita">Alertas de Conductores</h6>
                 </div>
                 <ul class="collection">
-                  <li class="collection-item red lighten-3  ">Alvin</li>
-                  <li class="collection-item yellow lighten-4">Alvin</li>
-                  <li class="collection-item yellow lighten-4">Alvin</li>
-                  <li class="collection-item yellow lighten-4">Alvin</li>
+                  <li *ngFor="let item of alertasConductores; let i=index" [ngClass]="{ yellow: item.tipo_alerta == 1, red: item.tipo_alerta == 2  }"
+                    class="collection-item  lighten-3 ">
+
+                    <span class="title">{{item.alerta}}</span>
+                    <p class="conMarginTop"> {{item.identificacion}} - {{item.nombre}}</p>
+                    <p class="conMarginTop">
+                      <b>Fecha Expiración: </b>{{item.fecha}}</p>
+                    <a href="#!" class="secondary-content">
+                      <i class="material-icons">edit</i>
+                    </a>
+                  </li>
+
                 </ul>
               </div>
             </div>

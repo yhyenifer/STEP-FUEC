@@ -1,5 +1,5 @@
 const Conductor = require('../models/conductores');
-
+var moment = require('moment/moment');
 const conductorCtrl = {};
 
 
@@ -118,6 +118,599 @@ conductorCtrl.deleteConductor = async (req, res) => {
     res.json({ status: 'Conductor Eliminado Exitosamente', success: 'true' });
 };
 
+// generar alertas necesarias para los conductores
+conductorCtrl.getAlertasConductores = async (req, res) => {
+    const conductor = await Conductor.find({ state: "true" });
+    const alertas = [];
+    conductor.map(async dato => {
 
+        var fecha_com = moment(dato.license_expiration); // captura fecha de licencia expiracion
+        var fecha_Actual = moment().format("YYYY-MM-DD"); // capturas la fecha actual del sistema y le da formato
+        var fecha_diferencia = fecha_com.diff(fecha_Actual, 'days');// calcula la diferencia de fechas y se muestra en dias
+
+        //condicion de fechas entre 1 y 15 dias para alerta tipo 1
+        if (fecha_diferencia >= 1 && fecha_diferencia <= 15) {
+            // objeto alerta tipo 1 -> warning amarilla
+            const objAlerta1 = {
+                identificacion: dato.CC,
+                nombre: dato.name,
+                alerta: "Expiracion licencia",
+                fecha: dato.license_expiration,
+                fecha_diferencia: fecha_diferencia,
+                tipo_alerta: 1
+            }
+            alertas.push(objAlerta1);
+        };
+
+        if (fecha_diferencia == 0) {
+            //objeto alerta tipo 2 -> warning roja
+            const objAlerta2 = {
+                identificacion: dato.CC,
+                nombre: dato.name,
+                alerta: "Expiracion licencia",
+                fecha: dato.license_expiration,
+                fecha_diferencia: fecha_diferencia,
+                tipo_alerta: 2
+            }
+            alertas.push(objAlerta2);
+        };
+
+        var fecha_com = moment(dato.health_expiration); // captura fecha de expiracion aportes de salud
+        var fecha_Actual = moment().format("YYYY-MM-DD"); // capturas la fecha actual del sistema y le da formato
+        var fecha_diferencia = fecha_com.diff(fecha_Actual, 'days');// calcula la diferencia de fechas y se muestra en dias
+
+        //condicion de fechas entre 1 y 15 dias para alerta tipo 1
+        if (fecha_diferencia >= 1 && fecha_diferencia <= 15) {
+            // objeto alerta tipo 1 -> warning amarilla
+            const objAlerta1 = {
+                identificacion: dato.CC,
+                nombre: dato.name,
+                alerta: "Expiracion de aportes de salud",
+                fecha: dato.health_expiration,
+                fecha_diferencia: fecha_diferencia,
+                tipo_alerta: 1
+            }
+            alertas.push(objAlerta1);
+        };
+
+        if (fecha_diferencia == 0) {
+            // objeto alerta tipo 2 -> warning roja
+            const objAlerta2 = {
+                identificacion: dato.CC,
+                nombre: dato.name,
+                alerta: "Expiracion de aportes de salud",
+                fecha: dato.health_expiration,
+                fecha_diferencia: fecha_diferencia,
+                tipo_alerta: 2
+            }
+            alertas.push(objAlerta2);
+        };
+
+        var fecha_com = moment(dato.drug_expiration); // captura fecha de expiracion examen drogas y alcoholemia
+        var fecha_Actual = moment().format("YYYY-MM-DD"); // capturas la fecha actual del sistema y le da formato
+        var fecha_diferencia = fecha_com.diff(fecha_Actual, 'days');// calcula la diferencia de fechas y se muestra en dias
+
+        //condicion de fechas entre 1 y 15 dias para alerta tipo 1
+        if (fecha_diferencia >= 1 && fecha_diferencia <= 15) {
+            // objeto alerta tipo 1 -> warning amarilla
+            const objAlerta1 = {
+                identificacion: dato.CC,
+                nombre: dato.name,
+                alerta: "Expiracion de examen de drogas y alcoholemia",
+                fecha: dato.drug_expiration,
+                fecha_diferencia: fecha_diferencia,
+                tipo_alerta: 1
+            }
+            alertas.push(objAlerta1);
+        };
+
+        if (fecha_diferencia == 0) {
+            // objeto alerta tipo 2 -> warning roja
+            const objAlerta2 = {
+                identificacion: dato.CC,
+                nombre: dato.name,
+                alerta: "Expiracion de examen de drogas y alcoholemia",
+                fecha: dato.drug_expiration,
+                fecha_diferencia: fecha_diferencia,
+                tipo_alerta: 2
+            }
+            alertas.push(objAlerta2);
+        };
+
+        var fecha_com = moment(dato.simit_expiration); // captura fecha de expiracion de consultas en el simit
+        var fecha_Actual = moment().format("YYYY-MM-DD"); // capturas la fecha actual del sistema y le da formato
+        var fecha_diferencia = fecha_com.diff(fecha_Actual, 'days');// calcula la diferencia de fechas y se muestra en dias
+
+        //condicion de fechas entre 1 y 15 dias para alerta tipo 1
+        if (fecha_diferencia >= 1 && fecha_diferencia <= 15) {
+            // objeto alerta tipo 1 -> warning amarilla
+            const objAlerta1 = {
+                identificacion: dato.CC,
+                nombre: dato.name,
+                alerta: "Expiracion de consultas en el simit",
+                fecha: dato.simit_expiration,
+                fecha_diferencia: fecha_diferencia,
+                tipo_alerta: 1
+            }
+            alertas.push(objAlerta1);
+        };
+
+        if (fecha_diferencia == 0) {
+            // objeto alerta tipo 2 -> warning roja
+            const objAlerta2 = {
+                identificacion: dato.CC,
+                nombre: dato.name,
+                alerta: "Expiracion de consultas en el simit",
+                fecha: dato.simit_expiration,
+                fecha_diferencia: fecha_diferencia,
+                tipo_alerta: 2
+            }
+            alertas.push(objAlerta2);
+        };
+
+        var fecha_com = moment(dato.health_exam_expiration); // captura fecha de expiracion de examenes de salud ocupacional
+        var fecha_Actual = moment().format("YYYY-MM-DD"); // capturas la fecha actual del sistema y le da formato
+        if (dato.health_exam_expiration != undefined) {
+            var fecha_diferencia = fecha_com.diff(fecha_Actual, 'days');// calcula la diferencia de fechas y se muestra en dias
+
+            //condicion de fechas entre 1 y 15 dias para alerta tipo 1
+            if (fecha_diferencia >= 1 && fecha_diferencia <= 15) {
+                // objeto alerta tipo 1 -> warning amarilla
+                const objAlerta1 = {
+                    identificacion: dato.CC,
+                    nombre: dato.name,
+                    alerta: "Expiracion de examenes de salud ocupacional",
+                    fecha: dato.health_exam_expiration,
+                    fecha_diferencia: fecha_diferencia,
+                    tipo_alerta: 1
+                }
+                alertas.push(objAlerta1);
+            };
+
+            if (fecha_diferencia == 0) {
+                // objeto alerta tipo 2 -> warning roja
+                const objAlerta2 = {
+                    identificacion: dato.CC,
+                    nombre: dato.name,
+                    alerta: "Expiracion de examenes de salud ocupacional",
+                    fecha: dato.health_exam_expiration,
+                    fecha_diferencia: fecha_diferencia,
+                    tipo_alerta: 2
+                }
+                alertas.push(objAlerta2);
+            };
+        }
+
+        var fecha_com = moment(dato.driving_exam_expiration); // captura fecha de expiracion del examen de conduccion
+        var fecha_Actual = moment().format("YYYY-MM-DD"); // capturas la fecha actual del sistema y le da formato
+        if (dato.driving_exam_expiration != undefined) {
+            var fecha_diferencia = fecha_com.diff(fecha_Actual, 'days');// calcula la diferencia de fechas y se muestra en dias
+
+            //condicion de fechas entre 1 y 15 dias para alerta tipo 1
+            if (fecha_diferencia >= 1 && fecha_diferencia <= 15) {
+                // objeto alerta tipo 1 -> warning amarilla
+                const objAlerta1 = {
+                    identificacion: dato.CC,
+                    nombre: dato.name,
+                    alerta: "Expiracion del examen de conduccion",
+                    fecha: dato.driving_exam_expiration,
+                    fecha_diferencia: fecha_diferencia,
+                    tipo_alerta: 1
+                }
+                alertas.push(objAlerta1);
+            };
+
+            if (fecha_diferencia == 0) {
+                // objeto alerta tipo 2 -> warning roja
+                const objAlerta2 = {
+                    identificacion: dato.CC,
+                    nombre: dato.name,
+                    alerta: "Expiracion del examen de conduccion",
+                    fecha: dato.driving_exam_expiration,
+                    fecha_diferencia: fecha_diferencia,
+                    tipo_alerta: 2
+                }
+                alertas.push(objAlerta2);
+            };
+        }
+
+        var fecha_com = moment(dato.automotive_law_expiration); // captura fecha de expiracion normas de transito y transporte terrestre automotor
+        var fecha_Actual = moment().format("YYYY-MM-DD"); // capturas la fecha actual del sistema y le da formato
+        if (dato.automotive_law_expiration != undefined) {
+            var fecha_diferencia = fecha_com.diff(fecha_Actual, 'days');// calcula la diferencia de fechas y se muestra en dias
+
+            //condicion de fechas entre 1 y 15 dias para alerta tipo 1
+            if (fecha_diferencia >= 1 && fecha_diferencia <= 15) {
+                // objeto alerta tipo 1 -> warning amarilla
+                const objAlerta1 = {
+                    identificacion: dato.CC,
+                    nombre: dato.name,
+                    alerta: "Expiracion del examen de normas de transito y transporte terrestre automotor",
+                    fecha: dato.automotive_law_expiration,
+                    fecha_diferencia: fecha_diferencia,
+                    tipo_alerta: 1
+                }
+                alertas.push(objAlerta1);
+            };
+
+
+            if (fecha_diferencia == 0) {
+                // objeto alerta tipo 2 -> warning roja
+                const objAlerta2 = {
+                    identificacion: dato.CC,
+                    nombre: dato.name,
+                    alerta: "Expiracion del examen de normas de transito y transporte terrestre automotor",
+                    fecha: dato.automotive_law_expiration,
+                    fecha_diferencia: fecha_diferencia,
+                    tipo_alerta: 2
+                }
+                alertas.push(objAlerta2);
+            };
+        }
+
+        var fecha_com = moment(dato.transit_law_expiration); // captura fecha de expiracion de examen de normas de transito
+        var fecha_Actual = moment().format("YYYY-MM-DD"); // capturas la fecha actual del sistema y le da formato
+        if (dato.transit_law_expiration != undefined) {
+            var fecha_diferencia = fecha_com.diff(fecha_Actual, 'days');// calcula la diferencia de fechas y se muestra en dias
+
+            //condicion de fechas entre 1 y 15 dias para alerta tipo 1
+            if (fecha_diferencia >= 1 && fecha_diferencia <= 15) {
+                // objeto alerta tipo 1 -> warning amarilla
+                const objAlerta1 = {
+                    identificacion: dato.CC,
+                    nombre: dato.name,
+                    alerta: "Expiracion del examen de normas de transito",
+                    fecha: dato.transit_law_expiration,
+                    fecha_diferencia: fecha_diferencia,
+                    tipo_alerta: 1
+                }
+                alertas.push(objAlerta1);
+            };
+
+            if (fecha_diferencia == 0) {
+                // objeto alerta tipo 2 -> warning roja
+                const objAlerta2 = {
+                    identificacion: dato.CC,
+                    nombre: dato.name,
+                    alerta: "Expiracion del examen de normas de transito",
+                    fecha: dato.transit_law_expiration,
+                    fecha_diferencia: fecha_diferencia,
+                    tipo_alerta: 2
+                }
+                alertas.push(objAlerta2);
+            };
+        }
+
+        var fecha_com = moment(dato.law_tips_expiration); // captura fecha de expiracion de examen de tips normativos
+        var fecha_Actual = moment().format("YYYY-MM-DD"); // capturas la fecha actual del sistema y le da formato
+        if (dato.law_tips_expiration != undefined) {
+            var fecha_diferencia = fecha_com.diff(fecha_Actual, 'days');// calcula la diferencia de fechas y se muestra en dias
+
+            //condicion de fechas entre 1 y 15 dias para alerta tipo 1
+            if (fecha_diferencia >= 1 && fecha_diferencia <= 15) {
+                // objeto alerta tipo 1 -> warning amarilla
+                const objAlerta1 = {
+                    identificacion: dato.CC,
+                    nombre: dato.name,
+                    alerta: "Expiracion del examen tips normativos",
+                    fecha: dato.law_tips_expiration,
+                    fecha_diferencia: fecha_diferencia,
+                    tipo_alerta: 1
+                }
+                alertas.push(objAlerta1);
+            };
+
+            if (fecha_diferencia == 0) {
+                // objeto alerta tipo 2 -> warning roja
+                const objAlerta2 = {
+                    identificacion: dato.CC,
+                    nombre: dato.name,
+                    alerta: "Expiracion del examen de tips normativos",
+                    fecha: dato.law_tips_expiration,
+                    fecha_diferencia: fecha_diferencia,
+                    tipo_alerta: 2
+                }
+                alertas.push(objAlerta2);
+            };
+        }
+
+        var fecha_com = moment(dato.accident_expiration); // captura fecha de expiracion de accidentalidad de transito
+        var fecha_Actual = moment().format("YYYY-MM-DD"); // capturas la fecha actual del sistema y le da formato
+        if (dato.accident_expiration != undefined) {
+            var fecha_diferencia = fecha_com.diff(fecha_Actual, 'days');// calcula la diferencia de fechas y se muestra en dias
+
+            //condicion de fechas entre 1 y 15 dias para alerta tipo 1
+            if (fecha_diferencia >= 1 && fecha_diferencia <= 15) {
+                // objeto alerta tipo 1 -> warning amarilla
+                const objAlerta1 = {
+                    identificacion: dato.CC,
+                    nombre: dato.name,
+                    alerta: "Expiracion de accidentalidad de transito",
+                    fecha: dato.accident_expiration,
+                    fecha_diferencia: fecha_diferencia,
+                    tipo_alerta: 1
+                }
+                alertas.push(objAlerta1);
+            };
+
+            if (fecha_diferencia == 0) {
+                // objeto alerta tipo 2 -> warning roja
+                const objAlerta2 = {
+                    identificacion: dato.CC,
+                    nombre: dato.name,
+                    alerta: "Expiracion de accidentalidad de transito",
+                    fecha: dato.accident_expiration,
+                    fecha_diferencia: fecha_diferencia,
+                    tipo_alerta: 2
+                }
+                alertas.push(objAlerta2);
+            };
+        }
+        var fecha_com = moment(dato.driving_methods_expiration); // captura fecha de expiracion de metodos de conduccion
+        var fecha_Actual = moment().format("YYYY-MM-DD"); // capturas la fecha actual del sistema y le da formato
+        if (dato.driving_methods_expiration != undefined) {
+            var fecha_diferencia = fecha_com.diff(fecha_Actual, 'days');// calcula la diferencia de fechas y se muestra en dias
+
+            //condicion de fechas entre 1 y 15 dias para alerta tipo 1
+            if (fecha_diferencia >= 1 && fecha_diferencia <= 15) {
+                // objeto alerta tipo 1 -> warning amarilla
+                const objAlerta1 = {
+                    identificacion: dato.CC,
+                    nombre: dato.name,
+                    alerta: "Expiracion de metodos de conduccion",
+                    fecha: dato.driving_methods_expiration,
+                    fecha_diferencia: fecha_diferencia,
+                    tipo_alerta: 1
+                }
+                alertas.push(objAlerta1);
+            };
+
+            if (fecha_diferencia == 0) {
+                // objeto alerta tipo 2 -> warning roja
+                const objAlerta2 = {
+                    identificacion: dato.CC,
+                    nombre: dato.name,
+                    alerta: "Expiracion de metodos de conduccion",
+                    fecha: dato.driving_methods_expiration,
+                    fecha_diferencia: fecha_diferencia,
+                    tipo_alerta: 2
+                }
+                alertas.push(objAlerta2);
+            };
+        }
+
+        var fecha_com = moment(dato.defensive_expiration); // captura fecha de expiracion de manejo defensivo
+        var fecha_Actual = moment().format("YYYY-MM-DD"); // capturas la fecha actual del sistema y le da formato
+        if (dato.defensive_expiration != undefined) {
+            var fecha_diferencia = fecha_com.diff(fecha_Actual, 'days');// calcula la diferencia de fechas y se muestra en dias
+
+            //condicion de fechas entre 1 y 15 dias para alerta tipo 1
+            if (fecha_diferencia >= 1 && fecha_diferencia <= 15) {
+                // objeto alerta tipo 1 -> warning amarilla
+                const objAlerta1 = {
+                    identificacion: dato.CC,
+                    nombre: dato.name,
+                    alerta: "Expiracion de manejo defensivo",
+                    fecha: dato.defensive_expiration,
+                    fecha_diferencia: fecha_diferencia,
+                    tipo_alerta: 1
+                }
+                alertas.push(objAlerta1);
+            };
+
+
+            if (fecha_diferencia == 0) {
+                // objeto alerta tipo 2 -> warning roja
+                const objAlerta2 = {
+                    identificacion: dato.CC,
+                    nombre: dato.name,
+                    alerta: "Expiracion de manejo defensivo",
+                    fecha: dato.defensive_expiration,
+                    fecha_diferencia: fecha_diferencia,
+                    tipo_alerta: 2
+                }
+                alertas.push(objAlerta2);
+            };
+        }
+
+        var fecha_com = moment(dato.distractions_expiration); // captura fecha de expiracion de distracciones
+        var fecha_Actual = moment().format("YYYY-MM-DD"); // capturas la fecha actual del sistema y le da formato
+        if (dato.distractions_expiration != undefined) {
+            var fecha_diferencia = fecha_com.diff(fecha_Actual, 'days');// calcula la diferencia de fechas y se muestra en dias
+
+            //condicion de fechas entre 1 y 15 dias para alerta tipo 1
+            if (fecha_diferencia >= 1 && fecha_diferencia <= 15) {
+                // objeto alerta tipo 1 -> warning amarilla
+                const objAlerta1 = {
+                    identificacion: dato.CC,
+                    nombre: dato.name,
+                    alerta: "Expiracion de distracciones",
+                    fecha: dato.distractions_expiration,
+                    fecha_diferencia: fecha_diferencia,
+                    tipo_alerta: 1
+                }
+                alertas.push(objAlerta1);
+            };
+
+            if (fecha_diferencia == 0) {
+                // objeto alerta tipo 2 -> warning roja
+                const objAlerta2 = {
+                    identificacion: dato.CC,
+                    nombre: dato.name,
+                    alerta: "Expiracion de distracciones",
+                    fecha: dato.distractions_expiration,
+                    fecha_diferencia: fecha_diferencia,
+                    tipo_alerta: 2
+                }
+                alertas.push(objAlerta2);
+            };
+        }
+
+        var fecha_com = moment(dato.first_aid_expiration); // captura fecha de expiracion de primeros auxilios
+        var fecha_Actual = moment().format("YYYY-MM-DD"); // capturas la fecha actual del sistema y le da formato
+        if (dato.first_aid_expiration != undefined) {
+            var fecha_diferencia = fecha_com.diff(fecha_Actual, 'days');// calcula la diferencia de fechas y se muestra en dias
+
+            //condicion de fechas entre 1 y 15 dias para alerta tipo 1
+            if (fecha_diferencia >= 1 && fecha_diferencia <= 15) {
+                // objeto alerta tipo 1 -> warning amarilla
+                const objAlerta1 = {
+                    identificacion: dato.CC,
+                    nombre: dato.name,
+                    alerta: "Expiracion de primeros auxilios",
+                    fecha: dato.first_aid_expiration,
+                    fecha_diferencia: fecha_diferencia,
+                    tipo_alerta: 1
+                }
+                alertas.push(objAlerta1);
+            };
+
+            if (fecha_diferencia == 0) {
+                // objeto alerta tipo 2 -> warning roja
+                const objAlerta2 = {
+                    identificacion: dato.CC,
+                    nombre: dato.name,
+                    alerta: "Expiracion de primeros auxilios",
+                    fecha: dato.first_aid_expiration,
+                    fecha_diferencia: fecha_diferencia,
+                    tipo_alerta: 2
+                }
+                alertas.push(objAlerta2);
+            };
+        }
+        var fecha_com = moment(dato.first_answer_expiration); // captura fecha de expiracion de primer respondiente
+        var fecha_Actual = moment().format("YYYY-MM-DD"); // capturas la fecha actual del sistema y le da formato
+        if (dato.first_answer_expiration != undefined) {
+            var fecha_diferencia = fecha_com.diff(fecha_Actual, 'days');// calcula la diferencia de fechas y se muestra en dias
+
+            //condicion de fechas entre 1 y 15 dias para alerta tipo 1
+            if (fecha_diferencia >= 1 && fecha_diferencia <= 15) {
+                // objeto alerta tipo 1 -> warning amarilla
+                const objAlerta1 = {
+                    identificacion: dato.CC,
+                    nombre: dato.name,
+                    alerta: "Expiracion de primer respondiente",
+                    fecha: dato.first_answer_expiration,
+                    fecha_diferencia: fecha_diferencia,
+                    tipo_alerta: 1
+                }
+                alertas.push(objAlerta1);
+            };
+
+            if (fecha_diferencia == 0) {
+                // objeto alerta tipo 2 -> warning roja
+                const objAlerta2 = {
+                    identificacion: dato.CC,
+                    nombre: dato.name,
+                    alerta: "Expiracion de primer respondiente",
+                    fecha: dato.first_answer_expiration,
+                    fecha_diferencia: fecha_diferencia,
+                    tipo_alerta: 2
+                }
+                alertas.push(objAlerta2);
+            };
+        }
+
+        var fecha_com = moment(dato.senses_expiration); // captura fecha de expiracion de los cinco sentidos de la conduccion
+        var fecha_Actual = moment().format("YYYY-MM-DD"); // capturas la fecha actual del sistema y le da formato
+        if (dato.senses_expiration != undefined) {
+            var fecha_diferencia = fecha_com.diff(fecha_Actual, 'days');// calcula la diferencia de fechas y se muestra en dias
+
+            //condicion de fechas entre 1 y 15 dias para alerta tipo 1
+            if (fecha_diferencia >= 1 && fecha_diferencia <= 15) {
+                // objeto alerta tipo 1 -> warning amarilla
+                const objAlerta1 = {
+                    identificacion: dato.CC,
+                    nombre: dato.name,
+                    alerta: "Expiracion de los cinco sentidos de la conduccion",
+                    fecha: dato.senses_expiration,
+                    fecha_diferencia: fecha_diferencia,
+                    tipo_alerta: 1
+                }
+                alertas.push(objAlerta1);
+            };
+
+            if (fecha_diferencia == 0) {
+                // objeto alerta tipo 2 -> warning roja
+                const objAlerta2 = {
+                    identificacion: dato.CC,
+                    nombre: dato.name,
+                    alerta: "Expiracion de los cinco sentidos de la conduccion",
+                    fecha: dato.senses_expiration,
+                    fecha_diferencia: fecha_diferencia,
+                    tipo_alerta: 2
+                }
+                alertas.push(objAlerta2);
+            };
+        }
+
+        var fecha_com = moment(dato.car_security_expiration); // captura fecha de expiracion de la seguridad activa y pasiva del vehiculo
+        var fecha_Actual = moment().format("YYYY-MM-DD"); // capturas la fecha actual del sistema y le da formato
+        if (dato.car_security_expiration != undefined) {
+            var fecha_diferencia = fecha_com.diff(fecha_Actual, 'days');// calcula la diferencia de fechas y se muestra en dias
+
+            //condicion de fechas entre 1 y 15 dias para alerta tipo 1
+            if (fecha_diferencia >= 1 && fecha_diferencia <= 15) {
+                // objeto alerta tipo 1 -> warning amarilla
+                const objAlerta1 = {
+                    identificacion: dato.CC,
+                    nombre: dato.name,
+                    alerta: "Expiracion de la seguridad activa y pasiva del vehiculo",
+                    fecha: dato.car_security_expiration,
+                    fecha_diferencia: fecha_diferencia,
+                    tipo_alerta: 1
+                }
+                alertas.push(objAlerta1);
+            };
+
+            if (fecha_diferencia == 0) {
+                // objeto alerta tipo 2 -> warning roja
+                const objAlerta2 = {
+                    identificacion: dato.CC,
+                    nombre: dato.name,
+                    alerta: "Expiracion de la seguridad activa y pasiva del vehiculo",
+                    fecha: dato.car_security_expiration,
+                    fecha_diferencia: fecha_diferencia,
+                    tipo_alerta: 2
+                }
+                alertas.push(objAlerta2);
+            };
+        }
+
+        var fecha_com = moment(dato.road_security_expiration); // captura fecha de expiracion de la seguridad vial
+        var fecha_Actual = moment().format("YYYY-MM-DD"); // capturas la fecha actual del sistema y le da formato
+        if (dato.road_security_expiration != undefined) {
+            var fecha_diferencia = fecha_com.diff(fecha_Actual, 'days');// calcula la diferencia de fechas y se muestra en dias
+
+            //condicion de fechas entre 1 y 15 dias para alerta tipo 1
+            if (fecha_diferencia >= 1 && fecha_diferencia <= 15) {
+                // objeto alerta tipo 1 -> warning amarilla
+                const objAlerta1 = {
+                    identificacion: dato.CC,
+                    nombre: dato.name,
+                    alerta: "Expiracion de la seguridad vial",
+                    fecha: dato.road_security_expiration,
+                    fecha_diferencia: fecha_diferencia,
+                    tipo_alerta: 1
+                }
+                alertas.push(objAlerta1);
+            };
+
+            if (fecha_diferencia == 0) {
+                // objeto alerta tipo 2 -> warning roja
+                const objAlerta2 = {
+                    identificacion: dato.CC,
+                    nombre: dato.name,
+                    alerta: "Expiracion de la seguridad vial",
+                    fecha: dato.road_security_expiration,
+                    fecha_diferencia: fecha_diferencia,
+                    tipo_alerta: 2
+                }
+                alertas.push(objAlerta2);
+            };
+        }
+    })//cierra map
+    res.json(alertas);
+};
 
 module.exports = conductorCtrl;

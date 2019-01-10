@@ -75,3 +75,12 @@
  .color-gris-letra {
      color: #494949;
  }
+
+ .conMarginTop {
+     margin-top: 4px !important;
+ }
+
+ .secondary-content {
+     color: #424242 !important;
+     margin-top: -36px;
+ }
