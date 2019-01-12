@@ -5,7 +5,9 @@ import { VehiculosComponent } from './components/vehiculos/vehiculos.component';
 import { UsuariosComponent } from './components/usuarios/usuarios.component';
 import { EstadisticasComponent } from './components/estadisticas/estadisticas.component';
 import { CalidadComponent } from './components/calidad/calidad.component';
+import { LoginComponent } from './components/login/login.component';
 const app_routes: Routes = [
+    { path: 'login', component: LoginComponent },
     { path: 'home', component: HomeComponent },
     { path: 'conductores', component: ConductoresComponent },
     { path: 'vehiculos', component: VehiculosComponent },

@@ -1,0 +1,62 @@
+/* LOGIN */
+
+.logueo {
+    /* PARALLAX */
+    /* height: 650px!important; */
+    background: url("../../../assets/img/login.jpg") no-repeat center;
+    background-size: auto auto;
+    background-size: cover;
+    height: 924px;
+}
+
+.style-login {
+    background-color: #c7d5ff80;
+    width: 26%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10em;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.mat-form-field-infix {
+    width: 25em !important;
+}
+
+.tam-input {
+    width: 25em !important;
+}
+
+.style-input {
+    border-bottom: 1px solid #000 !important;
+}
+
+::-webkit-input-placeholder {
+    color: black;
+}
+
+:-moz-placeholder {
+    /* Firefox 18- */
+    color: black;
+}
+
+::-moz-placeholder {
+    /* Firefox 19+ */
+    color: black;
+}
+
+:-ms-input-placeholder {
+    color: black;
+}
+
+::placeholder {
+    color: black !important;
+}
+
+.btn:hover, .btn-large:hover, .btn-small:hover {
+    background-color: #242323;
+}
+
+.back-negro {
+    background-color: black;
+}

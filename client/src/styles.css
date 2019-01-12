@@ -46,3 +46,15 @@ input:not([type]):focus:not([readonly])+label, input[type="text"]:not(.browser-d
 .margin-button-input {
     margin-bottom: 3px !important;
 }
+
+.color-blanco {
+    color: white;
+}
+
+.color-negro {
+    color: black;
+}
+
+.centro {
+    text-align: center;
+}
