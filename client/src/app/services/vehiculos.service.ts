@@ -6,6 +6,16 @@ interface respond {
   status: string;
   success: string;
 }
+
+interface alerta {
+  identificacion: string;
+  nombre: string;
+  alerta: string;
+  fecha: string;
+  fecha_diferencia: string;
+  tipo_alerta: 1
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -34,5 +44,10 @@ export class VehiculosService {
   // eliminar vehiculo
   deleteVehiculo(_id: String, state: String) {
     return this.http.put<respond>(this.URL_API + `/delete/${_id}`, state);
+  }
+
+  //funcion que carga las alertas
+  cargarAlertas() {
+    return this.http.get<alerta>(this.URL_API + `/alert`);
   }
 }
