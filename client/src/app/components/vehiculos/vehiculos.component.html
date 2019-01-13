@@ -93,43 +93,62 @@
 
                     <div class="col s12 m6 l3 margin-button-input">
                       <mat-form-field>
-                        <input matInput class="example-full-width" [matDatepicker]="picker_exp_to" [min]="today" name="exp_to" #exp_to="ngModel"
-                          [(ngModel)]="vehiculosService.selectedVehiculo.exp_to" placeholder="Fecha de Expiración de la Tarjeta de Operación">
+                        <input matInput class="example-full-width" [matDatepicker]="picker_exp_to" name="exp_to" #exp_to="ngModel" [(ngModel)]="vehiculosService.selectedVehiculo.exp_to"
+                          placeholder="Fecha de Expiración de la Tarjeta de Operación" required>
                         <mat-datepicker-toggle matSuffix [for]="picker_exp_to"></mat-datepicker-toggle>
                         <mat-datepicker touchUi #picker_exp_to></mat-datepicker>
                       </mat-form-field>
+                      <div *ngIf="exp_to.touched && !exp_to.valid">
+                        <div class="required" *ngIf="exp_to.errors.required">La Fecha de Expiración de la Tarjeta de Operacion es Requerida</div>
+                      </div>
                     </div>
                     <div class="col s12 m6 l3 margin-button-input">
                       <mat-form-field>
                         <input matInput class="example-full-width" [matDatepicker]="picker_exp_soat" [min]="today" name="exp_soat" #exp_soat="ngModel"
-                          [(ngModel)]="vehiculosService.selectedVehiculo.exp_soat" placeholder="Fecha de Expiración del SOAT">
+                          [(ngModel)]="vehiculosService.selectedVehiculo.exp_soat" placeholder="Fecha de Expiración del SOAT"
+                          required>
                         <mat-datepicker-toggle matSuffix [for]="picker_exp_soat"></mat-datepicker-toggle>
                         <mat-datepicker touchUi #picker_exp_soat></mat-datepicker>
                       </mat-form-field>
+                      <div *ngIf="exp_soat.touched && !exp_soat.valid">
+                        <div class="required" *ngIf="exp_soat.errors.required">La Fecha de Expiración del SOAT es Requerida</div>
+                      </div>
                     </div>
                     <div class="col s12 m6 l3 margin-button-input">
                       <mat-form-field>
                         <input matInput class="example-full-width" [matDatepicker]="picker_exp_prev" [min]="today" name="exp_prev" #exp_prev="ngModel"
-                          [(ngModel)]="vehiculosService.selectedVehiculo.exp_prev" placeholder="Fecha de Expiración de la TecnicoMecanica">
+                          [(ngModel)]="vehiculosService.selectedVehiculo.exp_prev" placeholder="Fecha de Expiración de la Revision Preventiva"
+                          required>
                         <mat-datepicker-toggle matSuffix [for]="picker_exp_prev"></mat-datepicker-toggle>
                         <mat-datepicker touchUi #picker_exp_prev></mat-datepicker>
                       </mat-form-field>
+                      <div *ngIf="exp_prev.touched && !exp_prev.valid">
+                        <div class="required" *ngIf="exp_prev.errors.required">La Fecha de Expiración de la revision preventiva es Requerida</div>
+                      </div>
                     </div>
                     <div class="col s12 m6 l3 margin-button-input">
                       <mat-form-field>
                         <input matInput class="example-full-width" [matDatepicker]="picker_exp_tech" [min]="today" name="exp_tech" #exp_tech="ngModel"
-                          [(ngModel)]="vehiculosService.selectedVehiculo.exp_tech" placeholder="Fecha de Expiración de la TecnicoMecanica">
+                          [(ngModel)]="vehiculosService.selectedVehiculo.exp_tech" placeholder="Fecha de Expiración de la Revision TecnicoMecanica"
+                          required>
                         <mat-datepicker-toggle matSuffix [for]="picker_exp_tech"></mat-datepicker-toggle>
                         <mat-datepicker touchUi #picker_exp_tech></mat-datepicker>
                       </mat-form-field>
+                      <div *ngIf="exp_tech.touched && !exp_tech.valid">
+                        <div class="required" *ngIf="exp_tech.errors.required">La Fecha de Expiración de la revision preventiva es Requerida</div>
+                      </div>
                     </div>
                     <div class="col s12 m6 l3 margin-button-input">
                       <mat-form-field>
                         <input matInput class="example-full-width" [matDatepicker]="picker_exp_rcc" [min]="today" name="exp_rcc" #exp_rcc="ngModel"
-                          [(ngModel)]="vehiculosService.selectedVehiculo.exp_rcc" placeholder="Fecha de Expiración de la RCC">
+                          [(ngModel)]="vehiculosService.selectedVehiculo.exp_rcc" placeholder="Fecha de Expiración de la Responsabilidad Civil Contractual"
+                          required>
                         <mat-datepicker-toggle matSuffix [for]="picker_exp_rcc"></mat-datepicker-toggle>
                         <mat-datepicker touchUi #picker_exp_rcc></mat-datepicker>
                       </mat-form-field>
+                      <div *ngIf="exp_rcc.touched && !exp_rcc.valid">
+                        <div class="required" *ngIf="exp_rcc.errors.required">La Fecha de Expiración de la Responsabilidad Civil Contractual es Requerida</div>
+                      </div>
                     </div>
                     <div class="col s12 m6 l2 margin-button-input">
                       <mat-card-content>
@@ -145,10 +164,14 @@
                     <div class="col s12 m6 l3 push-l1 margin-button-input" *ngIf="vehiculosService.selectedVehiculo.GNV">
                       <mat-form-field>
                         <input matInput class="example-full-width" [matDatepicker]="picker_exp_gnv" [min]="today" name="exp_gnv" #exp_gnv="ngModel"
-                          [(ngModel)]="vehiculosService.selectedVehiculo.exp_gnv" placeholder="Fecha de Expiración de GNV">
+                          [(ngModel)]="vehiculosService.selectedVehiculo.exp_gnv" placeholder="Fecha de Expiración de GNV"
+                          required>
                         <mat-datepicker-toggle matSuffix [for]="picker_exp_gnv"></mat-datepicker-toggle>
                         <mat-datepicker touchUi #picker_exp_gnv></mat-datepicker>
                       </mat-form-field>
+                      <div *ngIf="exp_gnv.touched && !exp_gnv.valid">
+                        <div class="required" *ngIf="exp_gnv.errors.required">La Fecha de Expiración del GNV es Requerida</div>
+                      </div>
                     </div>
                     <div class="col s12 m6 l2 margin-button-input">
                       <mat-card-content>

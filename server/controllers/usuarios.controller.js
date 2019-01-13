@@ -13,19 +13,31 @@ usuarioCtrl.getUsuarios = async (req, res) => {
 
 };
 
+async function validar_alias(alias) {
+    return await Usuario.find({ username: alias, state: 'true' });
+}
+
 // crear usuario
 usuarioCtrl.createUsuario = async (req, res) => {
-    const usuario = new Usuario({
-        username: req.body.username,
-        name: req.body.name,
-        password: req.body.password,
-        role: req.body.role,
-        state: true
+    const validacion = await validar_alias(req.body.username);
+    if (validacion == 0) {
+        const usuario = new Usuario({
+            username: req.body.username,
+            name: req.body.name,
+            password: req.body.password,
+            role: req.body.role,
+            state: true
 
-    });
-    console.log(usuario);
-    await usuario.save();
-    res.json({ 'status': 'Usuario Guardado Exitosamente', 'success': 'true' });
+        });
+
+        await usuario.save();
+        res.json({
+            status: 'Usuario Guardado Exitosamente', success: 'true'
+        });
+    } else {
+        res.json({ status: 'Alias ya existe', success: 'false' });
+
+    }
 };
 
 // consultar por un usuario especifico
@@ -38,15 +50,32 @@ usuarioCtrl.getUsuario = async (req, res) => {
 // actualizar un usuario especifico
 usuarioCtrl.updateUsuario = async (req, res) => {
     const { id } = req.params;
-    const newUsuario = {
-        username: req.body.username,
-        name: req.body.name,
-        password: req.body.password,
-        role: req.body.role,
-        state: true
+    const validacion = await validar_alias(req.body.username);
+    if (validacion != 0) {
+        validacion.map(async dato => {
+            if (id == dato._id) {
+                const newUsuario = {
+                    _id: req.body._id,
+                    username: req.body.username,
+                    name: req.body.name,
+                    password: req.body.password,
+                    role: req.body.role,
+                    state: true
+                }
+                await Usuario.findByIdAndUpdate(id, { $set: newUsuario }, { new: true });
+                res.json({ status: 'Usuario Actualizado Exitosamente' });
+
+            }
+            else {
+                res.json({ status: 'Alias ya existe', success: 'false' });
+            }
+        });
+
     }
-    await Usuario.findByIdAndUpdate(id, { $set: newUsuario }, { new: true });
-    res.json({ status: 'Usuario Actualizado Exitosamente' });
+    else {
+        res.json({ status: 'El alias no existe', success: 'false' });
+
+    }
 };
 
 // Eliminar un usuario especifico
