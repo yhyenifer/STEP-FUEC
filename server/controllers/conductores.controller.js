@@ -3,6 +3,7 @@ var moment = require('moment/moment');
 const conductorCtrl = {};
 
 
+
 //listar conductores
 conductorCtrl.getConductores = async (req, res) => {
     const conductores = await Conductor.find({ state: "true" }).sort({ createdAt: -1 }); // ordenada desc
@@ -13,16 +14,16 @@ conductorCtrl.getConductores = async (req, res) => {
     // .catch(err => console.log(err));
 
 };
+
 async function validar_cedula(cedula) {
-    return await Conductor.find({ CC: cedula });
+    return await Conductor.find({ CC: cedula, state: 'true' });
 }
 
 
 
 // crear conductor
 conductorCtrl.createConductor = async (req, res) => {
-    console.log('guardar');
-    console.log(req.body);
+
     const validacion = await validar_cedula(req.body.CC);
     if (validacion == 0) {
         const conductor = new Conductor({
@@ -53,12 +54,13 @@ conductorCtrl.createConductor = async (req, res) => {
             state: true
 
         });
+
         await conductor.save();
         res.json({
-            'status': 'Conductor Guardado Exitosamente', 'success': 'true'
+            status: 'Conductor Guardado Exitosamente', success: 'true'
         });
     } else {
-        res.json({ 'status': 'Verificar la cédula del conductor, la ingresada, ya existe', 'success': 'false' });
+        res.json({ status: 'Verificar la cédula del conductor, la ingresada, ya existe', success: 'false' });
 
     }
 };
@@ -71,52 +73,6 @@ conductorCtrl.getConductor = async (req, res) => {
 };
 
 
-// actualizar un conductor especifico
-conductorCtrl.updateConductor = async (req, res) => {
-    const { id } = req.params;
-    console.log('actualizar');
-    console.log(req.body);
-    const newConductor = {
-        name: req.body.name,
-        CC: req.body.CC,
-        active: req.body.active,
-        internal: req.body.internal,
-        license: req.body.license,
-        license_expiration: req.body.license_expiration,
-        health_expiration: req.body.health_expiration,
-        drug_expiration: req.body.drug_expiration,
-        simit_expiration: req.body.simit_expiration,
-        health_exam_expiration: req.body.health_exam_expiration,
-        driving_exam_expiration: req.body.driving_exam_expiration,
-        automotive_law_expiration: req.body.automotive_law_expiration,
-        transit_law_expiration: req.body.transit_law_expiration,
-        law_tips_expiration: req.body.law_tips_expiration,
-        accident_expiration: req.body.accident_expiration,
-        driving_methods_expiration: req.body.driving_methods_expiration,
-        defensive_expiration: req.body.defensive_expiration,
-        distractions_expiration: req.body.distractions_expiration,
-        first_aid_expiration: req.body.first_aid_expiration,
-        fecha_5sentidos_conduc: req.body.fecha_5sentidos_conduc,
-        first_answer_expiration: req.body.first_answer_expiration,
-        senses_expiration: req.body.senses_expiration,
-        car_security_expiration: req.body.car_security_expiration,
-        road_security_expiration: req.body.road_security_expiration,
-        state: true
-    }
-    await Conductor.findByIdAndUpdate(id, { $set: newConductor }, { new: true });
-    res.json({ status: 'Conductor Actualizado Exitosamente', success: 'true' });
-};
-
-// Eliminar un conductor especifico
-conductorCtrl.deleteConductor = async (req, res) => {
-    const { id } = req.params;
-    const newState = {
-
-        state: req.body.state
-    }
-    await Conductor.findByIdAndUpdate(id, { $set: newState }, { new: true });
-    res.json({ status: 'Conductor Eliminado Exitosamente', success: 'true' });
-};
 
 // generar alertas necesarias para los conductores
 conductorCtrl.getAlertasConductores = async (req, res) => {
@@ -135,20 +91,24 @@ conductorCtrl.getAlertasConductores = async (req, res) => {
                 identificacion: dato.CC,
                 nombre: dato.name,
                 alerta: "Expiracion licencia",
-                fecha: dato.license_expiration,
+                id: dato._id,
+                fecha: moment(dato.license_expiration).format("YYYY-MM-DD"),
                 fecha_diferencia: fecha_diferencia,
                 tipo_alerta: 1
+
             }
+
             alertas.push(objAlerta1);
         };
 
-        if (fecha_diferencia == 0) {
+        if (fecha_diferencia <= 0) {
             //objeto alerta tipo 2 -> warning roja
             const objAlerta2 = {
                 identificacion: dato.CC,
                 nombre: dato.name,
                 alerta: "Expiracion licencia",
-                fecha: dato.license_expiration,
+                id: dato._id,
+                fecha: moment(dato.license_expiration).format("YYYY-MM-DD"),
                 fecha_diferencia: fecha_diferencia,
                 tipo_alerta: 2
             }
@@ -166,20 +126,22 @@ conductorCtrl.getAlertasConductores = async (req, res) => {
                 identificacion: dato.CC,
                 nombre: dato.name,
                 alerta: "Expiracion de aportes de salud",
-                fecha: dato.health_expiration,
+                id: dato._id,
+                fecha: moment(dato.health_expiration).format("YYYY-MM-DD"),
                 fecha_diferencia: fecha_diferencia,
                 tipo_alerta: 1
             }
             alertas.push(objAlerta1);
         };
 
-        if (fecha_diferencia == 0) {
+        if (fecha_diferencia <= 0) {
             // objeto alerta tipo 2 -> warning roja
             const objAlerta2 = {
                 identificacion: dato.CC,
                 nombre: dato.name,
                 alerta: "Expiracion de aportes de salud",
-                fecha: dato.health_expiration,
+                id: dato._id,
+                fecha: moment(dato.health_expiration).format("YYYY-MM-DD"),
                 fecha_diferencia: fecha_diferencia,
                 tipo_alerta: 2
             }
@@ -197,20 +159,22 @@ conductorCtrl.getAlertasConductores = async (req, res) => {
                 identificacion: dato.CC,
                 nombre: dato.name,
                 alerta: "Expiracion de examen de drogas y alcoholemia",
-                fecha: dato.drug_expiration,
+                id: dato._id,
+                fecha: moment(dato.drug_expiration).format("YYYY-MM-DD"),
                 fecha_diferencia: fecha_diferencia,
                 tipo_alerta: 1
             }
             alertas.push(objAlerta1);
         };
 
-        if (fecha_diferencia == 0) {
+        if (fecha_diferencia <= 0) {
             // objeto alerta tipo 2 -> warning roja
             const objAlerta2 = {
                 identificacion: dato.CC,
                 nombre: dato.name,
                 alerta: "Expiracion de examen de drogas y alcoholemia",
-                fecha: dato.drug_expiration,
+                id: dato._id,
+                fecha: moment(dato.drug_expiration).format("YYYY-MM-DD"),
                 fecha_diferencia: fecha_diferencia,
                 tipo_alerta: 2
             }
@@ -228,20 +192,22 @@ conductorCtrl.getAlertasConductores = async (req, res) => {
                 identificacion: dato.CC,
                 nombre: dato.name,
                 alerta: "Expiracion de consultas en el simit",
-                fecha: dato.simit_expiration,
+                id: dato._id,
+                fecha: moment(dato.simit_expiration).format("YYYY-MM-DD"),
                 fecha_diferencia: fecha_diferencia,
                 tipo_alerta: 1
             }
             alertas.push(objAlerta1);
         };
 
-        if (fecha_diferencia == 0) {
+        if (fecha_diferencia <= 0) {
             // objeto alerta tipo 2 -> warning roja
             const objAlerta2 = {
                 identificacion: dato.CC,
                 nombre: dato.name,
                 alerta: "Expiracion de consultas en el simit",
-                fecha: dato.simit_expiration,
+                id: dato._id,
+                fecha: moment(dato.simit_expiration).format("YYYY-MM-DD"),
                 fecha_diferencia: fecha_diferencia,
                 tipo_alerta: 2
             }
@@ -260,20 +226,22 @@ conductorCtrl.getAlertasConductores = async (req, res) => {
                     identificacion: dato.CC,
                     nombre: dato.name,
                     alerta: "Expiracion de examenes de salud ocupacional",
-                    fecha: dato.health_exam_expiration,
+                    id: dato._id,
+                    fecha: moment(dato.health_exam_expiration).format("YYYY-MM-DD"),
                     fecha_diferencia: fecha_diferencia,
                     tipo_alerta: 1
                 }
                 alertas.push(objAlerta1);
             };
 
-            if (fecha_diferencia == 0) {
+            if (fecha_diferencia <= 0) {
                 // objeto alerta tipo 2 -> warning roja
                 const objAlerta2 = {
                     identificacion: dato.CC,
                     nombre: dato.name,
                     alerta: "Expiracion de examenes de salud ocupacional",
-                    fecha: dato.health_exam_expiration,
+                    id: dato._id,
+                    fecha: moment(dato.health_exam_expiration).format("YYYY-MM-DD"),
                     fecha_diferencia: fecha_diferencia,
                     tipo_alerta: 2
                 }
@@ -293,20 +261,22 @@ conductorCtrl.getAlertasConductores = async (req, res) => {
                     identificacion: dato.CC,
                     nombre: dato.name,
                     alerta: "Expiracion del examen de conduccion",
-                    fecha: dato.driving_exam_expiration,
+                    id: dato._id,
+                    fecha: moment(dato.driving_exam_expiration).format("YYYY-MM-DD"),
                     fecha_diferencia: fecha_diferencia,
                     tipo_alerta: 1
                 }
                 alertas.push(objAlerta1);
             };
 
-            if (fecha_diferencia == 0) {
+            if (fecha_diferencia <= 0) {
                 // objeto alerta tipo 2 -> warning roja
                 const objAlerta2 = {
                     identificacion: dato.CC,
                     nombre: dato.name,
                     alerta: "Expiracion del examen de conduccion",
-                    fecha: dato.driving_exam_expiration,
+                    id: dato._id,
+                    fecha: moment(dato.driving_exam_expiration).format("YYYY-MM-DD"),
                     fecha_diferencia: fecha_diferencia,
                     tipo_alerta: 2
                 }
@@ -326,7 +296,8 @@ conductorCtrl.getAlertasConductores = async (req, res) => {
                     identificacion: dato.CC,
                     nombre: dato.name,
                     alerta: "Expiracion del examen de normas de transito y transporte terrestre automotor",
-                    fecha: dato.automotive_law_expiration,
+                    id: dato._id,
+                    fecha: moment(dato.automotive_law_expiration).format("YYYY-MM-DD"),
                     fecha_diferencia: fecha_diferencia,
                     tipo_alerta: 1
                 }
@@ -334,13 +305,14 @@ conductorCtrl.getAlertasConductores = async (req, res) => {
             };
 
 
-            if (fecha_diferencia == 0) {
+            if (fecha_diferencia <= 0) {
                 // objeto alerta tipo 2 -> warning roja
                 const objAlerta2 = {
                     identificacion: dato.CC,
                     nombre: dato.name,
                     alerta: "Expiracion del examen de normas de transito y transporte terrestre automotor",
-                    fecha: dato.automotive_law_expiration,
+                    id: dato._id,
+                    fecha: moment(dato.automotive_law_expiration).format("YYYY-MM-DD"),
                     fecha_diferencia: fecha_diferencia,
                     tipo_alerta: 2
                 }
@@ -360,20 +332,22 @@ conductorCtrl.getAlertasConductores = async (req, res) => {
                     identificacion: dato.CC,
                     nombre: dato.name,
                     alerta: "Expiracion del examen de normas de transito",
-                    fecha: dato.transit_law_expiration,
+                    id: dato._id,
+                    fecha: moment(dato.transit_law_expiration).format("YYYY-MM-DD"),
                     fecha_diferencia: fecha_diferencia,
                     tipo_alerta: 1
                 }
                 alertas.push(objAlerta1);
             };
 
-            if (fecha_diferencia == 0) {
+            if (fecha_diferencia <= 0) {
                 // objeto alerta tipo 2 -> warning roja
                 const objAlerta2 = {
                     identificacion: dato.CC,
                     nombre: dato.name,
                     alerta: "Expiracion del examen de normas de transito",
-                    fecha: dato.transit_law_expiration,
+                    id: dato._id,
+                    fecha: moment(dato.transit_law_expiration).format("YYYY-MM-DD"),
                     fecha_diferencia: fecha_diferencia,
                     tipo_alerta: 2
                 }
@@ -393,20 +367,22 @@ conductorCtrl.getAlertasConductores = async (req, res) => {
                     identificacion: dato.CC,
                     nombre: dato.name,
                     alerta: "Expiracion del examen tips normativos",
-                    fecha: dato.law_tips_expiration,
+                    id: dato._id,
+                    fecha: moment(dato.law_tips_expiration).format("YYYY-MM-DD"),
                     fecha_diferencia: fecha_diferencia,
                     tipo_alerta: 1
                 }
                 alertas.push(objAlerta1);
             };
 
-            if (fecha_diferencia == 0) {
+            if (fecha_diferencia <= 0) {
                 // objeto alerta tipo 2 -> warning roja
                 const objAlerta2 = {
                     identificacion: dato.CC,
                     nombre: dato.name,
                     alerta: "Expiracion del examen de tips normativos",
-                    fecha: dato.law_tips_expiration,
+                    id: dato._id,
+                    fecha: moment(dato.law_tips_expiration).format("YYYY-MM-DD"),
                     fecha_diferencia: fecha_diferencia,
                     tipo_alerta: 2
                 }
@@ -426,20 +402,22 @@ conductorCtrl.getAlertasConductores = async (req, res) => {
                     identificacion: dato.CC,
                     nombre: dato.name,
                     alerta: "Expiracion de accidentalidad de transito",
-                    fecha: dato.accident_expiration,
+                    id: dato._id,
+                    fecha: moment(dato.accident_expiration).format("YYYY-MM-DD"),
                     fecha_diferencia: fecha_diferencia,
                     tipo_alerta: 1
                 }
                 alertas.push(objAlerta1);
             };
 
-            if (fecha_diferencia == 0) {
+            if (fecha_diferencia <= 0) {
                 // objeto alerta tipo 2 -> warning roja
                 const objAlerta2 = {
                     identificacion: dato.CC,
                     nombre: dato.name,
                     alerta: "Expiracion de accidentalidad de transito",
-                    fecha: dato.accident_expiration,
+                    id: dato._id,
+                    fecha: moment(dato.accident_expiration).format("YYYY-MM-DD"),
                     fecha_diferencia: fecha_diferencia,
                     tipo_alerta: 2
                 }
@@ -458,20 +436,22 @@ conductorCtrl.getAlertasConductores = async (req, res) => {
                     identificacion: dato.CC,
                     nombre: dato.name,
                     alerta: "Expiracion de metodos de conduccion",
-                    fecha: dato.driving_methods_expiration,
+                    id: dato._id,
+                    fecha: moment(dato.driving_methods_expiration).format("YYYY-MM-DD"),
                     fecha_diferencia: fecha_diferencia,
                     tipo_alerta: 1
                 }
                 alertas.push(objAlerta1);
             };
 
-            if (fecha_diferencia == 0) {
+            if (fecha_diferencia <= 0) {
                 // objeto alerta tipo 2 -> warning roja
                 const objAlerta2 = {
                     identificacion: dato.CC,
                     nombre: dato.name,
                     alerta: "Expiracion de metodos de conduccion",
-                    fecha: dato.driving_methods_expiration,
+                    id: dato._id,
+                    fecha: moment(dato.driving_methods_expiration).format("YYYY-MM-DD"),
                     fecha_diferencia: fecha_diferencia,
                     tipo_alerta: 2
                 }
@@ -491,7 +471,8 @@ conductorCtrl.getAlertasConductores = async (req, res) => {
                     identificacion: dato.CC,
                     nombre: dato.name,
                     alerta: "Expiracion de manejo defensivo",
-                    fecha: dato.defensive_expiration,
+                    id: dato._id,
+                    fecha: moment(dato.defensive_expiration).format("YYYY-MM-DD"),
                     fecha_diferencia: fecha_diferencia,
                     tipo_alerta: 1
                 }
@@ -499,13 +480,14 @@ conductorCtrl.getAlertasConductores = async (req, res) => {
             };
 
 
-            if (fecha_diferencia == 0) {
+            if (fecha_diferencia <= 0) {
                 // objeto alerta tipo 2 -> warning roja
                 const objAlerta2 = {
                     identificacion: dato.CC,
                     nombre: dato.name,
                     alerta: "Expiracion de manejo defensivo",
-                    fecha: dato.defensive_expiration,
+                    id: dato._id,
+                    fecha: moment(dato.defensive_expiration).format("YYYY-MM-DD"),
                     fecha_diferencia: fecha_diferencia,
                     tipo_alerta: 2
                 }
@@ -525,20 +507,22 @@ conductorCtrl.getAlertasConductores = async (req, res) => {
                     identificacion: dato.CC,
                     nombre: dato.name,
                     alerta: "Expiracion de distracciones",
-                    fecha: dato.distractions_expiration,
+                    id: dato._id,
+                    fecha: moment(dato.distractions_expiration).format("YYYY-MM-DD"),
                     fecha_diferencia: fecha_diferencia,
                     tipo_alerta: 1
                 }
                 alertas.push(objAlerta1);
             };
 
-            if (fecha_diferencia == 0) {
+            if (fecha_diferencia <= 0) {
                 // objeto alerta tipo 2 -> warning roja
                 const objAlerta2 = {
                     identificacion: dato.CC,
                     nombre: dato.name,
                     alerta: "Expiracion de distracciones",
-                    fecha: dato.distractions_expiration,
+                    id: dato._id,
+                    fecha: moment(dato.distractions_expiration).format("YYYY-MM-DD"),
                     fecha_diferencia: fecha_diferencia,
                     tipo_alerta: 2
                 }
@@ -558,20 +542,22 @@ conductorCtrl.getAlertasConductores = async (req, res) => {
                     identificacion: dato.CC,
                     nombre: dato.name,
                     alerta: "Expiracion de primeros auxilios",
-                    fecha: dato.first_aid_expiration,
+                    id: dato._id,
+                    fecha: moment(dato.first_aid_expiration).format("YYYY-MM-DD"),
                     fecha_diferencia: fecha_diferencia,
                     tipo_alerta: 1
                 }
                 alertas.push(objAlerta1);
             };
 
-            if (fecha_diferencia == 0) {
+            if (fecha_diferencia <= 0) {
                 // objeto alerta tipo 2 -> warning roja
                 const objAlerta2 = {
                     identificacion: dato.CC,
                     nombre: dato.name,
                     alerta: "Expiracion de primeros auxilios",
-                    fecha: dato.first_aid_expiration,
+                    id: dato._id,
+                    fecha: moment(dato.first_aid_expiration).format("YYYY-MM-DD"),
                     fecha_diferencia: fecha_diferencia,
                     tipo_alerta: 2
                 }
@@ -590,20 +576,22 @@ conductorCtrl.getAlertasConductores = async (req, res) => {
                     identificacion: dato.CC,
                     nombre: dato.name,
                     alerta: "Expiracion de primer respondiente",
-                    fecha: dato.first_answer_expiration,
+                    id: dato._id,
+                    fecha: moment(dato.first_answer_expiration).format("YYYY-MM-DD"),
                     fecha_diferencia: fecha_diferencia,
                     tipo_alerta: 1
                 }
                 alertas.push(objAlerta1);
             };
 
-            if (fecha_diferencia == 0) {
+            if (fecha_diferencia <= 0) {
                 // objeto alerta tipo 2 -> warning roja
                 const objAlerta2 = {
                     identificacion: dato.CC,
                     nombre: dato.name,
                     alerta: "Expiracion de primer respondiente",
-                    fecha: dato.first_answer_expiration,
+                    id: dato._id,
+                    fecha: moment(dato.first_answer_expiration).format("YYYY-MM-DD"),
                     fecha_diferencia: fecha_diferencia,
                     tipo_alerta: 2
                 }
@@ -623,20 +611,22 @@ conductorCtrl.getAlertasConductores = async (req, res) => {
                     identificacion: dato.CC,
                     nombre: dato.name,
                     alerta: "Expiracion de los cinco sentidos de la conduccion",
-                    fecha: dato.senses_expiration,
+                    id: dato._id,
+                    fecha: moment(dato.senses_expiration).format("YYYY-MM-DD"),
                     fecha_diferencia: fecha_diferencia,
                     tipo_alerta: 1
                 }
                 alertas.push(objAlerta1);
             };
 
-            if (fecha_diferencia == 0) {
+            if (fecha_diferencia <= 0) {
                 // objeto alerta tipo 2 -> warning roja
                 const objAlerta2 = {
                     identificacion: dato.CC,
                     nombre: dato.name,
                     alerta: "Expiracion de los cinco sentidos de la conduccion",
-                    fecha: dato.senses_expiration,
+                    id: dato._id,
+                    fecha: moment(dato.senses_expiration).format("YYYY-MM-DD"),
                     fecha_diferencia: fecha_diferencia,
                     tipo_alerta: 2
                 }
@@ -656,20 +646,22 @@ conductorCtrl.getAlertasConductores = async (req, res) => {
                     identificacion: dato.CC,
                     nombre: dato.name,
                     alerta: "Expiracion de la seguridad activa y pasiva del vehiculo",
-                    fecha: dato.car_security_expiration,
+                    id: dato._id,
+                    fecha: moment(dato.car_security_expiration).format("YYYY-MM-DD"),
                     fecha_diferencia: fecha_diferencia,
                     tipo_alerta: 1
                 }
                 alertas.push(objAlerta1);
             };
 
-            if (fecha_diferencia == 0) {
+            if (fecha_diferencia <= 0) {
                 // objeto alerta tipo 2 -> warning roja
                 const objAlerta2 = {
                     identificacion: dato.CC,
                     nombre: dato.name,
                     alerta: "Expiracion de la seguridad activa y pasiva del vehiculo",
-                    fecha: dato.car_security_expiration,
+                    id: dato._id,
+                    fecha: moment(dato.car_security_expiration).format("YYYY-MM-DD"),
                     fecha_diferencia: fecha_diferencia,
                     tipo_alerta: 2
                 }
@@ -689,20 +681,22 @@ conductorCtrl.getAlertasConductores = async (req, res) => {
                     identificacion: dato.CC,
                     nombre: dato.name,
                     alerta: "Expiracion de la seguridad vial",
-                    fecha: dato.road_security_expiration,
+                    id: dato._id,
+                    fecha: moment(dato.road_security_expiration).format("YYYY-MM-DD"),
                     fecha_diferencia: fecha_diferencia,
                     tipo_alerta: 1
                 }
                 alertas.push(objAlerta1);
             };
 
-            if (fecha_diferencia == 0) {
+            if (fecha_diferencia <= 0) {
                 // objeto alerta tipo 2 -> warning roja
                 const objAlerta2 = {
                     identificacion: dato.CC,
                     nombre: dato.name,
                     alerta: "Expiracion de la seguridad vial",
-                    fecha: dato.road_security_expiration,
+                    id: dato._id,
+                    fecha: moment(dato.road_security_expiration).format("YYYY-MM-DD"),
                     fecha_diferencia: fecha_diferencia,
                     tipo_alerta: 2
                 }
@@ -712,5 +706,72 @@ conductorCtrl.getAlertasConductores = async (req, res) => {
     })//cierra map
     res.json(alertas);
 };
+// actualizar un conductor especifico
+conductorCtrl.updateConductor = async (req, res) => {
+    const { id } = req.params;
+    var fecha = moment().format("YYYY-MM-DD HH:mm:ss");
+    console.log(fecha);
+    console.log('actualizar');
+    console.log(req.body);
+    const validacion = await validar_cedula(req.body.CC);
+    if (validacion != 0) {
+        validacion.map(async dato => {
+
+            if (id == dato._id) {
+                const newConductor = {
+                    _id: req.body._id,
+                    name: req.body.name,
+                    CC: req.body.CC,
+                    active: req.body.active,
+                    internal: req.body.internal,
+                    license: req.body.license,
+                    license_expiration: req.body.license_expiration,
+                    health_expiration: req.body.health_expiration,
+                    drug_expiration: req.body.drug_expiration,
+                    simit_expiration: req.body.simit_expiration,
+                    health_exam_expiration: req.body.health_exam_expiration,
+                    driving_exam_expiration: req.body.driving_exam_expiration,
+                    automotive_law_expiration: req.body.automotive_law_expiration,
+                    transit_law_expiration: req.body.transit_law_expiration,
+                    law_tips_expiration: req.body.law_tips_expiration,
+                    accident_expiration: req.body.accident_expiration,
+                    driving_methods_expiration: req.body.driving_methods_expiration,
+                    defensive_expiration: req.body.defensive_expiration,
+                    distractions_expiration: req.body.distractions_expiration,
+                    first_aid_expiration: req.body.first_aid_expiration,
+                    fecha_5sentidos_conduc: req.body.fecha_5sentidos_conduc,
+                    first_answer_expiration: req.body.first_answer_expiration,
+                    senses_expiration: req.body.senses_expiration,
+                    car_security_expiration: req.body.car_security_expiration,
+                    road_security_expiration: req.body.road_security_expiration,
+                    state: true
+                }
+                await Conductor.findByIdAndUpdate(id, { $set: newConductor }, { new: true });
+                res.json({ status: 'Conductor Actualizado Exitosamente' });
+
+            }
+            else {
+                res.json({ status: 'Verificar la cedula del conductor, la ingresada, ya existe', success: 'false' });
+            }
+        });
+
+    }
+    else {
+        res.json({ status: 'El conductor no esta creado', success: 'false' });
+
+    }
+};
+
+// Eliminar un conductor especifico
+conductorCtrl.deleteConductor = async (req, res) => {
+    const { id } = req.params;
+    const newState = {
+
+        state: req.body.state
+    }
+    await Conductor.findByIdAndUpdate(id, { $set: newState }, { new: true });
+    res.json({ status: 'Conductor Eliminado Exitosamente', success: 'true' });
+};
+
 
 module.exports = conductorCtrl;

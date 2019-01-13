@@ -20,71 +20,74 @@
                   <div class="row">
                     <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="vehiculosService.selectedVehiculo._id">
                     <div class="input-field col s12 m6 l4 margin-button-input">
-                      <input type="text" name="plate" #plate="ngModel" [(ngModel)]="vehiculosService.selectedVehiculo.plate" placeholder="Escriiba el Número de la Placa"
-                        required maxlength="6" minlength="5">
+                      <input type="text" name="plate" #plate="ngModel" [(ngModel)]="vehiculosService.selectedVehiculo.plate" placeholder="" required
+                        maxlength="6" minlength="5">
                       <label>Número de la Placa*:</label>
                       <div *ngIf="plate.touched && !plate.valid">
-                        <div class="required" *ngIf="plate.errors.required">Placa es Requerida</div>
-                        <div class="required" *ngIf="plate.errors.maxlength">Placa debe contener máximo {{plate.errors.maxlength.requiredLength}} caracteres</div>
-                        <div class="required" *ngIf="plate.errors.minlength">Placa debe contener mínimo {{plate.errors.minlength.requiredLength}} caracteres</div>
+                        <div class="required" *ngIf="plate.errors.required">La Placa es Requerida</div>
+                        <div class="required" *ngIf="plate.errors.maxlength">La Placa debe contener máximo {{plate.errors.maxlength.requiredLength}} caracteres</div>
+                        <div class="required" *ngIf="plate.errors.minlength">La Placa debe contener mínimo {{plate.errors.minlength.requiredLength}} caracteres</div>
                       </div>
                     </div>
 
                     <div class="input-field col s12 m6 l4 margin-button-input">
-                      <input type="text" name="model" #model="ngModel" [(ngModel)]="vehiculosService.selectedVehiculo.model" placeholder="Escriba el Modelo del Vehículo"
-                        required>
+                      <input type="text" name="model" #model="ngModel" [(ngModel)]="vehiculosService.selectedVehiculo.model" placeholder="" required>
                       <label>Marca del Vehículo:</label>
                       <div *ngIf="model.touched && !model.valid">
-                        <div class="required" *ngIf="model.errors.required">Marca del Vehículo es Requerido</div>
+                        <div class="required" *ngIf="model.errors.required">La Marca del Vehículo es Requerido</div>
                       </div>
                     </div>
 
 
                     <div class="input-field col s12 m6 l4 margin-button-input">
-                      <input type="text" name="year" #year="ngModel" [(ngModel)]="vehiculosService.selectedVehiculo.year" placeholder="Escriba el Año del Vehículo"
-                        required maxlength="4" minlength="4">
-                      <label>Año del Vehículo:</label>
+                      <input type="text" name="year" #year="ngModel" [(ngModel)]="vehiculosService.selectedVehiculo.year" placeholder="" required
+                        maxlength="4" minlength="4">
+                      <label>Modelo del Vehículo (Año):</label>
                       <div *ngIf="year.touched && !year.valid">
-                        <div class="required" *ngIf="year.errors.required">Año del Vehículo es Requerido</div>
+                        <div class="required" *ngIf="year.errors.required">El modelo del Vehículo es Requerido (Año)</div>
                         <div class="required" *ngIf="year.errors.maxlength">El Año debe contener máximo {{year.errors.maxlength.requiredLength}} caracteres</div>
                         <div class="required" *ngIf="year.errors.minlength">El Año debe contener mínimo {{year.errors.minlength.requiredLength}} caracteres</div>
                       </div>
                     </div>
 
                     <div class="input-field col s12 m6 l4 margin-button-input">
-                      <input type="text" name="lateral" #lateral="ngModel" [(ngModel)]="vehiculosService.selectedVehiculo.lateral" placeholder="Escriba el Lateral del Vehículo"
+                      <input type="text" name="lateral" #lateral="ngModel" [(ngModel)]="vehiculosService.selectedVehiculo.lateral" placeholder=""
                         required>
                       <label>Lateral del Vehículo:</label>
                       <div *ngIf="lateral.touched && !lateral.valid">
-                        <div class="required" *ngIf="lateral.errors.required">Lateral del Vehículo es Requerido</div>
+                        <div class="required" *ngIf="lateral.errors.required">El Lateral del Vehículo es Requerido</div>
                       </div>
                     </div>
                     <div class="input-field col s12 m6 l4 margin-button-input">
                       <input type="text" name="operation_card" #operation_card="ngModel" [(ngModel)]="vehiculosService.selectedVehiculo.operation_card"
-                        placeholder="Escriba el operation_card del Vehículo" required>
+                        placeholder="" required>
                       <label>Tarjeta de Operación:</label>
                       <div *ngIf="operation_card.touched && !operation_card.valid">
-                        <div class="required" *ngIf="operation_card.errors.required">la Tarjeta de Operación es Requerida</div>
+                        <div class="required" *ngIf="operation_card.errors.required">La Tarjeta de Operación es Requerida</div>
                       </div>
                     </div>
                     <div class="input-field col s12 m6 l4 margin-button-input">
                       <mat-form-field>
                         <label class="tamaño-letra">Clase del Vehículo:</label>
-                        <mat-select class="border-select" name="class" #class="ngModel" [(ngModel)]="vehiculosService.selectedVehiculo.class" [(value)]="vehiculosService.selectedVehiculo.class">
-                          <mat-option value="" disabled selected>Seleccione tipo de Vehículo:</mat-option>
+                        <mat-select class="border-select" name="class" #class="ngModel" [(ngModel)]="vehiculosService.selectedVehiculo.class" required
+                          [(value)]="vehiculosService.selectedVehiculo.class">
+                          <mat-option value="" disabled selected>Seleccione Clase de Vehículo:</mat-option>
                           <mat-option value="Bus">Bus</mat-option>
                           <mat-option value="Buseta">Buseta</mat-option>
                           <mat-option value="Camioneta doble cabina">Camioneta Doble Cabina</mat-option>
                           <mat-option value="Microbus">Microbús</mat-option>
                         </mat-select>
                       </mat-form-field>
+                      <div *ngIf="class.touched && !class.valid">
+                        <div class="required" *ngIf="class.errors.required">La clase del vehiculo es requerido</div>
+                      </div>
                     </div>
                     <div class="input-field col s12 m6 l3 margin-button-input">
-                      <input type="text" name="passengers" #passengers="ngModel" [(ngModel)]="vehiculosService.selectedVehiculo.passengers" placeholder="Escriba el passengers del Vehículo"
+                      <input type="text" name="passengers" #passengers="ngModel" [(ngModel)]="vehiculosService.selectedVehiculo.passengers" placeholder=""
                         required>
                       <label>Cant. Pasajeros:</label>
                       <div *ngIf="passengers.touched && !passengers.valid">
-                        <div class="required" *ngIf="passengers.errors.required">la Cantidad de Pasajeros es Requerido</div>
+                        <div class="required" *ngIf="passengers.errors.required">La Cantidad de Pasajeros es Requerido</div>
                       </div>
                     </div>
 

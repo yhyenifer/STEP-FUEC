@@ -9,22 +9,22 @@
         <h5 class="centro">Bienvenido</h5>
 
         <mat-form-field class="tam-input">
-          <input type="text" class="style-input" matInput placeholder="Usuario:">
+          <input type="text" class="style-input" matInput placeholder="Usuario:" [(ngModel)]="username">
           <mat-icon matPrefix>person</mat-icon>
         </mat-form-field>
         <mat-form-field class="tam-input">
-          <input type="password" class="style-input" matInput placeholder="Contraseña:">
+          <input type="password" class="style-input" matInput placeholder="Contraseña:" [(ngModel)]="password">
           <mat-icon matPrefix>lock</mat-icon>
         </mat-form-field>
         <div>
-          <a class=" back-negro waves-effect waves-light btn">Ingresar</a>
+          <a class=" back-negro waves-effect waves-light btn" (click)="login()">Ingresar</a>
 
         </div>
-        <label style='float: right;'>
+        <!-- <label style='float: right;'>
           <a class='color-negro' href='#!'>
             <u>Recordar Contraseña</u>
           </a>
-        </label>
+        </label> -->
 
       </div>
     </div>

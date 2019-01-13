@@ -1,44 +1,256 @@
 const Vehiculo = require('../models/vehiculos');
-
+var moment = require('moment/moment');
 const vehiculoCtrl = {};
 
 //listar Vehiculos
 vehiculoCtrl.getVehiculos = async (req, res) => {
-    const vehiculos = await Vehiculo.find({ state: "true" }).sort({ createdAt: -1 }); // ordenada desc
+    const vehiculos = await Vehiculo.find({ state: "true" });
     res.json(vehiculos);
 };
 
-//crear vehiculo
-vehiculoCtrl.createVehiculo = async (req, res) => {
+async function validar_placa(placa) {
+    return await Vehiculo.find({ plate: placa, state: 'true' });
 
-    const vehiculo = new Vehiculo({
+}
 
-        plate: req.body.plate,
-        model: req.body.model,
-        year: req.body.year,
-        lateral: req.body.lateral,
-        class: req.body.class,
-        passengers: req.body.passengers,
-        operation_card: req.body.operation_card,
-        exp_to: req.body.exp_to,
-        exp_soat: req.body.exp_soat,
-        exp_tech: req.body.exp_tech,
-        exp_prev: req.body.exp_prev,
-        GNV: req.body.GNV,
-        exp_gnv: '',
-        exp_rcc: req.body.exp_rcc,
-        active: req.body.active,
-        internal: req.body.internal,
-        state: true
+vehiculoCtrl.getAlertasVehiculos = async (req, res) => {
+    const vehiculo = await Vehiculo.find({ state: "true" });
+    const alertas = [];
+
+    vehiculo.map(async dato => {
+        var fecha_com = moment(dato.exp_to); // captura fecha de expiracion de la tarjeta de operacion
+        var fecha_Actual = moment().format("YYYY-MM-DD"); // capturas la fecha actual del sistema y le da formato
+        var fecha_diferencia = fecha_com.diff(fecha_Actual, 'days');// calcula la diferencia de fechas y se muestra en dias
+
+        //condicion de fechas entre 1 y 15 dias para alerta tipo 1
+        if (fecha_diferencia >= 1 && fecha_diferencia <= 15) {
+            // objeto alerta tipo 1 -> warning amarilla
+            const objAlerta1 = {
+                placa: dato.plate,
+                alerta: "Expiracion de la tarjeta de operacion ",
+                id: dato._id,
+                fecha: moment(dato.exp_to).format("YYYY-MM-DD"),
+                fecha_diferencia: fecha_diferencia,
+                tipo_alerta: 1
+            }
+            alertas.push(objAlerta1);
+        };
+
+        if (fecha_diferencia <= 0) {
+            //objeto alerta tipo 2 -> warning roja
+            const objAlerta2 = {
+                placa: dato.plate,
+                alerta: "Expiracion de la tarjeta de operacion",
+                id: dato._id,
+                fecha: moment(dato.exp_to).format("YYYY-MM-DD"),
+                fecha_diferencia: fecha_diferencia,
+                tipo_alerta: 2
+            }
+            alertas.push(objAlerta2);
+        };
+
+        var fecha_com = moment(dato.exp_soat); // captura fecha de expiracion del seguro obligatorio  de accidentes de transito SOAT
+        var fecha_Actual = moment().format("YYYY-MM-DD"); // capturas la fecha actual del sistema y le da formato
+        var fecha_diferencia = fecha_com.diff(fecha_Actual, 'days');// calcula la diferencia de fechas y se muestra en dias
+
+        //condicion de fechas entre 1 y 15 dias para alerta tipo 1
+        if (fecha_diferencia >= 1 && fecha_diferencia <= 15) {
+            // objeto alerta tipo 1 -> warning amarilla
+            const objAlerta1 = {
+                placa: dato.plate,
+                alerta: "Expiracion del seguro obligatorio  de accidentes de transito SOAT ",
+                id: dato._id,
+                fecha: moment(dato.exp_soat).format("YYYY-MM-DD"),
+                fecha_diferencia: fecha_diferencia,
+                tipo_alerta: 1
+            }
+            alertas.push(objAlerta1);
+        };
+
+        if (fecha_diferencia <= 0) {
+            //objeto alerta tipo 2 -> warning roja
+            const objAlerta2 = {
+                placa: dato.plate,
+                alerta: "Expiracion del seguro obligatorio  de accidentes de transito SOAT",
+                id: dato._id,
+                fecha: moment(dato.exp_soat).format("YYYY-MM-DD"),
+                fecha_diferencia: fecha_diferencia,
+                tipo_alerta: 2
+            }
+            alertas.push(objAlerta2);
+        };
+
+        var fecha_com = moment(dato.exp_tech); // captura fecha de expiracion de la revision tecnico mecanica
+        var fecha_Actual = moment().format("YYYY-MM-DD"); // capturas la fecha actual del sistema y le da formato
+        var fecha_diferencia = fecha_com.diff(fecha_Actual, 'days');// calcula la diferencia de fechas y se muestra en dias
+
+        //condicion de fechas entre 1 y 15 dias para alerta tipo 1
+        if (fecha_diferencia >= 1 && fecha_diferencia <= 15) {
+            // objeto alerta tipo 1 -> warning amarilla
+            const objAlerta1 = {
+                placa: dato.plate,
+                alerta: "Expiracion de la revision tecnico mecanica ",
+                id: dato._id,
+                fecha: moment(dato.exp_tech).format("YYYY-MM-DD"),
+                fecha_diferencia: fecha_diferencia,
+                tipo_alerta: 1
+            }
+            alertas.push(objAlerta1);
+        };
+
+        if (fecha_diferencia <= 0) {
+            //objeto alerta tipo 2 -> warning roja
+            const objAlerta2 = {
+                placa: dato.plate,
+                alerta: "Expiracion de la revision tecnico mecanica ",
+                id: dato._id,
+                fecha: moment(dato.exp_tech).format("YYYY-MM-DD"),
+                fecha_diferencia: fecha_diferencia,
+                tipo_alerta: 2
+            }
+            alertas.push(objAlerta2);
+        };
+
+        var fecha_com = moment(dato.exp_prev); // captura fecha de expiracion de la revision preventiva
+        var fecha_Actual = moment().format("YYYY-MM-DD"); // capturas la fecha actual del sistema y le da formato
+        var fecha_diferencia = fecha_com.diff(fecha_Actual, 'days');// calcula la diferencia de fechas y se muestra en dias
+
+        //condicion de fechas entre 1 y 15 dias para alerta tipo 1
+        if (fecha_diferencia >= 1 && fecha_diferencia <= 15) {
+            // objeto alerta tipo 1 -> warning amarilla
+            const objAlerta1 = {
+                placa: dato.plate,
+                alerta: "Expiracion de la revision preventiva ",
+                id: dato._id,
+                fecha: moment(dato.exp_prev).format("YYYY-MM-DD"),
+                fecha_diferencia: fecha_diferencia,
+                tipo_alerta: 1
+            }
+            alertas.push(objAlerta1);
+        };
+
+        if (fecha_diferencia <= 0) {
+            //objeto alerta tipo 2 -> warning roja
+            const objAlerta2 = {
+                placa: dato.plate,
+                alerta: "Expiracion de la revision preventiva ",
+                id: dato._id,
+                fecha: moment(dato.exp_prev).format("YYYY-MM-DD"),
+                fecha_diferencia: fecha_diferencia,
+                tipo_alerta: 2
+            }
+            alertas.push(objAlerta2);
+        };
+
+        var fecha_com = moment(dato.exp_rcc); // captura fecha de expiracion de Responsabilidad Civil Contractual
+        var fecha_Actual = moment().format("YYYY-MM-DD"); // capturas la fecha actual del sistema y le da formato
+        var fecha_diferencia = fecha_com.diff(fecha_Actual, 'days');// calcula la diferencia de fechas y se muestra en dias
+
+        //condicion de fechas entre 1 y 15 dias para alerta tipo 1
+        if (fecha_diferencia >= 1 && fecha_diferencia <= 15) {
+            // objeto alerta tipo 1 -> warning amarilla
+            const objAlerta1 = {
+                placa: dato.plate,
+                alerta: "Expiracion de la Responsabilidad Civil Contractual ",
+                id: dato._id,
+                fecha: moment(dato.exp_rcc).format("YYYY-MM-DD"),
+                fecha_diferencia: fecha_diferencia,
+                tipo_alerta: 1
+            }
+            alertas.push(objAlerta1);
+        };
+
+        if (fecha_diferencia <= 0) {
+            //objeto alerta tipo 2 -> warning roja
+            const objAlerta2 = {
+                placa: dato.plate,
+                alerta: "Expiracion de la Responsabilidad Civil Contractual ",
+                id: dato._id,
+                fecha: moment(dato.exp_rcc).format("YYYY-MM-DD"),
+                fecha_diferencia: fecha_diferencia,
+                tipo_alerta: 2
+            }
+            alertas.push(objAlerta2);
+        };
+
+        if (dato.GNV = "true") {
+            var fecha_com = moment(dato.exp_gnv); // captura fecha de expiracion de la revision de Gas Natural Vehicular
+            var fecha_Actual = moment().format("YYYY-MM-DD"); // capturas la fecha actual del sistema y le da formato
+            var fecha_diferencia = fecha_com.diff(fecha_Actual, 'days');// calcula la diferencia de fechas y se muestra en dias
+
+            //condicion de fechas entre 1 y 15 dias para alerta tipo 1
+            if (fecha_diferencia >= 1 && fecha_diferencia <= 15) {
+                // objeto alerta tipo 1 -> warning amarilla
+                const objAlerta1 = {
+                    placa: dato.plate,
+                    alerta: "Expiracion de la revision de Gas Natural Vehicular ",
+                    id: dato._id,
+                    fecha: moment(dato.exp_gnv).format("YYYY-MM-DD"),
+                    fecha_diferencia: fecha_diferencia,
+                    tipo_alerta: 1
+                }
+                alertas.push(objAlerta1);
+            };
+
+            if (fecha_diferencia <= 0) {
+                //objeto alerta tipo 2 -> warning roja
+                const objAlerta2 = {
+                    placa: dato.plate,
+                    alerta: "Expiracion de la revision de Gas Natural Vehicular ",
+                    id: dato._id,
+                    fecha: moment(dato.exp_gnv).format("YYYY-MM-DD"),
+                    fecha_diferencia: fecha_diferencia,
+                    tipo_alerta: 2
+                }
+                alertas.push(objAlerta2);
+            }
+        };
 
     });
+    res.json(alertas);
+};
 
-    if (vehiculo.GNV) {
-        vehiculo.exp_gnv = req.body.exp_gnv;
+
+//crear vehiculo
+vehiculoCtrl.createVehiculo = async (req, res) => {
+    console.log('guardar');
+    console.log(req.body);
+    const validacion = await validar_placa(req.body.plate);
+    if (validacion == 0) {
+
+        const vehiculo = new Vehiculo({
+
+            plate: req.body.plate,
+            model: req.body.model,
+            year: req.body.year,
+            lateral: req.body.lateral,
+            class: req.body.class,
+            passengers: req.body.passengers,
+            operation_card: req.body.operation_card,
+            exp_to: req.body.exp_to,
+            exp_soat: req.body.exp_soat,
+            exp_tech: req.body.exp_tech,
+            exp_prev: req.body.exp_prev,
+            GNV: req.body.GNV,
+            exp_gnv: '',
+            exp_rcc: req.body.exp_rcc,
+            active: req.body.active,
+            internal: req.body.internal,
+            state: true
+
+        });
+
+        if (vehiculo.GNV) {
+            vehiculo.exp_gnv = req.body.exp_gnv;
+        }
+        await vehiculo.save();
+        res.json({
+            status: 'Vehiculo Guardado Exitosamente', success: 'true'
+        });
+    } else {
+        res.json({ status: 'Verificar la placa del vehiculo, la ingresada, ya existe', success: 'false' });
+
     }
-    console.log(vehiculo);
-    await vehiculo.save();
-    res.json({ 'status': 'Vehiculo Guardado Exitosamente', success: 'true' });
 };
 
 // consultar por un vehiculo especifico
@@ -50,34 +262,54 @@ vehiculoCtrl.getVehiculo = async (req, res) => {
 
 // actualizar un vehiculo especifico
 vehiculoCtrl.updateVehiculo = async (req, res) => {
-
     const { id } = req.params;
-    const newVehiculo = {
+    const validacion = await validar_placa(req.body.plate);
+    if (validacion != 0) {
+        validacion.map(async dato => {
 
-        plate: req.body.plate,
-        model: req.body.model,
-        year: req.body.year,
-        lateral: req.body.lateral,
-        class: req.body.class,
-        passengers: req.body.passengers,
-        operation_card: req.body.operation_card,
-        exp_to: req.body.exp_to,
-        exp_soat: req.body.exp_soat,
-        exp_tech: req.body.exp_tech,
-        exp_prev: req.body.exp_prev,
-        GNV: req.body.GNV,
-        exp_gnv: '',
-        exp_rcc: req.body.exp_rcc,
-        active: req.body.active,
-        internal: req.body.internal,
-        state: true
+            if (id == dato._id) {
+
+                const newVehiculo = {
+                    _id: req.body._id,
+                    plate: req.body.plate,
+                    model: req.body.model,
+                    year: req.body.year,
+                    lateral: req.body.lateral,
+                    class: req.body.class,
+                    passengers: req.body.passengers,
+                    operation_card: req.body.operation_card,
+                    exp_to: req.body.exp_to,
+                    exp_soat: req.body.exp_soat,
+                    exp_tech: req.body.exp_tech,
+                    exp_prev: req.body.exp_prev,
+                    GNV: req.body.GNV,
+                    exp_gnv: '',
+                    exp_rcc: req.body.exp_rcc,
+                    active: req.body.active,
+                    internal: req.body.internal,
+                    state: req.body.state
+                }
+                if (vehiculo.GNV) {
+                    vehiculo.exp_gnv = req.body.exp_gnv;
+                }
+                await Vehiculo.findByIdAndUpdate(id, { $set: newVehiculo }, { new: true });
+                res.json({ status: 'Vehiculo Actualizado Exitosamente' });
+            }
+            else {
+                res.json({ status: 'Verificar la placa del vehiculo, la ingresada, ya existe', success: 'false' });
+            }
+        });
+
     }
-    if (newVehiculo.GNV) {
-        newVehiculo.exp_gnv = req.body.exp_gnv;
+    else {
+        res.json({ status: 'El vehiculo no esta creado', success: 'false' });
+
     }
-    await Vehiculo.findByIdAndUpdate(id, { $set: newVehiculo }, { new: true });
-    res.json({ status: 'Vehiculo Actualizado Exitosamente', success: 'true' });
+
+
 };
+
+
 
 // Eliminar un vehiculo especifico
 
@@ -88,7 +320,7 @@ vehiculoCtrl.deleteVehiculo = async (req, res) => {
         state: req.body.state
     }
     await Vehiculo.findByIdAndUpdate(id, { $set: newState }, { new: true });
-    res.json({ status: 'Vehiculo Eliminado Exitosamente', success: 'true' });
+    res.json({ status: 'Vehiculo Eliminado Exitosamente' });
 };
 
 

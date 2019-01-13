@@ -1,5 +1,5 @@
 const Usuario = require('../models/usuarios');
-
+var jwt = require('jsonwebtoken');
 const usuarioCtrl = {};
 
 //listar usuarios
@@ -18,7 +18,7 @@ usuarioCtrl.createUsuario = async (req, res) => {
     const usuario = new Usuario({
         username: req.body.username,
         name: req.body.name,
-        password: req.body.password,
+        password: Usuario.hashPassword(req.body.password),
         role: req.body.role,
         state: true
 
@@ -59,6 +59,46 @@ usuarioCtrl.deleteUsuario = async (req, res) => {
     res.json({ status: 'Usuario Eliminado Exitosamente', success: 'true' });
 };
 
+usuarioCtrl.login = (req, res) => {
 
+    let promise = Usuario.findOne({ username: req.body.username }).exec();
 
+    promise.then(function (doc) {
+
+        if (doc) {
+            if (doc.isValid(req.body.password)) {
+                // generate token
+                let token = jwt.sign({ username: doc.username }, 'stepSecretFuec', { expiresIn: '3h' });
+
+                return res.status(200).json({ token: token, success: true });
+
+            } else {
+                return res.status(200).json({ message: ' Credenciales Incorrectas', success: false });
+            }
+        }
+        else {
+            return res.status(200).json({ message: 'El nombre de usuario no esta registrado', success: false })
+        }
+    });
+
+    promise.catch(function (err) {
+        return res.status(200).json({ message: 'Some internal error', success: false });
+    })
+
+};
+
+var decodedToken = '';
+function verifyToken(req, res, next) {
+    let token = req.query.token;
+
+    jwt.verify(token, 'secret', function (err, tokendata) {
+        if (err) {
+            return res.status(400).json({ message: ' Unauthorized request' });
+        }
+        if (tokendata) {
+            decodedToken = tokendata;
+            next();
+        }
+    })
+}
 module.exports = usuarioCtrl;

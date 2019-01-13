@@ -5,6 +5,9 @@ import { Conductores } from '../../models/conductores';
 import { log } from 'util';
 import { Observable } from 'rxjs';
 import * as moment from 'moment';
+import { MatPaginator, MatTableDataSource } from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+
 
 //import * as moment from 'moment'; // add this 1 of 4
 
@@ -21,13 +24,27 @@ declare var M: any;
 })
 
 export class ConductoresComponent implements OnInit {
-  displayedColumns: string[] = ['Nombre', 'Identificación', 'Num. Licencia', 'Opciones'];
-  dataSource = this.conductoresService.conductores;
+
+  state_eliminar: String;
+  id_eliminar: String;
+  displayedColumns: string[] = ['name', 'CC', 'license', 'opciones'];
+  dataSource = new MatTableDataSource;
+  today: string;
+
 
   @ViewChild('dataTable') table: ElementRef;
 
   constructor(private conductoresService: ConductoresService) {
+    this.conductoresService.selectedConductor.internal = true;
+    this.conductoresService.selectedConductor.active = true;
+    this.today = moment().add('days', 1).format('YYYY-MM-DD');
 
+
+  }
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   ngOnInit() {
@@ -39,7 +56,6 @@ export class ConductoresComponent implements OnInit {
   }
   // agregar conductor
   addConductor(form?: NgForm) {
-    console.log(form.value);
     if (form.value._id) { // si existe el id, actualizamos
       this.conductoresService.updateConductor(form.value)
         .subscribe(res => {
@@ -81,6 +97,8 @@ export class ConductoresComponent implements OnInit {
     this.conductoresService.getConductores()
       .subscribe(res => {
         this.conductoresService.conductores = res as Conductores[];
+        this.dataSource = new MatTableDataSource(this.conductoresService.conductores);
+        this.dataSource.paginator = this.paginator;
       });
   }
   // edita un conductor, seleccionaro y cargarlo en el formulario
@@ -89,9 +107,16 @@ export class ConductoresComponent implements OnInit {
 
     this.conductoresService.selectedConductor = conductor;
   }
+
   // elimina conductor
-  deleteConductor(id: String, state: String) {
-    this.conductoresService.deleteConductor(id, state)
+  deleteVehiculo(id: String, state: String) {
+
+    this.id_eliminar = id;
+    this.state_eliminar = state;
+  }
+
+  eliminar() {
+    this.conductoresService.deleteConductor(this.id_eliminar, this.state_eliminar)
       .subscribe(res => {
         if (res.success == 'true') {
           this.getConductores();
@@ -100,4 +125,5 @@ export class ConductoresComponent implements OnInit {
 
       });
   }
+
 }

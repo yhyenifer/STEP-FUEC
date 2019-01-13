@@ -18,8 +18,8 @@ export class Conductores {
     drug_expiration: Date;
     simit_expiration: Date;
     health_exam_expiration: Date;
-    active: Boolean = true;
-    internal: Boolean = true;
+    active: Boolean;
+    internal: Boolean;
     driving_exam_expiration: Date;
     automotive_law_expiration: Date;
     transit_law_expiration: Date;

@@ -14,7 +14,7 @@ const app_routes: Routes = [
     { path: 'usuarios', component: UsuariosComponent },
     { path: 'estadisticas', component: EstadisticasComponent },
     { path: 'calidad', component: CalidadComponent },
-    { path: '**', pathMatch: 'full', redirectTo: 'home' } // redireccion a algo que no esta definida
+    { path: '**', pathMatch: 'full', redirectTo: 'login' } // redireccion a algo que no esta definida
 ];
 
 export const app_routing = RouterModule.forRoot(app_routes);

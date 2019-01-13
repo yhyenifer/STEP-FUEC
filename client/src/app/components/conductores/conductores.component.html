@@ -274,35 +274,74 @@
           <i class="material-icons">people</i>Lista de Conductores
         </div>
         <div class="card-conten">
-          <table #dataTable ng="dataTable" class="display" style="width: 90%; margin: 0px 26px;">
-            <thead>
-              <tr>
-                <th>Nombre</th>
-                <th>Identificación</th>
-                <th>Num. Licencia</th>
-                <th>Opciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let conductor of conductoresService.conductores">
-                <td>{{conductor.name}}</td>
-                <td>{{conductor.CC}}</td>
-                <td>{{conductor.license}}</td>
-                <td>
-                  <button class="btn black margin-separe" (click)="editConductor(conductor)" type="button">
+          <mat-form-field class="style-search">
+            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscador">
+          </mat-form-field>
+          <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+            <!--- Note that these columns can be defined in any order.
+                      The actual rendered columns are set as a property on the row definition" -->
+
+            <!-- name Column -->
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef class="style-head-table"> Nombre </th>
+              <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+            </ng-container>
+
+            <!-- cc Column -->
+            <ng-container matColumnDef="CC">
+              <th mat-header-cell *matHeaderCellDef class="style-head-table"> Identificación </th>
+              <td mat-cell *matCellDef="let element"> {{element.CC}} </td>
+            </ng-container>
+
+            <!-- license Column -->
+            <ng-container matColumnDef="license">
+              <th mat-header-cell *matHeaderCellDef class="style-head-table"> Num. Licencia </th>
+              <td mat-cell *matCellDef="let element"> {{element.license}} </td>
+            </ng-container>
+
+
+
+            <!--opciones Column -->
+            <ng-container matColumnDef="opciones">
+              <th mat-header-cell *matHeaderCellDef class="style-head-table"> Opciones </th>
+              <td mat-cell *matCellDef="let element">
+                <a href="/conductores#agregarConductor">
+                  <button class="btn black margin-separe" (click)="editConductor(element)" type="button">
                     <i class="material-icons">edit</i>
                   </button>
-                  <button class="btn darkgray " type="button" (click)="deleteConductor(conductor._id)">
-                    <i class="material-icons">delete</i>
-                  </button>
-                </td>
-              </tr>
-            </tbody>
+                </a>
+                <button class="btn darkgray modal-trigger " type="button" href="#modal1" (click)="deleteConductor(element._id)">
+                  <i class="material-icons">delete</i>
+                </button>
+              </td>
+            </ng-container>
+
+
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
           </table>
+          <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+
+
+
         </div>
       </div>
     </div>
 
   </div>
 
+</div>
+
+<!-- Modal Structure -->
+<div id="modal1" class="modal">
+  <div class="modal-content">
+    <h5>¿Esta completamente seguro de Eliminar este Conductor?</h5>
+  </div>
+  <div class="modal-footer">
+
+    <button class="btn btn-default right darkgray modal-close "> No </button>
+    <button class="btn right waves-effect black margin-separe-lado modal-close" (click)="eliminar()"> Si </button>
+  </div>
 </div>

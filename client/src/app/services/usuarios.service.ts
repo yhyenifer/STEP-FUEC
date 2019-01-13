@@ -6,6 +6,11 @@ interface respond {
     status: string;
     success: string;
 }
+interface login {
+    success: string;
+    message: string;
+    token: string;
+}
 @Injectable({
     providedIn: 'root'
 })
@@ -34,5 +39,10 @@ export class UsuarioService {
     // eliminar usuario
     deleteUsuario(_id: String, state: String) {
         return this.http.put<respond>(this.URL_API + `/delete/${_id}`, state);
+    }
+
+    login(data) {
+        return this.http.post<login>(this.URL_API + `/login`, data);
+
     }
 }
