@@ -97,7 +97,7 @@ usuarioCtrl.login = (req, res) => {
         if (doc) {
             if (doc.isValid(req.body.password)) {
                 // generate token
-                let token = jwt.sign({ username: doc.username }, 'secret', { expiresIn: '24h' });
+                let token = jwt.sign({ username: doc.username }, 'stepsecretfuec', { expiresIn: '24h' });
 
                 return res.status(200).json({ token: token, success: true, usuario: doc });
 
@@ -120,7 +120,7 @@ var decodedToken = '';
 function verifyToken(req, res, next) {
     let token = req.query.token;
 
-    jwt.verify(token, 'secret', function (err, tokendata) {
+    jwt.verify(token, 'stepsecretfuec', function (err, tokendata) {
         if (err) {
             return res.status(400).json({ message: ' Unauthorized request' });
         }

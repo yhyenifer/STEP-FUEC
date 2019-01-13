@@ -1,8 +1,9 @@
 var express = require('express');
 var router = express.Router();
+var verifyToken = require('../../config/passport');
 
 const conductorCtrl = require('../controllers/conductores.controller');
-router.get('/alert', conductorCtrl.getAlertasConductores);
+router.get('/alert', verifyToken, conductorCtrl.getAlertasConductores);
 router.get('/', conductorCtrl.getConductores);
 router.post('/', conductorCtrl.createConductor);
 router.get('/:id', conductorCtrl.getConductor);

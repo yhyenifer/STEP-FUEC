@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Vehiculos } from '../models/vehiculos';
 import { Observable } from 'rxjs';
+import { HttpHeaders } from '@angular/common/http';
 interface respond {
   status: string;
   success: string;
@@ -29,25 +30,44 @@ export class VehiculosService {
 
   //listar los vehiculos
   getVehiculos(): Observable<Vehiculos[]> {
-    return this.http.get<Vehiculos[]>(this.URL_API);
+    let token = localStorage
+      .getItem('token');
+    return this.http.get<Vehiculos[]>(this.URL_API, {
+      headers: new HttpHeaders().append('token', token)
+    });
   };
   //crear vehiculo
   addVehiculo(Vehiculo: any) {
-    return this.http.post<respond>(this.URL_API, Vehiculo);
+    let token = localStorage
+      .getItem('token');
+    return this.http.post<respond>(this.URL_API, Vehiculo, {
+      headers: new HttpHeaders().append('token', token)
+    });
   };
   //actualizar vehiculo
   updateVehiculo(vehiculo: any) {
-
-    return this.http.put<respond>(this.URL_API + `/${vehiculo._id}`, vehiculo);
+    let token = localStorage
+      .getItem('token');
+    return this.http.put<respond>(this.URL_API + `/${vehiculo._id}`, vehiculo, {
+      headers: new HttpHeaders().append('token', token)
+    });
   };
 
   // eliminar vehiculo
   deleteVehiculo(_id: String, state: String) {
-    return this.http.put<respond>(this.URL_API + `/delete/${_id}`, state);
+    let token = localStorage
+      .getItem('token');
+    return this.http.put<respond>(this.URL_API + `/delete/${_id}`, state, {
+      headers: new HttpHeaders().append('token', token)
+    });
   }
 
   //funcion que carga las alertas
   cargarAlertas() {
-    return this.http.get<alerta>(this.URL_API + `/alert`);
+    let token = localStorage
+      .getItem('token');
+    return this.http.get<alerta>(this.URL_API + `/alert`, {
+      headers: new HttpHeaders().append('token', token)
+    });
   }
 }

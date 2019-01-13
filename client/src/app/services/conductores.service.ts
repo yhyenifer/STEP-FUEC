@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Conductores } from '../models/conductores';
 import { Observable } from 'rxjs';
 
@@ -31,27 +31,45 @@ export class ConductoresService {
   }
   //listar los conductores
   getConductores(): Observable<Conductores[]> {
-    return this.http.get<Conductores[]>(this.URL_API);
+    let token = localStorage
+    .getItem('token');
+    return this.http.get<Conductores[]>(this.URL_API,  {
+      headers: new HttpHeaders().append('token', token)
+    });
   };
   //crear conductor
   addConductor(Conductor: Conductores) {
-    console.log('service');
-    console.log(Conductor);
-    return this.http.post<respond>(this.URL_API, Conductor);
+    let token = localStorage
+    .getItem('token');
+    return this.http.post<respond>(this.URL_API, Conductor, {
+      headers: new HttpHeaders().append('token', token)
+    });
   };
   //actualizar conductor
   updateConductor(conductor: Conductores) {
-
-    return this.http.put<respond>(this.URL_API + `/${conductor._id}`, conductor);
+    let token = localStorage
+      .getItem('token');
+    return this.http.put<respond>(this.URL_API + `/${conductor._id}`, conductor, {
+      headers: new HttpHeaders().append('token', token)
+    });
   };
 
   // eliminar conductor
   deleteConductor(_id: String, state: String) {
-    return this.http.put<respond>(this.URL_API + `/delete/${_id}`, state);
+    let token = localStorage
+      .getItem('token');
+    return this.http.put<respond>(this.URL_API + `/delete/${_id}`, state, {
+      headers: new HttpHeaders().append('token', token)
+    }
+    );
   }
 
   cargarAlertas() {
-    return this.http.get<alerta>(this.URL_API + `/alert`);
+    let token = localStorage
+      .getItem('token');
+    return this.http.get<alerta>(this.URL_API + `/alert`, {
+      headers: new HttpHeaders().append('token', token)
+    });
   }
 
 }

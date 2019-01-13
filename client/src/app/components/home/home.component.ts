@@ -8,6 +8,7 @@ import { VehiculosService } from '../../services/vehiculos.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+  ver: boolean = false;
   alertasConductores: any;
   efecto2: string;
   efecto1: string;
@@ -19,7 +20,12 @@ export class HomeComponent implements OnInit {
     this.cargarAlertasConductores();
     this.cargarAlertasVehiculos();
     let user = JSON.parse(localStorage.getItem('currentUser'));
-    let rol = user.role;
+    let role = user.role;
+    console.log(role);
+
+    if (role == 'Administrador') {
+      this.ver = true;
+    }
   }
 
   cargarAlertasConductores() {
