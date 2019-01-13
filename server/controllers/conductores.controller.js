@@ -709,10 +709,6 @@ conductorCtrl.getAlertasConductores = async (req, res) => {
 // actualizar un conductor especifico
 conductorCtrl.updateConductor = async (req, res) => {
     const { id } = req.params;
-    var fecha = moment().format("YYYY-MM-DD HH:mm:ss");
-    console.log(fecha);
-    console.log('actualizar');
-    console.log(req.body);
     const validacion = await validar_cedula(req.body.CC);
     if (validacion != 0) {
         validacion.map(async dato => {

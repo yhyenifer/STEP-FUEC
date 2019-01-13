@@ -21,8 +21,7 @@
 
 
                     <div class="input-field col s12 m6 l4 margin-button-input">
-                      <input type="text" name="name" #name="ngModel" [(ngModel)]="usuarioService.selectedUsuario.name" placeholder="Escriba el Nombre Completo del Usuario"
-                        required>
+                      <input type="text" name="name" #name="ngModel" [(ngModel)]="usuarioService.selectedUsuario.name" placeholder="" required>
                       <label>Nombre Completo del Usuario:</label>
                       <div *ngIf="name.touched && !name.valid">
                         <div class="required" *ngIf="name.errors.required">El Nombre del Usuario es Requerido</div>
@@ -30,7 +29,7 @@
                     </div>
 
                     <div class="input-field col s12 m6 l4 margin-button-input">
-                      <input type="text" name="username" #username="ngModel" [(ngModel)]="usuarioService.selectedUsuario.username" placeholder="Escriba el Alias del Usuario"
+                      <input type="text" name="username" #username="ngModel" [(ngModel)]="usuarioService.selectedUsuario.username" placeholder=""
                         required>
                       <label>Alias:</label>
                       <div *ngIf="username.touched && !username.valid">
@@ -40,29 +39,34 @@
                     <div class="input-field col s12 m6 l4 margin-button-input">
                       <mat-form-field>
                         <label class="tamaño-letra">Rol:</label>
-                        <mat-select class="border-select" name="role" #role="ngModel" [(ngModel)]="usuarioService.selectedUsuario.role" [(value)]="usuarioService.selectedUsuario.role">
+                        <mat-select class="border-select" name="role" #role="ngModel" [(ngModel)]="usuarioService.selectedUsuario.role" required
+                          [(value)]="usuarioService.selectedUsuario.role">
                           <mat-option value="" disabled selected>Seleccione el Rol:</mat-option>
                           <mat-option value="Administrador">Administrador</mat-option>
                           <mat-option value="Talento Humano">Talento Humano</mat-option>
                           <mat-option value="Operativo">Operativo</mat-option>
                         </mat-select>
                       </mat-form-field>
+                      <div *ngIf="role.touched && !role.valid">
+                        <div class="required" *ngIf="role.errors.required">El rol del usuario es requerido</div>
+                      </div>
                     </div>
                     <div class="input-field col s12 m6 l4 margin-button-input">
-                      <input type="password" name="password" #password="ngModel" [(ngModel)]="usuarioService.selectedUsuario.password" placeholder="Escriba la Contraseña del Usuario"
-                        required>
+                      <input type="password" name="password" #password="ngModel" [(ngModel)]="usuarioService.selectedUsuario.password" placeholder=""
+                        required minlength="6">
                       <label>Contraseña:</label>
                       <div *ngIf="password.touched && !password.valid">
                         <div class="required" *ngIf="password.errors.required">La Contraseña del Usuario es Requerida</div>
+                        <div class="required" *ngIf="password.errors.minlength">La contraseña debe contener mínimo {{password.errors.minlength.requiredLength}} caracteres</div>
                       </div>
                     </div>
 
                     <div class="input-field col s12 m6 l4 margin-button-input">
-                      <input type="password" name="confpassword" #confpassword="ngModel" [(ngModel)]="confirPass" placeholder="Confirma la Contraseña del Usuario"
-                        required>
+                      <input type="password" name="confpassword" #confpassword="ngModel" [(ngModel)]="confirPass" placeholder="" required minlength="6">
                       <label>Confirmar Contraseña:</label>
                       <div *ngIf="confpassword.touched && !confpassword.valid">
                         <div class="required" *ngIf="confpassword.errors.required">Confirmar la Contraseña del Usuario es Requerido</div>
+                        <div class="required" *ngIf="confpassword.errors.minlength">La contraseña debe contener mínimo {{confpassword.errors.minlength.requiredLength}} caracteres</div>
                       </div>
                     </div>
 
