@@ -18,6 +18,8 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.cargarAlertasConductores();
     this.cargarAlertasVehiculos();
+    let user = JSON.parse(localStorage.getItem('currentUser'));
+    let rol = user.role;
   }
 
   cargarAlertasConductores() {

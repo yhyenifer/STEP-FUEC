@@ -24,7 +24,7 @@ usuarioCtrl.createUsuario = async (req, res) => {
         const usuario = new Usuario({
             username: req.body.username,
             name: req.body.name,
-            password: req.body.password,
+            password: Usuario.hashPassword(req.body.password),
             role: req.body.role,
             state: true
 
@@ -58,7 +58,7 @@ usuarioCtrl.updateUsuario = async (req, res) => {
                     _id: req.body._id,
                     username: req.body.username,
                     name: req.body.name,
-                    password: req.body.password,
+                    password: Usuario.hashPassword(req.body.password),
                     role: req.body.role,
                     state: true
                 }
@@ -97,9 +97,9 @@ usuarioCtrl.login = (req, res) => {
         if (doc) {
             if (doc.isValid(req.body.password)) {
                 // generate token
-                let token = jwt.sign({ username: doc.username }, 'stepSecretFuec', { expiresIn: '3h' });
+                let token = jwt.sign({ username: doc.username }, 'secret', { expiresIn: '24h' });
 
-                return res.status(200).json({ token: token, success: true });
+                return res.status(200).json({ token: token, success: true, usuario: doc });
 
             } else {
                 return res.status(200).json({ message: ' Credenciales Incorrectas', success: false });

@@ -43,7 +43,7 @@
             </div>
           </div>
         </div>
-        <div class="row">
+        <div class="row" *ngIf="role== 'Administrador'">
           <div class="card animated fadeInDown border-carta-admin" [routerLink]="['/usuarios']">
             <div class="card-content center fondo-carta-gris ">
               <a class="waves-effect waves-light btn-large top-40 nav-link back-azul-claro" [routerLink]="['/usuarios']">
@@ -55,7 +55,7 @@
             </div>
           </div>
         </div>
-        <div class="row">
+        <div class="row" *ngIf="role== 'Administrador'">
           <div class="card animated fadeInDown border-carta-admin" [routerLink]="['/estadisticas']">
             <div class="card-content center fondo-carta-gris ">
               <a class="waves-effect waves-light btn-large top-40 nav-link back-azul-claro" [routerLink]="['/estadisticas']">
@@ -67,7 +67,7 @@
             </div>
           </div>
         </div>
-        <div class="row">
+        <div class="row" *ngIf="role== 'Administrador'">
           <div class="card animated fadeInDown border-carta-calidad" [routerLink]="['/calidad']">
             <div class="card-content center fondo-carta-gris ">
               <a class="waves-effect waves-light btn-large top-40 nav-link back-amarillo-claro" [routerLink]="['/calidad']">

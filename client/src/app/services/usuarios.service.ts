@@ -10,6 +10,7 @@ interface login {
     success: string;
     message: string;
     token: string;
+    usuario:{};
 }
 @Injectable({
     providedIn: 'root'

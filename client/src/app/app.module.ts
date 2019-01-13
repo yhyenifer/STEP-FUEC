@@ -58,6 +58,7 @@ import { VehiculosComponent } from './components/vehiculos/vehiculos.component';
 import { UsuariosComponent } from './components/usuarios/usuarios.component';
 import { EstadisticasComponent } from './components/estadisticas/estadisticas.component';
 import { CalidadComponent } from './components/calidad/calidad.component';
+import { AuthGuard } from './_guards';
 
 
 @NgModule({
@@ -121,7 +122,7 @@ import { CalidadComponent } from './components/calidad/calidad.component';
     app_routing
 
   ],
-  providers: [],
+  providers: [AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

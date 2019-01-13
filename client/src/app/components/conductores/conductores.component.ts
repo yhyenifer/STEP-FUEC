@@ -24,7 +24,6 @@ declare var M: any;
 })
 
 export class ConductoresComponent implements OnInit {
-<<<<<<< HEAD
 
   state_eliminar: String;
   id_eliminar: String;
@@ -32,27 +31,18 @@ export class ConductoresComponent implements OnInit {
   dataSource = new MatTableDataSource;
   today: string;
 
-=======
-  displayedColumns: string[] = ['Nombre', 'Identificación', 'Num. Licencia', 'Opciones'];
-  today: string;
-  dataSource = this.conductoresService.conductores;
->>>>>>> 94551976cccce247e0be5700b86ca38ce18860f1
 
 
 
   @ViewChild('dataTable') table: ElementRef;
 
   constructor(private conductoresService: ConductoresService) {
-<<<<<<< HEAD
     this.conductoresService.selectedConductor.internal = true;
     this.conductoresService.selectedConductor.active = true;
     this.today = moment().add('days', 1).format('YYYY-MM-DD');
 
 
   }
-=======
-    this.today = moment().add('days', 1).format('YYYY-MM-DD');
->>>>>>> 94551976cccce247e0be5700b86ca38ce18860f1
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   applyFilter(filterValue: string) {

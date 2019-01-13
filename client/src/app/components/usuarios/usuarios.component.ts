@@ -3,6 +3,7 @@ import { UsuarioService } from '../../services/usuarios.service';
 import { Usuarios } from '../../models/usuarios';
 import { MatPaginator, MatTableDataSource } from '@angular/material';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 
 
 declare var M: any;
@@ -18,7 +19,16 @@ export class UsuariosComponent implements OnInit {
   id_eliminar: String;
   confirPass: any;
   displayedColumns: string[] = ['name', 'username', 'role', 'opciones'];
-  dataSource = new MatTableDataSource; constructor(private usuarioService: UsuarioService) {
+  dataSource = new MatTableDataSource; constructor(private usuarioService: UsuarioService,
+    private router: Router
+  ) {
+    // se consulta por el rol del usuario autenticado
+    let user = JSON.parse(localStorage.getItem('currentUser'));
+    let rol = user.role;
+    // esta pagina solo se le permite al administrador ingresar
+    if (rol != 'Administrador') {
+      this.router.navigate(['/home']);
+    }
     this.usuarioService.selectedUsuario.state = true;
   }
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -27,6 +37,7 @@ export class UsuariosComponent implements OnInit {
   }
 
   ngOnInit() {
+
     setTimeout(() => {
       M.AutoInit(); //inicia los componentes de materilize
 
@@ -46,6 +57,7 @@ export class UsuariosComponent implements OnInit {
 
   // limpiar campos de pantalla
   resetForm(form?: NgForm) {
+    this.confirPass = '';
     this.usuarioService.selectedUsuario = new Usuarios();
     this.usuarioService.selectedUsuario.state = true;
 
@@ -58,21 +70,17 @@ export class UsuariosComponent implements OnInit {
 
   // agregar vehiculo
   addUsuario(form?: NgForm) {
-    console.log('guardar');
-    console.log(this.confirPass);
-    // validaciones consirmacion de contraseña
-    if (this.confirPass != form.value.password) {
-      M.toast({ html: 'Las Contraseñas no coinciden' });
-      return;
-    }
 
     let usu = {
+      _id: form.value._id,
       name: form.value.name,
       username: form.value.username,
       password: form.value.password,
       role: form.value.role,
       state: true
     }
+
+
     if (form.value._id) { // si existe el id, actualizamos
       this.usuarioService.updateUsuario(usu)
         .subscribe(res => {
@@ -85,6 +93,18 @@ export class UsuariosComponent implements OnInit {
         });
 
     } else {
+      // validaciones consirmacion de contraseña
+      if (this.confirPass != form.value.password) {
+        M.toast({ html: 'Las Contraseñas no coinciden' });
+        return;
+      }
+      let usu = {
+        name: form.value.name,
+        username: form.value.username,
+        password: form.value.password,
+        role: form.value.role,
+        state: true
+      }
       this.usuarioService.addUsuario(usu)
         .subscribe(res => {
           if (res.success == 'true') {

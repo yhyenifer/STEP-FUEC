@@ -1,4 +1,5 @@
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './_guards';
 import { HomeComponent } from './components/home/home.component';
 import { ConductoresComponent } from './components/conductores/conductores.component';
 import { VehiculosComponent } from './components/vehiculos/vehiculos.component';
@@ -8,12 +9,12 @@ import { CalidadComponent } from './components/calidad/calidad.component';
 import { LoginComponent } from './components/login/login.component';
 const app_routes: Routes = [
     { path: 'login', component: LoginComponent },
-    { path: 'home', component: HomeComponent },
-    { path: 'conductores', component: ConductoresComponent },
-    { path: 'vehiculos', component: VehiculosComponent },
-    { path: 'usuarios', component: UsuariosComponent },
-    { path: 'estadisticas', component: EstadisticasComponent },
-    { path: 'calidad', component: CalidadComponent },
+    { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
+    { path: 'conductores', component: ConductoresComponent, canActivate: [AuthGuard] },
+    { path: 'vehiculos', component: VehiculosComponent, canActivate: [AuthGuard] },
+    { path: 'usuarios', component: UsuariosComponent, canActivate: [AuthGuard]},
+    { path: 'estadisticas', component: EstadisticasComponent, canActivate: [AuthGuard] },
+    { path: 'calidad', component: CalidadComponent, canActivate: [AuthGuard] },
     { path: '**', pathMatch: 'full', redirectTo: 'login' } // redireccion a algo que no esta definida
 ];
 
