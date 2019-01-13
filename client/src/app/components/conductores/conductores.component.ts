@@ -22,11 +22,15 @@ declare var M: any;
 
 export class ConductoresComponent implements OnInit {
   displayedColumns: string[] = ['Nombre', 'Identificación', 'Num. Licencia', 'Opciones'];
+  today: string;
   dataSource = this.conductoresService.conductores;
+
+
 
   @ViewChild('dataTable') table: ElementRef;
 
   constructor(private conductoresService: ConductoresService) {
+    this.today = moment().add('days', 1).format('YYYY-MM-DD');
 
   }
 

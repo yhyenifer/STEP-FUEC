@@ -96,8 +96,9 @@
 
                     <div class="col s12 m6 l3 margin-button-input">
                       <mat-form-field>
-                        <input matInput class="example-full-width" [matDatepicker]="picker_exp_to" name="exp_to" #exp_to="ngModel" [(ngModel)]="vehiculosService.selectedVehiculo.exp_to"
-                          placeholder="Fecha de Expiración de la Tarjeta de Operación" required>
+                        <input matInput class="example-full-width" [matDatepicker]="picker_exp_to" [min]="today" name="exp_to" #exp_to="ngModel"
+                          [(ngModel)]="vehiculosService.selectedVehiculo.exp_to" placeholder="Fecha de Expiración de la Tarjeta de Operación"
+                          required>
                         <mat-datepicker-toggle matSuffix [for]="picker_exp_to"></mat-datepicker-toggle>
                         <mat-datepicker touchUi #picker_exp_to></mat-datepicker>
                       </mat-form-field>
