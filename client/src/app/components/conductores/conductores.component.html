@@ -19,14 +19,14 @@
                       required>
                     <label>Nombre Completo del Conductor*:</label>
                     <div *ngIf="name.touched && !name.valid">
-                      <div class="required" *ngIf="name.errors.required">EL Nombre es Requerido</div>
+                      <div class="required" *ngIf="name.errors.required">El Nombre es Requerido</div>
                     </div>
                   </div>
 
                   <div class="input-field col s12 m6 l4">
                     <input type="text" name="CC" #CC="ngModel" (blur)="onBlur()" [(ngModel)]="conductoresService.selectedConductor.CC" placeholder="Escriba el número de identificación"
                       required maxlength="10" minlength="7">
-                    <label>Número de Identificación del Conductor:</label>
+                    <label>Número de Identificación del Conductor*:</label>
                     <div *ngIf="CC.touched && !CC.valid">
                       <div class="required" *ngIf="CC.errors.required">La Identificación es Requerido</div>
                       <div class="required" *ngIf="CC.errors.maxlength">La Identificación debe contener máximo {{CC.errors.maxlength.requiredLength}} caracteres</div>
@@ -37,7 +37,7 @@
                   <div class="input-field  col s12 m6 l4">
                     <input type="text" name="license" #license="ngModel" [(ngModel)]="conductoresService.selectedConductor.license" placeholder="Escriba el número de licencia"
                       required maxlength="10" minlength="7">
-                    <label>Número de Licencia de Conducción:</label>
+                    <label>Número de Licencia de Conducción*:</label>
                     <div *ngIf="license.touched && !license.valid">
                       <div class="required" *ngIf="license.errors.required">El número de Licencia es Requerido</div>
                       <div class="required" *ngIf="license.errors.maxlength">El número de Licencia debe contener máximo {{license.errors.maxlength.requiredLength}} caracteres</div>
@@ -50,7 +50,7 @@
                     <label>Fecha Expiración Licencia:</label> -->
                     <mat-form-field>
                       <input matInput class="example-full-width" [matDatepicker]="picker_license" name="license_expiration" #license_expiration="ngModel"
-                        [(ngModel)]="conductoresService.selectedConductor.license_expiration" placeholder="Fecha de Expiración Licencia"
+                        [(ngModel)]="conductoresService.selectedConductor.license_expiration" placeholder="Fecha de Expiración Licencia*"
                         required>
                       <mat-datepicker-toggle matSuffix [for]="picker_license"></mat-datepicker-toggle>
                       <mat-datepicker touchUi #picker_license></mat-datepicker>
@@ -62,7 +62,8 @@
                   <div class="col s12 m6 l3">
                     <mat-form-field>
                       <input matInput class="example-full-width" [matDatepicker]="picker_healt" name="health_expiration" #health_expiration="ngModel"
-                        [(ngModel)]="conductoresService.selectedConductor.health_expiration" placeholder="Fecha de Aportes a Salud">
+                        [(ngModel)]="conductoresService.selectedConductor.health_expiration" placeholder="Fecha de Aportes a Salud*"
+                        required>
                       <mat-datepicker-toggle matSuffix [for]="picker_healt"></mat-datepicker-toggle>
                       <mat-datepicker touchUi #picker_healt></mat-datepicker>
                     </mat-form-field>
@@ -73,7 +74,8 @@
                   <div class="col s12 m6 l3">
                     <mat-form-field>
                       <input matInput class="example-full-width" [matDatepicker]="picker_drug" name="drug_expiration" #drug_expiration="ngModel"
-                        [(ngModel)]="conductoresService.selectedConductor.drug_expiration" placeholder="Fecha de Drogas y Alcoholemia">
+                        [(ngModel)]="conductoresService.selectedConductor.drug_expiration" placeholder="Fecha de Drogas y Alcoholemia*"
+                        required>
                       <mat-datepicker-toggle matSuffix [for]="picker_drug"></mat-datepicker-toggle>
                       <mat-datepicker touchUi #picker_drug></mat-datepicker>
                     </mat-form-field>
@@ -84,7 +86,8 @@
                   <div class="col s12 m6 l3">
                     <mat-form-field>
                       <input matInput class="example-full-width" [matDatepicker]="picker_simit" name="simit_expiration" #simit_expiration="ngModel"
-                        [(ngModel)]="conductoresService.selectedConductor.simit_expiration" placeholder="Fecha de Consultas en el SIMIT">
+                        [(ngModel)]="conductoresService.selectedConductor.simit_expiration" placeholder="Fecha de Consultas en el SIMIT*"
+                        required>
                       <mat-datepicker-toggle matSuffix [for]="picker_simit"></mat-datepicker-toggle>
                       <mat-datepicker touchUi #picker_simit></mat-datepicker>
                     </mat-form-field>

@@ -15,14 +15,28 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.cargarAlertasConductores();
+
   }
 
   cargarAlertasConductores() {
     this.conductoresService.cargarAlertas()
       .subscribe((res => {
         this.alertasConductores = res;
+        // ordena las alertas por fecha
+        this.alertasConductores.sort(function (a, b) {
+          if (a.fecha > b.fecha) {
+            return 1;
+          }
+          return 0;
+        })
       }));
+
+
+
+
   }
+
+
 
 
 }

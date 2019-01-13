@@ -25,6 +25,7 @@ vehiculoCtrl.createVehiculo = async (req, res) => {
         exp_tech: req.body.exp_tech,
         exp_prev: req.body.exp_prev,
         GNV: req.body.GNV,
+        exp_gnv: '',
         exp_rcc: req.body.exp_rcc,
         active: req.body.active,
         internal: req.body.internal,

@@ -10,6 +10,7 @@ var port = 8000;
 var app = express();
 app.set('port', process.env.PORT || port);
 const { mongoose } = require('./database/config');
+const cookieParser = require('cookie-parser');
 // view engine
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -19,6 +20,7 @@ app.engine('html', require('ejs').renderFile);
 app.use(cors({ origin: 'http://localhost:4200' }));
 app.use(morgan('dev'));  // interpreta lo que esta solicitando el usuario
 app.use(express.json()); // interpreta json
+
 // set static folder
 app.use(express.static(path.join(__dirname, 'client')));
 //body parser MW
@@ -26,6 +28,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: false
 }));
+// autenticacion
+
 //routes backend
 //app.use('/', index);
 app.use('/api/conductores', require('./server/routes/conductores'));
@@ -36,5 +40,4 @@ app.use('/api/clientes', require('./server/routes/clientes'));
 
 app.listen(app.get('port'), function () {
     console.log('Servidor STEP Activo por el puerto: ' + app.get('port'));
-
 });
