@@ -58,3 +58,11 @@ input:not([type]):focus:not([readonly])+label, input[type="text"]:not(.browser-d
 .centro {
     text-align: center;
 }
+
+.marginIcon {
+    margin-top: 3px;
+}
+
+.displayFlex {
+    display: flex !important;
+}

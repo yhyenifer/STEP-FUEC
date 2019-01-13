@@ -2,6 +2,15 @@
   <div class="">
     <img class="container-margin" src="../assets/img/logo.png" [routerLink]="['/home']">
     <a [routerLink]="['/home']" class="title">FUEC</a>
+    <ul class="right hide-on-med-and-down">
+      <li>
+        <a class="displayFlex" (click)="logout()" *ngIf="verOpcion">
+          <i class="material-icons marginIcon">power_settings_new
+
+          </i>Salir</a>
+      </li>
+
+    </ul>
 
   </div>
 

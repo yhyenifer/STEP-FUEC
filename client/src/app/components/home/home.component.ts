@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ConductoresService } from '../../services/conductores.service';
 import { VehiculosService } from '../../services/vehiculos.service';
+import { AppComponent } from '../../app.component';
 
 @Component({
   selector: 'app-home',
@@ -13,7 +14,8 @@ export class HomeComponent implements OnInit {
   efecto2: string;
   efecto1: string;
   alertasVehiculos: any;
-  constructor(private conductoresService: ConductoresService, private vehiculoService: VehiculosService) {
+  constructor(private conductoresService: ConductoresService, private vehiculoService: VehiculosService, app: AppComponent) {
+    app.verOpcion = true;
   }
 
   ngOnInit() {
