@@ -53,20 +53,20 @@
                     </div>
                     <div class="input-field col s12 m6 l4 margin-button-input">
                       <input type="password" name="password" #password="ngModel" [(ngModel)]="usuarioService.selectedUsuario.password" placeholder=""
-                        required>
+                        required minlength="6">
                       <label>Contraseña:</label>
                       <div *ngIf="password.touched && !password.valid">
                         <div class="required" *ngIf="password.errors.required">La Contraseña del Usuario es Requerida</div>
-                        <div class="required" *ngIf="password.errors.maxlength">La contraseña debe contener máximo {{password.errors.maxlength.requiredLength}} caracteres</div>
                         <div class="required" *ngIf="password.errors.minlength">La contraseña debe contener mínimo {{password.errors.minlength.requiredLength}} caracteres</div>
                       </div>
                     </div>
 
                     <div class="input-field col s12 m6 l4 margin-button-input">
-                      <input type="password" name="confpassword" #confpassword="ngModel" [(ngModel)]="confirPass" placeholder="" required>
+                      <input type="password" name="confpassword" #confpassword="ngModel" [(ngModel)]="confirPass" placeholder="" required minlength="6">
                       <label>Confirmar Contraseña:</label>
                       <div *ngIf="confpassword.touched && !confpassword.valid">
                         <div class="required" *ngIf="confpassword.errors.required">Confirmar la Contraseña del Usuario es Requerido</div>
+                        <div class="required" *ngIf="confpassword.errors.minlength">La contraseña debe contener mínimo {{confpassword.errors.minlength.requiredLength}} caracteres</div>
                       </div>
                     </div>
 

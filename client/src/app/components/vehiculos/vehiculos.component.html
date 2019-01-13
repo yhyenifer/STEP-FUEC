@@ -52,10 +52,13 @@
 
                     <div class="input-field col s12 m6 l4 margin-button-input">
                       <input type="text" name="lateral" #lateral="ngModel" [(ngModel)]="vehiculosService.selectedVehiculo.lateral" placeholder=""
-                        required>
+                        required maxlength="5" minlength="4">
                       <label>Lateral del Vehículo:</label>
                       <div *ngIf="lateral.touched && !lateral.valid">
                         <div class="required" *ngIf="lateral.errors.required">El Lateral del Vehículo es Requerido</div>
+                        <div class="required" *ngIf="lateral.errors.maxlength">El lateral del vehiculo debe contener máximo {{lateral.errors.maxlength.requiredLength}} caracteres</div>
+                        <div class="required" *ngIf="lateral.errors.minlength">El lateral del vehiculo contener mínimo {{lateral.errors.minlength.requiredLength}} caracteres</div>
+
                       </div>
                     </div>
                     <div class="input-field col s12 m6 l4 margin-button-input">
