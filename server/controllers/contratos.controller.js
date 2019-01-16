@@ -128,9 +128,9 @@ contratoCtrl.getAlertasContratos = async (req, res) => {
                     fecha_diferencia: fecha_diferencia,
                     tipo_alerta: 2
                 }
-
+                alertas.push(objAlerta2);
             }
-            alertas.push(objAlerta2);
+
         };
 
     });
