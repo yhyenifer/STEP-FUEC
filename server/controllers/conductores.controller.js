@@ -740,7 +740,7 @@ conductorCtrl.updateConductor = async (req, res) => {
                     senses_expiration: req.body.senses_expiration,
                     car_security_expiration: req.body.car_security_expiration,
                     road_security_expiration: req.body.road_security_expiration,
-                    state: true
+                    state: req.body.state
                 }
                 await Conductor.findByIdAndUpdate(id, { $set: newConductor }, { new: true });
                 res.json({ status: 'Conductor Actualizado Exitosamente' });

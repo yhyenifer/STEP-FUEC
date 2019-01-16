@@ -213,8 +213,6 @@ vehiculoCtrl.getAlertasVehiculos = async (req, res) => {
 
 //crear vehiculo
 vehiculoCtrl.createVehiculo = async (req, res) => {
-    console.log('guardar');
-    console.log(req.body);
     const validacion = await validar_placa(req.body.plate);
     if (validacion == 0) {
 

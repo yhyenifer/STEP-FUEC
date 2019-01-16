@@ -20,8 +20,6 @@ async function validar_numId(numeroIdentificacion) {
 
 // crear cliente
 clienteCtrl.createCliente = async (req, res) => {
-    console.log('guardar');
-    console.log(req.body);
     const validacion = await validar_numId(req.body.numero_identificacion);
     if (validacion == 0) {
         const cliente = new Cliente({
