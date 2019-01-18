@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ConductoresComponent } from './components/conductores/conductores.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -59,6 +59,7 @@ import { UsuariosComponent } from './components/usuarios/usuarios.component';
 import { EstadisticasComponent } from './components/estadisticas/estadisticas.component';
 import { CalidadComponent } from './components/calidad/calidad.component';
 import { AuthGuard } from './_guards';
+import { ContratosComponent } from './components/contratos/contratos.component';
 
 
 @NgModule({
@@ -71,12 +72,14 @@ import { AuthGuard } from './_guards';
     VehiculosComponent,
     UsuariosComponent,
     EstadisticasComponent,
-    CalidadComponent
+    CalidadComponent,
+    ContratosComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
     CdkTableModule,
