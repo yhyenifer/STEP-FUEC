@@ -6,12 +6,14 @@ const PermisoSchema = new Schema({
     ct_id: { type: String, required: true },
     car_id: { type: String },
     driver_ids: { type: String },
-    passenger_list: { name: String, CC: String },
-    start: { type: Date, required: true },
-    coop: { name: String, coop_type: String },
-    end: { type: Date, required: true }
+    //passenger_list: { name: String, CC: String },
+    // start: { type: Date, required: true },
+    //coop: { name: String, coop_type: String },
+    //end: { type: Date, required: true }
 
-}, { timestamps: true });
+},
+
+    { timestamps: true });
 
 
 module.exports = mongoose.model('Permisos', PermisoSchema);

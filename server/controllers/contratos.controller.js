@@ -21,10 +21,30 @@ async function definirct_identi() {
 contratoCtrl.getContratos = async (req, res) => {
     const contratos = await Contrato.find({ state: "true" });
     res.json(contratos);
-    // otra forma de hacerlo, para ver el error
-    // Contrato.find()
-    // .then(contrato =>  res.json( contratos))
-    // .catch(err => console.log(err));
+};
+
+//listar contratos por cliente
+contratoCtrl.getContratosxCliente = async (req, res) => {
+    const contratos = await Contrato.find(req.params);
+    res.json(contratos);
+};
+
+//listar contratos por numero
+contratoCtrl.getContratosxNumero = async (req, res) => {
+    const contratos = await Contrato.find(req.params);
+    res.json(contratos);
+};
+
+//listar contratos por tipo
+contratoCtrl.getContratosxTipo = async (req, res) => {
+    const contratos = await Contrato.find(req.params);
+    res.json(contratos);
+};
+
+// consultar por un contrato especifico
+contratoCtrl.getContrato = async (req, res) => {
+    const contrato = await Contrato.findById(req.params.id);
+    res.json(contrato);
 };
 
 
@@ -69,10 +89,11 @@ contratoCtrl.createContrato = async (req, res) => {
 
         });
 
-        await contrato.save();
+
         //invoco funcion ultimo contrato,guardo el numero del contrato
         const Valid_idenC = await definirct_identi();
         Valid_idenC.map(async UltimoContrato => {
+            console.log(UltimoContrato);
             const conductores = req.body.conductores;
             const pasajeros = req.body.pasajeros;
             const cooperacion = req.body.cooperacion;
@@ -82,7 +103,7 @@ contratoCtrl.createContrato = async (req, res) => {
             Permiso.createPermisoCon(UltimoContrato._id, UltimoContrato.car_number, startPermiso, endPermiso, conductores, pasajeros, cooperacion);
         });
 
-
+        await contrato.save();
         //funcion crear permiso que serio Permiso.funcion (que creo en permiso.controller) y debo enviar variable numero contrato y req.body.permisos 
         //Permiso.createPermiso(Valid_idenC, req.body.Permiso);
 
@@ -136,13 +157,6 @@ contratoCtrl.createContrato = async (req, res) => {
             });
         });
     }
-};
-
-
-// consultar por un contrato especifico
-contratoCtrl.getContrato = async (req, res) => {
-    const contrato = await Contrato.findById(req.params.id);
-    res.json(contrato);
 };
 
 

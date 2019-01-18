@@ -5,20 +5,20 @@ const ContratoSchema = new Schema({
 
     id_cliente: { type: String, required: true, ref: 'clientes' },//informacion del cliente
     tipo_contrato: { type: String },//empresas, ocasional, colegios.
-    renewable: { type: Boolean },//Renovable si o no
+    // renewable: { type: Boolean },//Renovable si o no
     ct_object: { type: String, required: true },//Objeto del contrato
-    pass_number: { type: Number, required: true }, //Numero de pasajeros
+    //pass_number: { type: Number, required: true }, //Numero de pasajeros
     car_number: { type: Number, required: true }, // Numero de carros a utilizar
-    route: { type: String, required: true }, //Ruta de ida del viaje
-    return_route: { type: String },//Ruta de vuelta del viaje
-    start: { type: Date, required: true }, //Fecha inicio del viaje (Año/Mes/Dia)
-    end: { type: Date, required: true }, // Fecha de finalizacion del viaje (Año/Mes/Dia)
-    value: { type: Number, required: true },// Valor del contrato
-    payment: { type: String, required: true }, // Tipo de pago: Contado, anticipo 50%, otro
-    sign_date: { type: Date, required: true }, // Fecha de firma del contrato (Año/Mes/Dia)}
+    //route: { type: String, required: true }, //Ruta de ida del viaje
+    //return_route: { type: String },//Ruta de vuelta del viaje
+    //start: { type: Date, required: true }, //Fecha inicio del viaje (Año/Mes/Dia)
+    //end: { type: Date, required: true }, // Fecha de finalizacion del viaje (Año/Mes/Dia)
+    //value: { type: Number, required: true },// Valor del contrato
+    //payment: { type: String, required: true }, // Tipo de pago: Contado, anticipo 50%, otro
+    //sign_date: { type: Date, required: true }, // Fecha de firma del contrato (Año/Mes/Dia)}
     ct_number: { type: String },
-    estadoContrato: { type: String },
-    fecha_Pago: { type: Date },
+    //estadoContrato: { type: String },
+    //fecha_Pago: { type: Date },
     state: { type: Boolean, default: true }
 
 }, { timestamps: true });

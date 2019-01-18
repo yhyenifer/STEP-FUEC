@@ -15,10 +15,13 @@ async function validar_numPer(numPer) {
 permisoCtrl.getPermisos = async (req, res) => {
     const permisos = await Permiso.find();
     res.json(permisos);
-    // otra forma de hacerlo, para ver el error
-    // Contrato.find()
-    // .then(contrato =>  res.json( contratos))
-    // .catch(err => console.log(err));
+};
+
+
+//listar permisos por contrato
+permisoCtrl.getPermisosxContrato = async (req, res) => {
+    const permisos = await Permiso.find(req.params);
+    res.json(permisos);
 };
 
 //crear permiso de manera individual
@@ -54,32 +57,37 @@ permisoCtrl.createPermisoCon = async (idContrato, startPermiso,
     endPermiso, vehiculos, conductores, pasajeros, cooperacion) => {
     console.log("creando permiso");
 
-    var numPer;
-    const ultiPerm = await definirct_NumPer();
-    console.log("aqui");
-    console.log(ultiPerm);
+    console.log(vehiculos);
 
-    if (ultiPerm == 0) {
-        numPer = 1;
-    }
-    else {
-        ultiPerm.map(async definPt => {
-            numPer = (parseInt(definPt.pt_number) + 1).toString();
+    for (let i = 0; i < 4; i++) {
+
+        console.log(i);
+
+        var numPer;
+        const ultiPerm = await definirct_NumPer();
+
+        if (ultiPerm == 0) {
+            numPer = 1;
+        }
+        else {
+            ultiPerm.map(async definPt => {
+                numPer = (parseInt(definPt.pt_number) + 1).toString();
+            });
+        }
+
+        const permiso = new Permiso({
+            pt_number: numPer,
+            ct_id: idContrato,
+            car_id: vehiculos[i],
+            driver_ids: conductores[i],
+            start: startPermiso,
+            coop: cooperacion,
+            end: endPermiso
         });
+
+        console.log(permiso);
+        await permiso.save();
     }
-
-    const permiso = new Permiso({
-        pt_number: numPer,
-        ct_id: idContrato,
-        car_id: vehiculos[i],
-        driver_ids: conductores[i],
-        start: startPermiso,
-        coop: cooperacion,
-        end: endPermiso
-    });
-
-    console.log(permiso);
-    await permiso.save();
 };
 
 // actualizar un permiso especifico
