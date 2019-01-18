@@ -268,7 +268,7 @@ vehiculoCtrl.updateVehiculo = async (req, res) => {
             if (id == dato._id) {
 
                 const newVehiculo = {
-                    _id: req.body._id,
+
                     plate: req.body.plate,
                     model: req.body.model,
                     year: req.body.year,

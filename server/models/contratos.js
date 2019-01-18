@@ -18,7 +18,7 @@ const ContratoSchema = new Schema({
     sign_date: { type: Date, required: true }, // Fecha de firma del contrato (Año/Mes/Dia)}
     ct_number: { type: String },
     estadoContrato: { type: String },
-    fecha_Pago: { type: date },
+    fecha_Pago: { type: Date },
     state: { type: Boolean, default: true }
 
 }, { timestamps: true });

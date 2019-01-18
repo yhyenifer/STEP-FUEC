@@ -73,11 +73,13 @@ contratoCtrl.createContrato = async (req, res) => {
         //invoco funcion ultimo contrato,guardo el numero del contrato
         const Valid_idenC = await definirct_identi();
         Valid_idenC.map(async UltimoContrato => {
-            const vehiculos = req.body.vehiculos;
             const conductores = req.body.conductores;
             const pasajeros = req.body.pasajeros;
             const cooperacion = req.body.cooperacion;
-            Permiso.createPermisoCon(UltimoContrato._id, UltimoContrato.car_number, UltimoContrato.start, UltimoContrato.end, vehiculos, conductores, pasajeros, cooperacion);
+            const inicioPermiso = req.body.startPermiso;
+            const finalPermiso = req.body.endPermiso;
+
+            Permiso.createPermisoCon(UltimoContrato._id, UltimoContrato.car_number, startPermiso, endPermiso, conductores, pasajeros, cooperacion);
         });
 
 
@@ -313,7 +315,7 @@ contratoCtrl.updateContrato = async (req, res) => {
             if (id == dato._id) {
 
                 const newContrato = {
-                    _id: req.body._id,
+
                     id_cliente: req.body.id_cliente,
                     tipo_contrato: req.body.tipo_contrato,
                     renewable: req.body.renewable,

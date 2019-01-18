@@ -50,77 +50,72 @@ permisoCtrl.createPermiso = async (req, res) => {
 
 
 //crear permisos desde contratos y basados en el numero de vehiculos estipu
-permisoCtrl.createPermisoCon = async (idContrato, cantVehiculos, start,
-    end, vehiculos, conductores, pasajeros, cooperacion) => {
+permisoCtrl.createPermisoCon = async (idContrato, startPermiso,
+    endPermiso, vehiculos, conductores, pasajeros, cooperacion) => {
     console.log("creando permiso");
 
-    for (let i = 0; i < cantVehiculos; i++) {
+    var numPer;
+    const ultiPerm = await definirct_NumPer();
+    console.log("aqui");
+    console.log(ultiPerm);
 
-        var numPer;
-        const ultiPerm = await definirct_NumPer();
-        console.log("aqui");
-        console.log(ultiPerm);
-
-        if (ultiPerm == 0) {
-            numPer = 1;
-        }
-        else {
-            ultiPerm.map(async definPt => {
-                numPer = (parseInt(definPt.pt_number) + 1).toString();
-            });
-        }
-
-
-        const permiso = new Permiso({
-            pt_number: numPer,
-            ct_id: idContrato,
-            car_id: vehiculos[i],
-            driver_ids: conductores[i],
-            start: start,
-            coop: cooperacion,
-            end: end
+    if (ultiPerm == 0) {
+        numPer = 1;
+    }
+    else {
+        ultiPerm.map(async definPt => {
+            numPer = (parseInt(definPt.pt_number) + 1).toString();
         });
-        // console.log(vehiculos[i]);
-        //console.log(conductores[i]);
-        console.log(permiso);
-        await permiso.save();
-
     }
 
-    // actualizar un permiso especifico
-    permisoCtrl.updatePermiso = async (req, res) => {
-        const { id } = req.params;
-        const validacion = await validar_numPer(req.body.pt_number);
-        if (validacion != 0) {
-            validacion.map(async dato => {
+    const permiso = new Permiso({
+        pt_number: numPer,
+        ct_id: idContrato,
+        car_id: vehiculos[i],
+        driver_ids: conductores[i],
+        start: startPermiso,
+        coop: cooperacion,
+        end: endPermiso
+    });
 
-                if (id == dato._id) {
-                    const newPermiso = {
-                        _id: req.body._id,
-                        pt_number: numPer,
-                        ct_id: req.body.ct_id,
-                        car_id: req.body.car_id,
-                        driver_ids: req.body.driver_ids,
-                        start: req.body.start,
-                        coop: req.body.coop,
-                        end: req.body.end
-                    }
-                    await Permiso.findByIdAndUpdate(id, { $set: newPermiso }, { new: true });
-                    res.json({ status: 'Permiso Actualizado Exitosamente' });
+    console.log(permiso);
+    await permiso.save();
+};
 
+// actualizar un permiso especifico
+permisoCtrl.updatePermiso = async (req, res) => {
+    const { id } = req.params;
+    const validacion = await validar_numPer(req.body.pt_number);
+    if (validacion != 0) {
+        validacion.map(async dato => {
+
+            if (id == dato._id) {
+                const newPermiso = {
+
+                    pt_number: numPer,
+                    ct_id: req.body.ct_id,
+                    car_id: req.body.car_id,
+                    driver_ids: req.body.driver_ids,
+                    start: req.body.start,
+                    coop: req.body.coop,
+                    end: req.body.end
                 }
-                else {
-                    res.json({ status: 'Verificar el numero de permiso, el ingresado ya existe', success: 'false' });
-                }
-            });
+                await Permiso.findByIdAndUpdate(id, { $set: newPermiso }, { new: true });
+                res.json({ status: 'Permiso Actualizado Exitosamente' });
 
-        }
-        else {
-            res.json({ status: 'El permiso no esta creado', success: 'false' });
+            }
+            else {
+                res.json({ status: 'Verificar el numero de permiso, el ingresado ya existe', success: 'false' });
+            }
+        });
 
-        }
-    };
+    }
+    else {
+        res.json({ status: 'El permiso no esta creado', success: 'false' });
 
-}
+    }
+};
+
+
 
 module.exports = permisoCtrl;

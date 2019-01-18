@@ -55,7 +55,7 @@ usuarioCtrl.updateUsuario = async (req, res) => {
         validacion.map(async dato => {
             if (id == dato._id) {
                 const newUsuario = {
-                    _id: req.body._id,
+
                     username: req.body.username,
                     name: req.body.name,
                     password: Usuario.hashPassword(req.body.password),
