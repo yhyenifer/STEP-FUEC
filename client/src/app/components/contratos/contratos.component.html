@@ -17,6 +17,8 @@
                   <div class="row">
                     <div class="input-field col s12 m6 l6">
 
+                      <!-- <input type="text" name="ccCliente" [(ngModel)]="ccCliente" placeholder="" required>
+                      <label >CC / NIT*:</label> -->
                       <form class="example-form">
                         <mat-form-field class="example-full-width " id="inputCliente">
                           <input type="text" class="centro" placeholder=Cliente: aria-label="Number" matInput [formControl]="clientes" [matAutocomplete]="auto"
@@ -175,6 +177,7 @@
           <option value="CC">Cédula de Ciudadania </option>
           <option value="NIT">NIT</option>
         </select>
+<<<<<<< HEAD
         <label class="active">Tipo de Identificación: {{tipoIdent}}</label>
       </div> -->
       <div class="input-field col s12 m6 l4 margin-button-input">
@@ -187,6 +190,9 @@
           </mat-select>
         </mat-form-field>
 
+        =======
+        <label class="active">Tipo de Identificación:</label>
+        >>>>>>> 2964a890d6aa19d6f94e00de82a4ee7c36e9a019
       </div>
       <div class="input-field col s12 m6 l4">
         <input type="text" name="numeroCliente" [(ngModel)]="numeroCliente" placeholder="" required>
@@ -202,7 +208,10 @@
       </div>
       <div *ngIf="!tipoIdentCC" class="input-field col s12 m6 l4">
         <input type="text" name="repreCliente" [(ngModel)]="repreCliente" placeholder="" required>
-        <label class="active">Representante Legal*:</label>
+        <<<<<<< HEAD <label class="active">Representante Legal*:</label>
+          =======
+          <label class="active"> Representante Legal*:</label>
+          >>>>>>> 2964a890d6aa19d6f94e00de82a4ee7c36e9a019
       </div>
       <div *ngIf="!tipoIdentCC" class="input-field col s12 m6 l4">
         <input type="text" name="estableCliente" [(ngModel)]="estableCliente" placeholder="" required>
@@ -227,7 +236,7 @@
       <div class="input-field col s12 m6 l3">
 
         <mat-card-content>
-          <label class="tamaño-letra">Estado:</label>
+          <label class="tamaño-letra active">Estado:</label>
           <section class="example-section">
             <mat-slide-toggle class="example-margin" name="active" [(ngModel)]="active">
               <p class="tamaño-letra-19" *ngIf="active">Activo</p>

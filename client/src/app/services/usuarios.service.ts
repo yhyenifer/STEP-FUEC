@@ -35,7 +35,7 @@ export class UsuarioService {
     //crear usuario
     addUsuario(usuario: any) {
         // let token = localStorage
-        //     .getItem('token');
+        //    .getItem('token'); 
         return this.http.post<respond>(this.URL_API, usuario);
     };
     //actualizar usuario

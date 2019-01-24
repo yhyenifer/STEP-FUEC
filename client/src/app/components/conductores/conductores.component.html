@@ -17,7 +17,7 @@
                     <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="conductoresService.selectedConductor._id">
                     <div class="input-field col s12 m6 l4">
                       <input type="text" name="name" #name="ngModel" [(ngModel)]="conductoresService.selectedConductor.name" placeholder="" required>
-                      <label>Nombre Completo del Conductor*:</label>
+                      <label class="active">Nombre Completo del Conductor*:</label>
                       <div *ngIf="name.touched && !name.valid">
                         <div class="required" *ngIf="name.errors.required">El Nombre es Requerido</div>
                       </div>
@@ -26,7 +26,7 @@
                     <div class="input-field col s12 m6 l4">
                       <input type="text" name="CC" #CC="ngModel" (blur)="onBlur()" [(ngModel)]="conductoresService.selectedConductor.CC" placeholder=""
                         required maxlength="10" minlength="7">
-                      <label>Número de Identificación del Conductor*:</label>
+                      <label class="active">Número de Identificación del Conductor*:</label>
                       <div *ngIf="CC.touched && !CC.valid">
                         <div class="required" *ngIf="CC.errors.required">La Identificación es Requerido</div>
                         <div class="required" *ngIf="CC.errors.maxlength">La Identificación debe contener máximo {{CC.errors.maxlength.requiredLength}} caracteres</div>
@@ -37,7 +37,7 @@
                     <div class="input-field  col s12 m6 l4">
                       <input type="text" name="license" #license="ngModel" [(ngModel)]="conductoresService.selectedConductor.license" placeholder=""
                         required maxlength="10" minlength="7">
-                      <label>Número de Licencia de Conducción*:</label>
+                      <label class="active">Número de Licencia de Conducción*:</label>
                       <div *ngIf="license.touched && !license.valid">
                         <div class="required" *ngIf="license.errors.required">El número de Licencia es Requerido</div>
                         <div class="required" *ngIf="license.errors.maxlength">El número de Licencia debe contener máximo {{license.errors.maxlength.requiredLength}} caracteres</div>
@@ -108,7 +108,7 @@
                     </div>
                     <div class="col s12 m6 l3">
                       <mat-card-content>
-                        <label class="tamaño-letra">Estado:</label>
+                        <label class="tamaño-letra active">Estado:</label>
                         <section class="example-section">
                           <mat-slide-toggle class="example-margin" name="active" #active="ngModel" [(ngModel)]="conductoresService.selectedConductor.active">
                             <p class="tamaño-letra-19" *ngIf="conductoresService.selectedConductor.active">Activo</p>
@@ -119,7 +119,7 @@
                     </div>
                     <div class="col s12 m6 l3">
                       <mat-card-content>
-                        <label class="tamaño-letra">Tipo:</label>
+                        <label class="tamaño-letra active">Tipo:</label>
                         <section class="example-section">
                           <mat-slide-toggle class="example-margin" name="internal" #internal="ngModel" [(ngModel)]="conductoresService.selectedConductor.internal">
                             <p class="tamaño-letra-19" *ngIf="conductoresService.selectedConductor.internal">Interno</p>

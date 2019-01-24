@@ -23,11 +23,11 @@ export class UsuariosComponent implements OnInit {
     private router: Router
   ) {
     // se consulta por el rol del usuario autenticado
-    // let user = JSON.parse(localStorage.getItem('currentUser'));
-    //let rol = user.role;
+    //let user = JSON.parse(localStorage.getItem('currentUser'));
+    //   let rol = user.role;
     // esta pagina solo se le permite al administrador ingresar
-    // if (rol != 'Administrador') {
-    //   this.router.navigate(['/home']);
+    //if (rol != 'Administrador') {
+    //this.router.navigate(['/home']);
     // }
     this.usuarioService.selectedUsuario.state = true;
   }
@@ -74,9 +74,11 @@ export class UsuariosComponent implements OnInit {
     console.log(form.value);
 
 
+    console.log("que pongo mop0");
 
 
     if (form.value._id != undefined) { // si existe el id, actualizamos
+      console.log("otro aqui");
       let usu = {
         _id: form.value._id,
         name: form.value.name,
@@ -101,6 +103,7 @@ export class UsuariosComponent implements OnInit {
         M.toast({ html: 'Las Contraseñas no coinciden' });
         return;
       }
+      console.log("y otro mas aqui");
       let usu = {
         name: form.value.name,
         username: form.value.username,
