@@ -32,15 +32,15 @@ export class ConductoresService {
   //listar los conductores
   getConductores(): Observable<Conductores[]> {
     let token = localStorage
-    .getItem('token');
-    return this.http.get<Conductores[]>(this.URL_API,  {
+      .getItem('token');
+    return this.http.get<Conductores[]>(this.URL_API, {
       headers: new HttpHeaders().append('token', token)
     });
   };
   //crear conductor
   addConductor(Conductor: Conductores) {
     let token = localStorage
-    .getItem('token');
+      .getItem('token');
     return this.http.post<respond>(this.URL_API, Conductor, {
       headers: new HttpHeaders().append('token', token)
     });
@@ -71,6 +71,9 @@ export class ConductoresService {
       headers: new HttpHeaders().append('token', token)
     });
   }
+
+
+
 
 }
 

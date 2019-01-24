@@ -715,7 +715,6 @@ conductorCtrl.updateConductor = async (req, res) => {
 
             if (id == dato._id) {
                 const newConductor = {
-
                     name: req.body.name,
                     CC: req.body.CC,
                     active: req.body.active,

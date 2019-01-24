@@ -76,7 +76,6 @@ export class VehiculosComponent implements OnInit {
 
   // limpiar campos de pantalla
   resetForm(form?: NgForm) {
-    console.log('reset');
     this.vehiculosService.selectedVehiculo = new Vehiculos();
     this.vehiculosService.selectedVehiculo.internal = true;
     this.vehiculosService.selectedVehiculo.active = true;

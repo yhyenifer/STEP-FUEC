@@ -1,0 +1,91 @@
+.collapsible-header {
+    background-color: #ececec;
+}
+
+.darkgray {
+    background-color: darkgray;
+}
+
+.back-verde {
+    background-color: #0aad5c;
+}
+
+.margin-separe {
+    margin-right: 4px;
+}
+
+.margin-separe-lado {
+    margin-right: 8px !important;
+}
+
+.card-header {
+    background-color: #ececec;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    line-height: 1.5;
+    padding: 1rem;
+    border-bottom: 1px solid #ddd;
+}
+
+.card-header i {
+    width: 2rem;
+    font-size: 1.6rem;
+    display: inline-block;
+    text-align: center;
+    margin-right: 1rem;
+}
+
+.example-full-width {
+    width: 100%;
+}
+
+.mat-form-field {
+    display: block !important;
+}
+
+.tamaño-letra {
+    font-size: 15px;
+}
+
+.tamaño-letra-19 {
+    font-size: 19px;
+}
+
+.example-section {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    height: 60px;
+}
+
+.example-margin {
+    font-size: 23px !important;
+}
+
+.mat-slide-toggle-label {
+    font-size: 23px !important;
+}
+
+.description {
+    margin-left: 30% !important;
+    font-weight: 500 !important;
+    color: #727d84 !important;
+    margin-bottom: -10px;
+    margin-top: 2px;
+}
+
+.description1 {
+    margin-left: 30% !important;
+    font-weight: 500 !important;
+    color: #727d84 !important;
+    margin-bottom: -10px;
+    margin-top: 2px;
+}
+
+.border-select {
+    border-bottom: solid 1px #9e9e9e;
+}

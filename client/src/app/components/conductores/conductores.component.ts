@@ -88,9 +88,11 @@ export class ConductoresComponent implements OnInit {
   }
   // limpiar campos de pantalla
   resetForm(form?: NgForm) {
+    this.conductoresService.selectedConductor = new Conductores();
+    this.conductoresService.selectedConductor.internal = true;
+    this.conductoresService.selectedConductor.active = true;
     if (form) {
       form.reset();
-      this.conductoresService.selectedConductor = new Conductores();
     }
   };
 

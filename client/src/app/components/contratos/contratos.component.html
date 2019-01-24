@@ -1,0 +1,227 @@
+<div class="continer">
+
+  <div class="row">
+    <div class="col s12">
+      <ul class="collapsible popout">
+        <li class="active">
+          <div class="collapsible-header">
+            <i class="material-icons">payment</i>Agregar Contrato
+            <p class="description1">Para optimizar espacio en pantalla, presione aqui!!</p>
+          </div>
+
+          <div class="collapsible-body card">
+            <div class="card-content">
+              <section id="agregarContrato">
+                <form #contratoForm="ngForm" (ngSubmit)="addContrato(contratoForm)">
+
+                  <div class="row">
+                    <div class="input-field col s12 m6 l6">
+                      <!-- <input type="text" name="ccCliente" [(ngModel)]="ccCliente" placeholder="" required>
+                      <label >CC / NIT*:</label> -->
+                      <form class="example-form">
+                        <mat-form-field class="example-full-width">
+                          <input type="text" placeholder=Cliente: aria-label="Number" matInput [formControl]="clientes" [matAutocomplete]="auto">
+                          <mat-autocomplete #auto="matAutocomplete">
+                            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                              {{option}}
+                            </mat-option>
+                          </mat-autocomplete>
+                        </mat-form-field>
+                        <mat-hint align="start">
+                          <strong>Si no encuentras el Cliente, presiona en
+                            <a class="btn back-verde modal-trigger " type="button" href="#clientes">¡Agregar Nuevo Cliente!</a>
+                          </strong>
+                        </mat-hint>
+
+                      </form>
+
+                    </div>
+
+                  </div>
+                  <div class="row">
+                    <ul class="collapsible popout">
+                      <li class="">
+                        <div class="collapsible-header">
+                          <i class="material-icons">done_all
+                          </i>Agregar Permisos
+                          <p class="description">Presione aqui, para agregar Permisos</p>
+                        </div>
+                        <div class="collapsible-body card">
+                          <div class="card-content">
+
+
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div class="row">
+                    <div class="card-action">
+                      <div class="input-field col col s12 ">
+                        <button class="btn btn-default right darkgray " (click)="resetForm(conductorForm)"> Cancelar </button>
+                        <button class="btn right waves-effect black margin-separe"> Guardar </button>
+                      </div>
+                    </div>
+                  </div>
+
+                </form>
+              </section>
+
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col s12">
+      <div class="card">
+        <div class="card-header">
+          <i class="material-icons">payment</i>Lista de Contratos
+        </div>
+        <div class="card-conten">
+          <mat-form-field class="style-search">
+            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscador">
+          </mat-form-field>
+          <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+            <!--- Note that these columns can be defined in any order.
+                      The actual rendered columns are set as a property on the row definition" -->
+
+            <!-- name Column -->
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef class="style-head-table"> Nombre </th>
+              <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+            </ng-container>
+
+            <!-- cc Column -->
+            <ng-container matColumnDef="CC">
+              <th mat-header-cell *matHeaderCellDef class="style-head-table"> Identificación </th>
+              <td mat-cell *matCellDef="let element"> {{element.CC}} </td>
+            </ng-container>
+
+            <!-- license Column -->
+            <ng-container matColumnDef="license">
+              <th mat-header-cell *matHeaderCellDef class="style-head-table"> Num. Licencia </th>
+              <td mat-cell *matCellDef="let element"> {{element.license}} </td>
+            </ng-container>
+
+
+
+            <!--opciones Column -->
+            <ng-container matColumnDef="opciones">
+              <th mat-header-cell *matHeaderCellDef class="style-head-table"> Opciones </th>
+              <td mat-cell *matCellDef="let element">
+                <a href="/conductores#agregarConductor">
+                  <button class="btn black margin-separe" (click)="editConductor(element)" type="button">
+                    <i class="material-icons">edit</i>
+                  </button>
+                </a>
+                <button class="btn darkgray modal-trigger " type="button" href="#modal1" (click)="deleteConductor(element._id)">
+                  <i class="material-icons">delete</i>
+                </button>
+              </td>
+            </ng-container>
+
+
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+          <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+
+
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- Modal Structure -->
+<div id="clientes" class="modal">
+  <div class="modal-content">
+    <div class="row">
+      <div class="input-field col s12 m6 l3">
+        <input type="text" name="nombresCliente" [(ngModel)]="nombresCliente" placeholder="" required>
+        <label class="active">Nombres*:</label>
+        <div *ngIf="nombresCliente.touched && !nombresCliente.valid">
+          <div class="required" *ngIf="nombresCliente.errors.required">Los Nombres son Requeridos</div>
+        </div>
+      </div>
+      <div class="input-field col s12 m6 l3">
+        <input type="text" name="apellidoCliente" [(ngModel)]="apellidoCliente" placeholder="" required>
+        <label class="active">Apellidos*:</label>
+        <div *ngIf="apellidoCliente.touched && !apellidoCliente.valid">
+          <div class="required" *ngIf="apellidoCliente.errors.required">Los Apellidos son Requerido</div>
+        </div>
+      </div>
+
+      <div class="input-field col s12 m6 l3">
+
+        <select [(ngModel)]="tipoIdent" name="tipoIdent" (change)="cambiaTipo()">
+          <option value="CC" selected>Cédula de Ciudadania</option>
+          <option value="NIT">NIT</option>
+        </select>
+        <label class="active">Tipo de Identificación:</label>
+      </div>
+      <div class="input-field col s12 m6 l3">
+        <input type="text" name="numeroCliente" [(ngModel)]="numeroCliente" placeholder="" required>
+        <label class="active">Número de Identificación*:</label>
+      </div>
+      <div *ngIf="tipoIdentCC" class="input-field col s12 m6 l3">
+        <input type="text" name="expedicionCliente" [(ngModel)]="expedicionCliente" placeholder="" required>
+        <label class="active">Lugar de Expedición*:</label>
+      </div>
+      <div *ngIf="!tipoIdentCC" class="input-field col s12 m6 l3">
+        <input type="text" name="digitoCliente" [(ngModel)]="digitoCliente" placeholder="" required>
+        <label class="active">Digito de Verificación*:</label>
+      </div>
+      <div *ngIf="!tipoIdentCC" class="input-field col s12 m6 l3">
+        <input type="text" name="repreCliente" [(ngModel)]="repreCliente" placeholder="" required>
+        <label class="active"> Representante Legal*:</label>
+      </div>
+      <div class="input-field col s12 m6 l3">
+        <input type="text" name="estableCliente" [(ngModel)]="estableCliente" placeholder="" required>
+        <label class="active">Nombre del Establecimiento:</label>
+      </div>
+      <div class="input-field col s12 m6 l3">
+        <input type="text" name="direccionCliente" [(ngModel)]="direccionCliente" placeholder="" required>
+        <label class="active">Dirección:</label>
+      </div>
+      <div class="input-field col s12 m6 l3">
+        <input type="text" name="ciudadCliente" [(ngModel)]="ciudadCliente" placeholder="" required>
+        <label class="active">Ciudad:</label>
+      </div>
+      <div class="input-field col s12 m6 l3">
+        <input type="text" name="telCliente" [(ngModel)]="telCliente" placeholder="" required>
+        <label class="active">Teléfono:</label>
+      </div>
+      <div class="input-field col s12 m6 l3">
+        <input type="email" name="correoCliente" [(ngModel)]="correoCliente" placeholder="" required>
+        <label class="active">Correo Electrónico:</label>
+      </div>
+      <div class="input-field col s12 m6 l3">
+
+        <mat-card-content>
+          <label class="tamaño-letra active">Estado:</label>
+          <section class="example-section">
+            <mat-slide-toggle class="example-margin" name="active" [(ngModel)]="active">
+              <p class="tamaño-letra-19" *ngIf="active">Activo</p>
+              <p class="tamaño-letra-19" *ngIf="!active">Inactivo</p>
+            </mat-slide-toggle>
+          </section>
+        </mat-card-content>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+
+    <button class="btn btn-default right darkgray modal-close "> Cancelar </button>
+    <button class="btn right waves-effect black margin-separe-lado modal-close" (click)="guardarCliente()"> Guardar </button>
+  </div>
+</div>
