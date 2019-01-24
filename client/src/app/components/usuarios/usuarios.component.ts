@@ -23,12 +23,12 @@ export class UsuariosComponent implements OnInit {
     private router: Router
   ) {
     // se consulta por el rol del usuario autenticado
-    let user = JSON.parse(localStorage.getItem('currentUser'));
-    let rol = user.role;
+    // let user = JSON.parse(localStorage.getItem('currentUser'));
+    //let rol = user.role;
     // esta pagina solo se le permite al administrador ingresar
-    if (rol != 'Administrador') {
-      this.router.navigate(['/home']);
-    }
+    // if (rol != 'Administrador') {
+    //   this.router.navigate(['/home']);
+    // }
     this.usuarioService.selectedUsuario.state = true;
   }
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -70,18 +70,21 @@ export class UsuariosComponent implements OnInit {
 
   // agregar vehiculo
   addUsuario(form?: NgForm) {
-
-    let usu = {
-      _id: form.value._id,
-      name: form.value.name,
-      username: form.value.username,
-      password: form.value.password,
-      role: form.value.role,
-      state: true
-    }
+    console.log('gurrdar');
+    console.log(form.value);
 
 
-    if (form.value._id) { // si existe el id, actualizamos
+
+
+    if (form.value._id != undefined) { // si existe el id, actualizamos
+      let usu = {
+        _id: form.value._id,
+        name: form.value.name,
+        username: form.value.username,
+        password: form.value.password,
+        role: form.value.role,
+        state: true
+      }
       this.usuarioService.updateUsuario(usu)
         .subscribe(res => {
           if (res.success == 'true') {

@@ -10,7 +10,10 @@ import { FormControl } from '@angular/forms';
 import { map, startWith } from 'rxjs/operators';
 import { ClienteService } from '../../services/clientes.service';
 
-
+export interface Food {
+  value: string;
+  viewValue: string;
+}
 
 
 
@@ -21,8 +24,17 @@ declare var M: any;
   styleUrls: ['./contratos.component.css']
 })
 export class ContratosComponent implements OnInit {
+  foods: Food[] = [
+    { value: 'steak-0', viewValue: 'Steak' },
+    { value: 'pizza-1', viewValue: 'Pizza' },
+    { value: 'tacos-2', viewValue: 'Tacos' }
+  ];
+  posicion: any;
+  idCliente: string = "";
+  nombreCliente: string;
   estableCliente: any;
   active: boolean = true;
+  verInfo: boolean = false;
 
   correoCliente: any;
   telCliente: any;
@@ -65,6 +77,7 @@ export class ContratosComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
   ngOnInit() {
+    // si el campo cliente presenta un cambio, este aplica e filtrp
     this.filteredOptions = this.clientes.valueChanges
       .pipe(
         startWith(''),
@@ -81,6 +94,7 @@ export class ContratosComponent implements OnInit {
   }
 
   cargarClientes() {
+    this.options = [];
     this.clienteService.getClientes()
       .subscribe((res) => {
         console.log(res);
@@ -90,8 +104,9 @@ export class ContratosComponent implements OnInit {
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
-
-    return this.options.filter(option => option.toLowerCase().includes(filterValue));
+    return this.options.filter(option => option.nombre.toLowerCase().includes(filterValue)
+      || option.numero_identificacion.toLowerCase().includes(filterValue) || option.apellido.toLowerCase().includes(filterValue)
+    );
   }
 
   cambiaTipo() {
@@ -119,7 +134,11 @@ export class ContratosComponent implements OnInit {
       }
       this.clienteService.addCliente(cliente)
         .subscribe((res) => {
-          console.log(res);
+          if (res.success == 'true') {
+            this.resetFormClientes();
+            this.cargarClientes();
+          }
+          M.toast({ html: res.status });
         });
 
     } else {
@@ -160,10 +179,60 @@ export class ContratosComponent implements OnInit {
     this.direccionCliente = '';
     this.ciudadCliente = '';
     this.correoCliente = '';
+    this.telCliente = '';
     this.active = true;
-    this.estableCliente  = '';
+    this.estableCliente = '';
     this.digitoCliente = '';
     this.repreCliente = '';
+  }
+  // identifica que el cliente se cambia y habilita o desabilita el boton de info
+  cambiaCliente() {
+
+    if (this.nombreCliente == '') {
+      this.verInfo = false
+    }
+  }
+  // permite obtener el id del cliente una vez se selecciona y la posicion de arreglo de clientes
+  setIDCliente(id, posicion) {
+    if (id != undefined) {
+      this.verInfo = true
+    }
+    this.idCliente = id;
+    // se busca el id para obtener la poscion del rreglo
+    this.options.map((op, key) => {
+
+      if (op._id == this.idCliente) {
+        this.posicion = key;
+      }
+    });
+
+
+  }
+
+  seleccionarCliente() {
+
+
+    this.tipoIdentCC = true;
+    this.nombresCliente = this.options[this.posicion].nombre;
+    this.apellidoCliente = this.options[this.posicion].apellido;
+    this.tipoIdent = this.options[this.posicion].tipo_identif;
+
+
+    this.expedicionCliente = this.options[this.posicion].lugar_exp_ced;
+    this.numeroCliente = this.options[this.posicion].numero_identificacion;
+    this.direccionCliente = this.options[this.posicion].direccion;
+    this.ciudadCliente = this.options[this.posicion].ciudad;
+    this.correoCliente = this.options[this.posicion].correo_elect;
+    this.telCliente = this.options[this.posicion].telefono;
+    this.active = this.options[this.posicion].state;
+    if (this.options[this.posicion].tipo_identif != 'CC') {
+      this.estableCliente = this.options[this.posicion].nombre_estable;
+      this.digitoCliente = this.options[this.posicion].digito_verif;
+      this.repreCliente = this.options[this.posicion].nombre_rep_legal;
+      this.tipoIdentCC = false;
+
+    }
+
   }
 
 }

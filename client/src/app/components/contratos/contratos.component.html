@@ -16,26 +16,35 @@
 
                   <div class="row">
                     <div class="input-field col s12 m6 l6">
-                      <!-- <input type="text" name="ccCliente" [(ngModel)]="ccCliente" placeholder="" required>
-                      <label>CC / NIT*:</label> -->
+
                       <form class="example-form">
-                        <mat-form-field class="example-full-width">
-                          <input type="text" placeholder=Cliente: aria-label="Number" matInput [formControl]="clientes" [matAutocomplete]="auto">
+                        <mat-form-field class="example-full-width " id="inputCliente">
+                          <input type="text" class="centro" placeholder=Cliente: aria-label="Number" matInput [formControl]="clientes" [matAutocomplete]="auto"
+                            [(ngModel)]="nombreCliente" (ngModelChange)="cambiaCliente()">
+                          <a *ngIf="verInfo" class="waves-effect waves-light btn back-verde modal-trigger " (click)="seleccionarCliente()" type="button"
+                            href="#clientes" data-position="right" title="Ver info del Cliente">
+                            <i class="material-icons suffix">info</i>
+
+                          </a>
+
                           <mat-autocomplete #auto="matAutocomplete">
-                            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-                              {{option}}
+
+                            <mat-option *ngFor="let option of filteredOptions | async ; let i = index " [value]="option.nombre + ' '+ option.apellido "
+                              (onSelectionChange)="setIDCliente( option._id, i  )">
+                              {{option.numero_identificacion}} - {{option.nombre}} {{option.apellido}}
                             </mat-option>
                           </mat-autocomplete>
                         </mat-form-field>
                         <mat-hint align="start">
                           <strong>Si no encuentras el Cliente, presiona en
-                            <a class="btn back-verde modal-trigger " type="button" href="#clientes">¡Agregar Nuevo Cliente!</a>
+                            <a class="btn back-verde modal-trigger " type="button" href="#clientes" (click)="resetFormClientes()">¡Agregar Nuevo Cliente!</a>
                           </strong>
                         </mat-hint>
 
                       </form>
 
                     </div>
+
 
                   </div>
                   <div class="row">
@@ -145,64 +154,75 @@
 <div id="clientes" class="modal">
   <div class="modal-content">
     <div class="row">
-      <div class="input-field col s12 m6 l3">
+      <div class="input-field col s12 m6 l4">
         <input type="text" name="nombresCliente" [(ngModel)]="nombresCliente" placeholder="" required>
-        <label>Nombres*:</label>
+        <label class="active">Nombres*:</label>
         <div *ngIf="nombresCliente.touched && !nombresCliente.valid">
           <div class="required" *ngIf="nombresCliente.errors.required">Los Nombres son Requeridos</div>
         </div>
       </div>
-      <div class="input-field col s12 m6 l3">
+      <div class="input-field col s12 m6 l4">
         <input type="text" name="apellidoCliente" [(ngModel)]="apellidoCliente" placeholder="" required>
-        <label>Apellidos*:</label>
+        <label class="active">Apellidos*:</label>
         <div *ngIf="apellidoCliente.touched && !apellidoCliente.valid">
           <div class="required" *ngIf="apellidoCliente.errors.required">Los Apellidos son Requerido</div>
         </div>
       </div>
 
-      <div class="input-field col s12 m6 l3">
+      <!-- <div class="input-field col s12 m6 l3">
 
-        <select [(ngModel)]="tipoIdent" name="tipoIdent" (change)="cambiaTipo()">
-          <option value="CC" selected>Cédula de Ciudadania</option>
+        <select name="tipoIdent" (change)="cambiaTipo()" id="tipoIdent" [(ngModel)]="tipoIdent">
+          <option value="CC">Cédula de Ciudadania </option>
           <option value="NIT">NIT</option>
         </select>
-        <label>Tipo de Identificación:</label>
+        <label class="active">Tipo de Identificación: {{tipoIdent}}</label>
+      </div> -->
+      <div class="input-field col s12 m6 l4 margin-button-input">
+        <mat-form-field>
+          <label class="active tamaño-letra">Tipo de Identificación:</label>
+          <mat-select class="border-select" name="class" [(ngModel)]="tipoIdent" required [(value)]="tipoIdent">
+            <mat-option value="NIT">NIT</mat-option>
+            <mat-option value="CC">Cédula de Ciudadania</mat-option>
+
+          </mat-select>
+        </mat-form-field>
+
       </div>
-      <div class="input-field col s12 m6 l3">
+      <div class="input-field col s12 m6 l4">
         <input type="text" name="numeroCliente" [(ngModel)]="numeroCliente" placeholder="" required>
-        <label>Número de Identificación*:</label>
+        <label class="active">Número de Identificación*:</label>
       </div>
-      <div *ngIf="tipoIdentCC" class="input-field col s12 m6 l3">
+      <div *ngIf="tipoIdentCC" class="input-field col s12 m6 l4">
         <input type="text" name="expedicionCliente" [(ngModel)]="expedicionCliente" placeholder="" required>
-        <label>Lugar de Expedición*:</label>
+        <label class="active">Lugar de Expedición*:</label>
       </div>
-      <div *ngIf="!tipoIdentCC" class="input-field col s12 m6 l3">
+      <div *ngIf="!tipoIdentCC" class="input-field col s12 m6 l4">
         <input type="text" name="digitoCliente" [(ngModel)]="digitoCliente" placeholder="" required>
-        <label>Digito de Verificación*:</label>
+        <label class="active">Digito de Verificación*:</label>
       </div>
-      <div *ngIf="!tipoIdentCC" class="input-field col s12 m6 l3">
+      <div *ngIf="!tipoIdentCC" class="input-field col s12 m6 l4">
         <input type="text" name="repreCliente" [(ngModel)]="repreCliente" placeholder="" required>
-        <label>Representante Legal*:</label>
+        <label class="active">Representante Legal*:</label>
       </div>
-      <div class="input-field col s12 m6 l3">
+      <div *ngIf="!tipoIdentCC" class="input-field col s12 m6 l4">
         <input type="text" name="estableCliente" [(ngModel)]="estableCliente" placeholder="" required>
-        <label>Nombre del Establecimiento:</label>
+        <label class="active">Nombre del Establecimiento:</label>
       </div>
-      <div class="input-field col s12 m6 l3">
+      <div class="input-field col s12 m6 l4">
         <input type="text" name="direccionCliente" [(ngModel)]="direccionCliente" placeholder="" required>
-        <label>Dirección:</label>
+        <label class="active">Dirección:</label>
       </div>
-      <div class="input-field col s12 m6 l3">
+      <div class="input-field col s12 m6 l4">
         <input type="text" name="ciudadCliente" [(ngModel)]="ciudadCliente" placeholder="" required>
-        <label>Ciudad:</label>
+        <label class="active">Ciudad:</label>
       </div>
-      <div class="input-field col s12 m6 l3">
+      <div class="input-field col s12 m6 l4">
         <input type="text" name="telCliente" [(ngModel)]="telCliente" placeholder="" required>
-        <label>Teléfono:</label>
+        <label class="active">Teléfono:</label>
       </div>
-      <div class="input-field col s12 m6 l3">
+      <div class="input-field col s12 m6 l4">
         <input type="email" name="correoCliente" [(ngModel)]="correoCliente" placeholder="" required>
-        <label>Correo Electrónico:</label>
+        <label class="active">Correo Electrónico:</label>
       </div>
       <div class="input-field col s12 m6 l3">
 
@@ -221,7 +241,7 @@
 
   <div class="modal-footer">
 
-    <button class="btn btn-default right darkgray modal-close "> Cancelar </button>
+    <button class="btn btn-default right darkgray modal-close " (click)="resetFormClientes()"> Cancelar </button>
     <button class="btn right waves-effect black margin-separe-lado modal-close" (click)="guardarCliente()"> Guardar </button>
   </div>
 </div>

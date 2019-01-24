@@ -34,8 +34,11 @@ app.use(bodyParser.urlencoded({
 //app.use('/', index);
 app.use('/api/conductores', require('./server/routes/conductores'));
 app.use('/api/vehiculos', require('./server/routes/vehiculos'));
+app.use('/api/permisos', require('./server/routes/permisos'));
+app.use('/api/pasajeros', require('./server/routes/pasajeros'));
 app.use('/api/usuarios', require('./server/routes/usuarios'));
 app.use('/api/clientes', require('./server/routes/clientes'));
+app.use('/api/contratos', require('./server/routes/contratos'));
 
 
 app.listen(app.get('port'), function () {
