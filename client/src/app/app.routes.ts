@@ -12,7 +12,7 @@ const app_routes: Routes = [
     { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
     { path: 'conductores', component: ConductoresComponent, canActivate: [AuthGuard] },
     { path: 'vehiculos', component: VehiculosComponent, canActivate: [AuthGuard] },
-    { path: 'usuarios', component: UsuariosComponent, canActivate: [AuthGuard]},
+    { path: 'usuarios', component: UsuariosComponent },
     { path: 'estadisticas', component: EstadisticasComponent, canActivate: [AuthGuard] },
     { path: 'calidad', component: CalidadComponent, canActivate: [AuthGuard] },
     { path: '**', pathMatch: 'full', redirectTo: 'login' } // redireccion a algo que no esta definida
