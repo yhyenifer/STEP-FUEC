@@ -85,3 +85,7 @@ input:not([type]):focus:not([readonly])+label, input[type="text"]:not(.browser-d
     -webkit-transform-origin: 0 0;
     transform-origin: 0 0;
 }
+
+.modal {
+    max-height: 90% !important;
+}

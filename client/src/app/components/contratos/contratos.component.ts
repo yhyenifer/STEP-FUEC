@@ -49,7 +49,20 @@ export class ContratosComponent implements OnInit {
   tipoIdent: any = '';
   apellidoCliente: any = '';
   nombresCliente: any = '';
-
+  // variables contrato
+  objetoContrato: string = '';
+  tipoContrato: string = '';
+  renovable: boolean = false;
+  cantPasajeros: number = 0;
+  cantVehiculos: number = 0;
+  rutaRegreso: string;
+  rutaIda: string;
+  fechaInicio: any;
+  fechaFin: any;
+  fechaCreacion: any;
+  valor: number = 0;
+  fechaPago: any;
+  // fin variables contrato
   state_eliminar: String;
   id_eliminar: String;
   displayedColumns: string[] = ['name', 'CC', 'license', 'opciones'];
@@ -68,6 +81,8 @@ export class ContratosComponent implements OnInit {
 
   constructor(private clienteService: ClienteService) {
     this.today = moment().add('days', 1).format('YYYY-MM-DD');
+    this.fechaCreacion = moment(this.today);
+
     //this.url = 'http://localhost:8000/api/conductores';
 
   }
@@ -83,10 +98,13 @@ export class ContratosComponent implements OnInit {
         startWith(''),
         map(value => this._filter(value))
       );
+    var elems = document.querySelectorAll('.datepicker');
+    M.Datepicker.init(elems, { format: 'dd-mm-yyyy', autoClose: true });
+
     setTimeout(() => {
       M.AutoInit(); //inicia los componentes de materilize
-
-    }, 100);
+      this.renovable = false;
+    }, 200);
 
 
     this.cargarClientes();
