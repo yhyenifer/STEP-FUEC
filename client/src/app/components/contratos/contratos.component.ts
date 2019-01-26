@@ -332,7 +332,7 @@ export class ContratosComponent implements OnInit {
   getVehiculos() {
     this.vehiculosDispo = [];
 
-    this.vehiculosService.getVehiculosDisponibles()
+    this.vehiculosService.getVehiculosDisponibles(this.fechaFin)
       .subscribe(res => {
         this.vehiculosDispo = res;
         if (this.vehiculosDispo.length > 0) {

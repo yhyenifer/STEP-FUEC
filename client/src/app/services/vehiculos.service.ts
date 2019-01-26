@@ -78,11 +78,12 @@ export class VehiculosService {
     });
   }
 
-  //listar los vehiculos
-  getVehiculosDisponibles(): Observable<vehiculoDispo[]> {
+  //listar los vehiculos disponibles
+  getVehiculosDisponibles(fecha_fin): Observable<vehiculoDispo[]> {
+    console.log('dis');
     let token = localStorage
       .getItem('token');
-    return this.http.get<vehiculoDispo[]>(this.URL_API, {
+    return this.http.post<vehiculoDispo[]>(this.URL_API + `/disponible`,{fecha_fin: fecha_fin} ,{
       headers: new HttpHeaders().append('token', token)
     });
   };

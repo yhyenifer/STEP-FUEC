@@ -31,8 +31,9 @@ vehiculoCtrl.VehiculosDisponibles = async (req, res) => {
                 vehiculos.splice(key, 1);
             }
         }
-        res.json(vehiculos);
-    })
+    });
+    res.json(vehiculos);
+
 
 
 };
