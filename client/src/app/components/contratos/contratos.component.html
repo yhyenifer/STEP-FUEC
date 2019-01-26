@@ -50,12 +50,268 @@
 
                   </div>
                   <div class="row">
+
+                    <div class="input-field col s12 m6 l4 ">
+                      <label class="active tamaño-letra">Tipo de Contrato*:</label>
+                      <mat-form-field>
+                        <mat-select class="border-select" name="tipoCon" [(ngModel)]="tipoContrato" [(value)]="tipoContrato">
+                          <mat-option value="" selected disabled>Seleccione una Opción</mat-option>
+                          <mat-option value="empresas">Empresas</mat-option>
+                          <mat-option value="colegios">Colegios</mat-option>
+                          <mat-option value="ocasionales">Ocasionales</mat-option>
+
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                    <div class="input-field col s12 m6 l4 ">
+                      <label class="active tamaño-letra">Objeto del Contrato*:</label>
+                      <mat-form-field>
+                        <mat-select class="border-select" name="objeto" [(ngModel)]="objetoContrato" [(value)]="objetoContrato">
+                          <mat-option value="" selected disabled>Seleccione una Opción</mat-option>
+                          <mat-option value="Transporte Específico de Usuarios">Transporte Específico de Usuarios</mat-option>
+                          <mat-option value="Transporte de Turistas">Transporte de Turistas</mat-option>
+                          <mat-option value="Transporte de Estudiantes">Transporte de Estudiantes</mat-option>
+                          <mat-option value="Transporte de Empleados">Transporte de Empleados</mat-option>
+                          <mat-option value="Transporte de Usuarios del Servicio de Salud">Transporte de Usuarios del Servicio de Salud</mat-option>
+
+
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                    <div class="input-field col s12 m6 l4 ">
+                      <label class="active tamaño-letra">¿Es Renovable?:</label>
+                      <mat-radio-group name="renovable" [(ngModel)]="renovable" [(value)]="renovable">
+                        <mat-radio-button style="margin-top: 13px;" name="renovable" value=true> SI</mat-radio-button>
+                        <mat-radio-button name="renovable" value=false>NO</mat-radio-button>
+                      </mat-radio-group>
+                    </div>
+                    <div class="input-field col s12 m6 l4 ">
+                    </div>
+                    <div class="input-field col s12 m6 l4 ">
+                      <input type="text" name="cantPasajeros" [(ngModel)]="cantPasajeros" required>
+                      <label class="active">Cantidad de Pasajeros*:</label>
+
+                    </div>
+                    <div class="input-field col s12 m6 l4 ">
+                      <input type="text" name="cantVehiculos" [(ngModel)]="cantVehiculos" required>
+                      <label class="active">Cantidad de Vehículos*:</label>
+
+                    </div>
+                    <div class="input-field col s12 m6 l4 ">
+                      <div class="card back-yellow " style="margin-top: -41px;">
+                        <div class="card-content">
+                          <p class=" style-alert centro">¡¡Para tener en cuenta!!</p>
+                          <p>En este contrato se van a transportar
+                            <span class="style-alert">{{cantPasajeros}}</span> Pasajeros, por lo tanto se requieren
+                            <span class="style-alert">{{cantVehiculos}}</span> Vehículos.</p>
+                        </div>
+                      </div>
+                    </div>
+
+
+                    <div class="input-field col s12 m12 l12 ">
+                      <div class="card ">
+                        <div class="card-title border-bottom-recorrido">
+                          <h6 class="centro">Recorrido</h6>
+                        </div>
+                        <div class="card-content">
+                          <div class="row">
+                            <div class="input-field col s12 m6 l6 ">
+                              <label class="active">Ruta de Ida:</label>
+
+                              <mat-form-field>
+
+                                <textarea matInput [(ngModel)]="rutaIda"></textarea>
+                              </mat-form-field>
+                            </div>
+                            <div class="input-field col s12 m6 l6 ">
+                              <label class="active">Ruta de Regreso:</label>
+
+                              <mat-form-field>
+
+                                <textarea matInput [(ngModel)]="rutaRegreso"></textarea>
+                              </mat-form-field>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- fin recorrido -->
+                    <div class="row">
+                      <div class="input-field col s12 m6 l4 ">
+                        <mat-form-field>
+                          <input matInput class="example-full-width" [matDatepicker]="picker_driving" [min]="today" name="picker_driving" [(ngModel)]="fechaInicio"
+                            placeholder="Fecha Inicio del Contrato" (dateChange)="selectFechaInicioContrato('change', $event)">
+                          <mat-datepicker-toggle matSuffix [for]="picker_driving"></mat-datepicker-toggle>
+                          <mat-datepicker touchUi #picker_driving></mat-datepicker>
+                        </mat-form-field>
+                      </div>
+                      <div class="input-field col s12 m6 l4 ">
+                        <mat-form-field>
+                          <input matInput class="example-full-width" [matDatepicker]="picker_fin" [min]="today" name="picker_fin" [(ngModel)]="fechaFin"
+                            placeholder="Fecha Fin del Contrato" (dateChange)="selectFechaInicioContrato('change', $event)">
+                          <mat-datepicker-toggle matSuffix [for]="picker_fin"></mat-datepicker-toggle>
+                          <mat-datepicker touchUi #picker_fin></mat-datepicker>
+                        </mat-form-field>
+                      </div>
+                      <div class="input-field col s12 m6 l4 ">
+                        <mat-form-field>
+                          <input matInput class="example-full-width" [matDatepicker]="picker_creacion" [min]="today" name="picker_creacion" [(ngModel)]="fechaCreacion"
+                            placeholder="Fecha de Creación del Contrato" disabled>
+                          <mat-datepicker-toggle matSuffix [for]="picker_creacion"></mat-datepicker-toggle>
+                          <mat-datepicker touchUi #picker_creacion></mat-datepicker>
+                        </mat-form-field>
+                      </div>
+                      <div class="input-field col s12 m6 l4 ">
+                        <input type="text" name="valor" [(ngModel)]="valor" required>
+                        <label class="active">Valor*:</label>
+
+                      </div>
+                      <div class="input-field col s12 m6 l4 ">
+                        <label class="active tamaño-letra">Tipo de Pago*:</label>
+                        <mat-form-field>
+                          <mat-select class="border-select" name="tipoPago" [(ngModel)]="tipoPago" [(value)]="tipoPago">
+                            <mat-option value="" selected disabled>Seleccione una Opción</mat-option>
+                            <mat-option value="Efectivo">Efectivo</mat-option>
+                            <mat-option value="50-50">50 - 50</mat-option>
+                            <mat-option value="Credito">Credito</mat-option>
+
+
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                      <div class="input-field col s12 m6 l4 " *ngIf="tipoPago!= 'Efectivo'">
+                        <mat-form-field>
+                          <input matInput class="example-full-width" [matDatepicker]="picker_pago" [min]="today" name="picker_pago" [(ngModel)]="fechaPago"
+                            placeholder="Fecha de Proximo Pago">
+                          <mat-datepicker-toggle matSuffix [for]="picker_pago"></mat-datepicker-toggle>
+                          <mat-datepicker touchUi #picker_pago></mat-datepicker>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
                     <ul class="collapsible popout">
                       <li class="">
                         <div class="collapsible-header">
                           <i class="material-icons">done_all
                           </i>Agregar Permisos
                           <p class="description">Presione aqui, para agregar Permisos</p>
+                        </div>
+                        <div class="collapsible-body card">
+                          <div class="card-content">
+                            <div class="row">
+                              <div class="input-field col s12 m6 l6 ">
+                                <mat-form-field>
+                                  <input matInput class="example-full-width" [matDatepicker]="picker_feIniPermiso" [min]="today" name="picker_feIniPermiso"
+                                    [(ngModel)]="fechaInicioPermiso" placeholder="Fecha Inicio del Permiso">
+                                  <mat-datepicker-toggle matSuffix [for]="picker_feIniPermiso"></mat-datepicker-toggle>
+                                  <mat-datepicker touchUi #picker_feIniPermiso></mat-datepicker>
+                                </mat-form-field>
+                              </div>
+                              <div class="input-field col s12 m6 l6 ">
+                                <mat-form-field>
+                                  <input matInput class="example-full-width" [matDatepicker]="picker_feFinPermiso" [min]="today" name="picker_feFinPermiso"
+                                    [(ngModel)]="fechaFinPermiso" placeholder="Fecha Inicio del Permiso">
+                                  <mat-datepicker-toggle matSuffix [for]="picker_feFinPermiso"></mat-datepicker-toggle>
+                                  <mat-datepicker touchUi #picker_feFinPermiso></mat-datepicker>
+                                </mat-form-field>
+                              </div>
+                              <div class="input-field col s12 m12 l12 centro ">
+                                <button class="btn btn-default back-verde " (click)="cargarVehiculosConductores()"> Cargar Vehículos y Conductores Disponibles </button>
+
+                              </div>
+                              <div class="input-field col s12 m12 l12 ">
+
+                                <div class="row">
+                                  <ul class="collapsible popout">
+                                    <li class="">
+                                      <div class="collapsible-header">
+                                        <i class="material-icons">directions_bus
+                                        </i>Agregar Vehículos
+                                        <p class="description">Presione aqui, para agregar Vehículos</p>
+                                      </div>
+                                      <div class="collapsible-body card">
+                                        <div class="card-content">
+                                          <div class="row">
+                                            <div class="input-field col s12 m6 l6 ">
+
+                                              <form class="example-form">
+                                                <mat-form-field class="example-full-width " id="inputVehiculo">
+                                                  <input type="text" class="centro" placeholder=Vehiculo: aria-label="Number" matInput [formControl]="vehiculos" [matAutocomplete]="auto"
+                                                    [(ngModel)]="vehiculo" (ngModelChange)="cambiaVehiculo()">
+                                                  <a *ngIf="verAddV" class="waves-effect waves-light btn back-verde modal-trigger " (click)="agregarVehiculo()" type="button"
+                                                    data-position="right" title="Agregar Vehiculo">
+                                                    <i class="material-icons suffix">add</i>
+                                                  </a>
+                                                  <mat-autocomplete #auto="matAutocomplete">
+                                                    <mat-option *ngFor="let v of filteredVehiculos | async ; let i = index " [value]="v.plate + ' '+ v.lateral " (onSelectionChange)="setIDVehiculos( v._id, i  )">
+                                                      Placa: {{v.plate}} - Lateral: {{v.lateral}}
+                                                    </mat-option>
+                                                  </mat-autocomplete>
+                                                </mat-form-field>
+                                              </form>
+                                            </div>
+                                            <div class="input-field col s12 m6 l6 ">
+                                              <p>Lista de Vehículos Agregados:</p>
+                                              <ul class="collection">
+                                                <li class="collection-item style-fila" *ngFor="let item of arrayVehiculos; let i=index">
+                                                  <p>{{item.plate}} - {{item-lateral}}</p>
+                                                  <a (click)="removeVehiculo(i)">
+                                                    <i class="material-icons style-close">close
+                                                    </i>
+                                                  </a>
+                                                </li>
+
+                                              </ul>
+
+
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </li>
+                                  </ul>
+
+                                </div>
+                              </div>
+                              <div class="input-field col s12 m12 l12 ">
+
+                                <div class="row">
+                                  <ul class="collapsible popout">
+                                    <li class="">
+                                      <div class="collapsible-header">
+                                        <i class="material-icons">person_pin
+                                        </i>Agregar Conductores
+                                        <p class="description">Presione aqui, para agregar Conductores</p>
+                                      </div>
+                                      <div class="collapsible-body card">
+                                        <div class="card-content">
+
+
+                                        </div>
+                                      </div>
+                                    </li>
+                                  </ul>
+
+                                </div>
+                              </div>
+
+                            </div>
+
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div class="row">
+                    <ul class="collapsible popout">
+                      <li class="">
+                        <div class="collapsible-header">
+                          <i class="material-icons">people
+                          </i>Agregar Pasajeros
+                          <p class="description">Presione aqui, para agregar Pasajeros</p>
                         </div>
                         <div class="collapsible-body card">
                           <div class="card-content">
@@ -171,28 +427,14 @@
         </div>
       </div>
 
-      <!-- <div class="input-field col s12 m6 l3">
-
-        <select name="tipoIdent" (change)="cambiaTipo()" id="tipoIdent" [(ngModel)]="tipoIdent">
-          <option value="CC">Cédula de Ciudadania </option>
-          <option value="NIT">NIT</option>
-        </select>
-<<<<<<< HEAD
-        <label class="active">Tipo de Identificación: {{tipoIdent}}</label>
-      </div> -->
-      <div class="input-field col s12 m6 l4 margin-button-input">
+      <div class="input-field col s12 m6 l4 ">
+        <label class="active tamaño-letra">Tipo de Identificación:</label>
         <mat-form-field>
-          <label class="active tamaño-letra">Tipo de Identificación:</label>
           <mat-select class="border-select" name="class" [(ngModel)]="tipoIdent" required [(value)]="tipoIdent">
             <mat-option value="NIT">NIT</mat-option>
             <mat-option value="CC">Cédula de Ciudadania</mat-option>
-
           </mat-select>
         </mat-form-field>
-
-        =======
-        <label class="active">Tipo de Identificación:</label>
-        >>>>>>> 2964a890d6aa19d6f94e00de82a4ee7c36e9a019
       </div>
       <div class="input-field col s12 m6 l4">
         <input type="text" name="numeroCliente" [(ngModel)]="numeroCliente" placeholder="" required>
@@ -208,10 +450,7 @@
       </div>
       <div *ngIf="!tipoIdentCC" class="input-field col s12 m6 l4">
         <input type="text" name="repreCliente" [(ngModel)]="repreCliente" placeholder="" required>
-        <<<<<<< HEAD <label class="active">Representante Legal*:</label>
-          =======
-          <label class="active"> Representante Legal*:</label>
-          >>>>>>> 2964a890d6aa19d6f94e00de82a4ee7c36e9a019
+        <label class="active"> Representante Legal*:</label>
       </div>
       <div *ngIf="!tipoIdentCC" class="input-field col s12 m6 l4">
         <input type="text" name="estableCliente" [(ngModel)]="estableCliente" placeholder="" required>

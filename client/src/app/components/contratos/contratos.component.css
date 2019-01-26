@@ -92,5 +92,32 @@
 
 .btn:hover, .btn-large:hover, .btn-small:hover {
     background-color: #2764c3;
-    ;
+}
+
+.mat-radio-button~.mat-radio-button {
+    margin-left: 16px;
+}
+
+.back-yellow {
+    background-color: #fffbac !important;
+}
+
+.style-alert {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.border-bottom-recorrido {
+    border-bottom: 1px solid rgba(160, 160, 160, 0.36);
+}
+
+.style-fila {
+    display: flex;
+    justify-content: space-between;
+}
+
+.style-close {
+    color: gray;
+    font-size: 20px;
+    margin-top: 2px;
 }

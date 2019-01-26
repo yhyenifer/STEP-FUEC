@@ -3,12 +3,14 @@ import { NgForm } from '@angular/forms';
 import { log } from 'util';
 import { Observable } from 'rxjs';
 import * as moment from 'moment';
-import { MatPaginator, MatTableDataSource } from '@angular/material';
+import { MatPaginator, MatTableDataSource, MatDatepickerInputEvent } from '@angular/material';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { FormControl } from '@angular/forms';
 import { map, startWith } from 'rxjs/operators';
 import { ClienteService } from '../../services/clientes.service';
+import { VehiculosService } from '../../services/vehiculos.service';
+import { Vehiculos } from '../../models/vehiculos';
 
 export interface Food {
   value: string;
@@ -24,6 +26,14 @@ declare var M: any;
   styleUrls: ['./contratos.component.css']
 })
 export class ContratosComponent implements OnInit {
+  vehiculo: string;
+  arrayVehiculos: any[] = [];
+  posicionVehiculo: number;
+  hayVehiculos: boolean = false;
+  hayConductores: boolean = false;
+  idVehiculo: any;
+  vehiculosPermiso: any;
+  nombreVehiculo: string;
   foods: Food[] = [
     { value: 'steak-0', viewValue: 'Steak' },
     { value: 'pizza-1', viewValue: 'Pizza' },
@@ -35,7 +45,8 @@ export class ContratosComponent implements OnInit {
   estableCliente: any;
   active: boolean = true;
   verInfo: boolean = false;
-
+  verAddV: boolean = false;
+  verAddC: boolean = false;
   correoCliente: any;
   telCliente: any;
   ciudadCliente: any;
@@ -49,7 +60,27 @@ export class ContratosComponent implements OnInit {
   tipoIdent: any = '';
   apellidoCliente: any = '';
   nombresCliente: any = '';
-
+  // variables contrato
+  objetoContrato: string = '';
+  tipoContrato: string = '';
+  renovable: boolean = false;
+  cantPasajeros: number = 0;
+  cantVehiculos: number = 0;
+  rutaRegreso: string;
+  rutaIda: string;
+  fechaInicio: string;
+  fechaFin: string;
+  fechaCreacion: string;
+  valor: number = 0;
+  fechaPago: any;
+  // fin variables contrato
+  //variables del permiso
+  fechaInicioPermiso: string;
+  fechaFinPermiso: string;
+  vehiculosDispo: any[];
+  vehiculos = new FormControl();
+  conductores = new FormControl();
+  //fin variables del permiso
   state_eliminar: String;
   id_eliminar: String;
   displayedColumns: string[] = ['name', 'CC', 'license', 'opciones'];
@@ -59,6 +90,9 @@ export class ContratosComponent implements OnInit {
   //options: string[] = ['One', 'Two', 'Three'];
   options: any[];
   filteredOptions: Observable<string[]>;
+  filteredVehiculos: Observable<string[]>;
+  filteredConductores: Observable<string[]>;
+
   //variables contrato
 
   _id: String;
@@ -66,8 +100,13 @@ export class ContratosComponent implements OnInit {
   // fin variables contrato
   @ViewChild('dataTable') table: ElementRef;
 
-  constructor(private clienteService: ClienteService) {
+  constructor(private clienteService: ClienteService,
+    private vehiculosService: VehiculosService) {
     this.today = moment().add('days', 1).format('YYYY-MM-DD');
+    this.fechaCreacion = moment(this.today).format('YYYY-MM-DD');
+    this.fechaInicioPermiso = this.fechaInicio;
+    this.vehiculosPermiso = [];
+
     //this.url = 'http://localhost:8000/api/conductores';
 
   }
@@ -83,21 +122,46 @@ export class ContratosComponent implements OnInit {
         startWith(''),
         map(value => this._filter(value))
       );
+    var elems = document.querySelectorAll('.datepicker');
+    M.Datepicker.init(elems, { format: 'dd-mm-yyyy', autoClose: true });
+
     setTimeout(() => {
       M.AutoInit(); //inicia los componentes de materilize
-
-    }, 100);
+      this.renovable = false;
+    }, 200);
 
 
     this.cargarClientes();
 
   }
 
+  cargarVehiculosConductores() {
+    this.getVehiculos();
+    // this.vehiculos = ;
+    // si el campo vehiculo presenta un cambio, este aplica e filtrp
+    this.filteredVehiculos = this.vehiculos.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filterVihiculo(value))
+      );
+
+    // si el campo vehiculo presenta un cambio, este aplica e filtrp
+    this.filteredConductores = this.conductores.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filter(value))
+      );
+  }
+  private _filterVihiculo(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    return this.vehiculosDispo.filter(option => option.plate.toLowerCase().includes(filterValue)
+      || option.lateral.toLowerCase().includes(filterValue));
+  }
+
   cargarClientes() {
     this.options = [];
     this.clienteService.getClientes()
       .subscribe((res) => {
-        console.log(res);
         this.options = res;
       });
   }
@@ -192,6 +256,34 @@ export class ContratosComponent implements OnInit {
       this.verInfo = false
     }
   }
+  // identifica que el vehhiculo se cambia y habilita o desabilita el boton de agregar
+  cambiaVehiculo() {
+    if (this.nombreVehiculo == '') {
+      this.verAddV = false
+    }
+  }
+  // permite obtener el id del vehiculo una vez se selecciona y la posicion de arreglo de vehiculos
+  setIDVehiculos(id, posicion) {
+    if (id != undefined) {
+      this.verAddV = true;
+    }
+    this.idVehiculo = id;
+    // se busca el id para obtener la poscion del rreglo
+    this.vehiculosDispo.map((op, key) => {
+
+      if (op._id == this.idVehiculo) {
+        this.posicionVehiculo = key;
+      }
+    });
+
+  }
+  agregarVehiculo() {
+    this.vehiculosPermiso.push(this.idVehiculo);
+    this.idVehiculo = "";
+    this.vehiculo = "";
+    this.arrayVehiculos.push(this.vehiculosDispo[this.posicionVehiculo]);
+
+  }
   // permite obtener el id del cliente una vez se selecciona y la posicion de arreglo de clientes
   setIDCliente(id, posicion) {
     if (id != undefined) {
@@ -210,14 +302,10 @@ export class ContratosComponent implements OnInit {
   }
 
   seleccionarCliente() {
-
-
     this.tipoIdentCC = true;
     this.nombresCliente = this.options[this.posicion].nombre;
     this.apellidoCliente = this.options[this.posicion].apellido;
     this.tipoIdent = this.options[this.posicion].tipo_identif;
-
-
     this.expedicionCliente = this.options[this.posicion].lugar_exp_ced;
     this.numeroCliente = this.options[this.posicion].numero_identificacion;
     this.direccionCliente = this.options[this.posicion].direccion;
@@ -234,5 +322,34 @@ export class ContratosComponent implements OnInit {
     }
 
   }
+  // identifica que se selecciona fecha inicio y fin del contrato y los set en permisos
+  selectFechaInicioContrato() {
+
+    this.fechaInicioPermiso = this.fechaInicio;
+    this.fechaFinPermiso = this.fechaFin;
+
+  }
+  getVehiculos() {
+    this.vehiculosDispo = [];
+
+    this.vehiculosService.getVehiculosDisponibles()
+      .subscribe(res => {
+        this.vehiculosDispo = res;
+        if (this.vehiculosDispo.length > 0) {
+          this.hayVehiculos = true;
+        } else {
+          this.hayVehiculos = false;
+        }
+      });
+  }
+
+  removeVehiculo(posicion) {
+    console.log(posicion);
+    console.log(this.vehiculosPermiso);
+    this.vehiculosPermiso.splice(posicion, 1);
+    this.arrayVehiculos.splice(posicion, 1);
+
+  }
+
 
 }
