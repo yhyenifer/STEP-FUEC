@@ -13,6 +13,12 @@ pasajeroCtrl.getPasajeros = async (req, res) => {
 
 };
 
+//listar pasajeros por contrato
+pasajeroCtrl.getPasajerosxContrato = async (req, res) => {
+    const pasajeros = await Pasajero.find(req.params);
+    res.json(pasajeros);
+};
+
 async function validar_cedula(cedula) {
     return await Pasajero.find({ numero_identificacion: cedula, state: 'true' });
 }
