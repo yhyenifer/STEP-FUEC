@@ -110,3 +110,14 @@
 .border-bottom-recorrido {
     border-bottom: 1px solid rgba(160, 160, 160, 0.36);
 }
+
+.style-fila {
+    display: flex;
+    justify-content: space-between;
+}
+
+.style-close {
+    color: gray;
+    font-size: 20px;
+    margin-top: 2px;
+}

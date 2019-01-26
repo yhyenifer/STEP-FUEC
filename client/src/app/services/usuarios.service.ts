@@ -60,4 +60,6 @@ export class UsuarioService {
         return this.http.post<login>(this.URL_API + `/login`, data);
 
     }
+
+
 }

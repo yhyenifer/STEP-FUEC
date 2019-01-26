@@ -100,7 +100,7 @@
                     <div class="input-field col s12 m6 l4 ">
                       <div class="card back-yellow " style="margin-top: -41px;">
                         <div class="card-content">
-                          <p class=" style-alert centro">¡¡Ten encuenta!!</p>
+                          <p class=" style-alert centro">¡¡Para tener en cuenta!!</p>
                           <p>En este contrato se van a transportar
                             <span class="style-alert">{{cantPasajeros}}</span> Pasajeros, por lo tanto se requieren
                             <span class="style-alert">{{cantVehiculos}}</span> Vehículos.</p>
@@ -141,7 +141,7 @@
                       <div class="input-field col s12 m6 l4 ">
                         <mat-form-field>
                           <input matInput class="example-full-width" [matDatepicker]="picker_driving" [min]="today" name="picker_driving" [(ngModel)]="fechaInicio"
-                            placeholder="Fecha Inicio del Contrato">
+                            placeholder="Fecha Inicio del Contrato" (dateChange)="selectFechaInicioContrato('change', $event)">
                           <mat-datepicker-toggle matSuffix [for]="picker_driving"></mat-datepicker-toggle>
                           <mat-datepicker touchUi #picker_driving></mat-datepicker>
                         </mat-form-field>
@@ -149,7 +149,7 @@
                       <div class="input-field col s12 m6 l4 ">
                         <mat-form-field>
                           <input matInput class="example-full-width" [matDatepicker]="picker_fin" [min]="today" name="picker_fin" [(ngModel)]="fechaFin"
-                            placeholder="Fecha Fin del Contrato">
+                            placeholder="Fecha Fin del Contrato" (dateChange)="selectFechaInicioContrato('change', $event)">
                           <mat-datepicker-toggle matSuffix [for]="picker_fin"></mat-datepicker-toggle>
                           <mat-datepicker touchUi #picker_fin></mat-datepicker>
                         </mat-form-field>
@@ -157,7 +157,7 @@
                       <div class="input-field col s12 m6 l4 ">
                         <mat-form-field>
                           <input matInput class="example-full-width" [matDatepicker]="picker_creacion" [min]="today" name="picker_creacion" [(ngModel)]="fechaCreacion"
-                            placeholder="Fecha de Creación del Contrato">
+                            placeholder="Fecha de Creación del Contrato" disabled>
                           <mat-datepicker-toggle matSuffix [for]="picker_creacion"></mat-datepicker-toggle>
                           <mat-datepicker touchUi #picker_creacion></mat-datepicker>
                         </mat-form-field>
@@ -200,7 +200,104 @@
                         </div>
                         <div class="collapsible-body card">
                           <div class="card-content">
+                            <div class="row">
+                              <div class="input-field col s12 m6 l6 ">
+                                <mat-form-field>
+                                  <input matInput class="example-full-width" [matDatepicker]="picker_feIniPermiso" [min]="today" name="picker_feIniPermiso"
+                                    [(ngModel)]="fechaInicioPermiso" placeholder="Fecha Inicio del Permiso">
+                                  <mat-datepicker-toggle matSuffix [for]="picker_feIniPermiso"></mat-datepicker-toggle>
+                                  <mat-datepicker touchUi #picker_feIniPermiso></mat-datepicker>
+                                </mat-form-field>
+                              </div>
+                              <div class="input-field col s12 m6 l6 ">
+                                <mat-form-field>
+                                  <input matInput class="example-full-width" [matDatepicker]="picker_feFinPermiso" [min]="today" name="picker_feFinPermiso"
+                                    [(ngModel)]="fechaFinPermiso" placeholder="Fecha Inicio del Permiso">
+                                  <mat-datepicker-toggle matSuffix [for]="picker_feFinPermiso"></mat-datepicker-toggle>
+                                  <mat-datepicker touchUi #picker_feFinPermiso></mat-datepicker>
+                                </mat-form-field>
+                              </div>
+                              <div class="input-field col s12 m12 l12 centro ">
+                                <button class="btn btn-default back-verde " (click)="cargarVehiculosConductores()"> Cargar Vehículos y Conductores Disponibles </button>
 
+                              </div>
+                              <div class="input-field col s12 m12 l12 ">
+
+                                <div class="row">
+                                  <ul class="collapsible popout">
+                                    <li class="">
+                                      <div class="collapsible-header">
+                                        <i class="material-icons">directions_bus
+                                        </i>Agregar Vehículos
+                                        <p class="description">Presione aqui, para agregar Vehículos</p>
+                                      </div>
+                                      <div class="collapsible-body card">
+                                        <div class="card-content">
+                                          <div class="row">
+                                            <div class="input-field col s12 m6 l6 ">
+
+                                              <form class="example-form">
+                                                <mat-form-field class="example-full-width " id="inputVehiculo">
+                                                  <input type="text" class="centro" placeholder=Vehiculo: aria-label="Number" matInput [formControl]="vehiculos" [matAutocomplete]="auto"
+                                                    [(ngModel)]="vehiculo" (ngModelChange)="cambiaVehiculo()">
+                                                  <a *ngIf="verAddV" class="waves-effect waves-light btn back-verde modal-trigger " (click)="agregarVehiculo()" type="button"
+                                                    data-position="right" title="Agregar Vehiculo">
+                                                    <i class="material-icons suffix">add</i>
+                                                  </a>
+                                                  <mat-autocomplete #auto="matAutocomplete">
+                                                    <mat-option *ngFor="let v of filteredVehiculos | async ; let i = index " [value]="v.plate + ' '+ v.lateral " (onSelectionChange)="setIDVehiculos( v._id, i  )">
+                                                      Placa: {{v.plate}} - Lateral: {{v.lateral}}
+                                                    </mat-option>
+                                                  </mat-autocomplete>
+                                                </mat-form-field>
+                                              </form>
+                                            </div>
+                                            <div class="input-field col s12 m6 l6 ">
+                                              <p>Lista de Vehículos Agregados:</p>
+                                              <ul class="collection">
+                                                <li class="collection-item style-fila" *ngFor="let item of arrayVehiculos; let i=index">
+                                                  <p>{{item.plate}} - {{item-lateral}}</p>
+                                                  <a (click)="removeVehiculo(i)">
+                                                    <i class="material-icons style-close">close
+                                                    </i>
+                                                  </a>
+                                                </li>
+
+                                              </ul>
+
+
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </li>
+                                  </ul>
+
+                                </div>
+                              </div>
+                              <div class="input-field col s12 m12 l12 ">
+
+                                <div class="row">
+                                  <ul class="collapsible popout">
+                                    <li class="">
+                                      <div class="collapsible-header">
+                                        <i class="material-icons">person_pin
+                                        </i>Agregar Conductores
+                                        <p class="description">Presione aqui, para agregar Conductores</p>
+                                      </div>
+                                      <div class="collapsible-body card">
+                                        <div class="card-content">
+
+
+                                        </div>
+                                      </div>
+                                    </li>
+                                  </ul>
+
+                                </div>
+                              </div>
+
+                            </div>
 
                           </div>
                         </div>

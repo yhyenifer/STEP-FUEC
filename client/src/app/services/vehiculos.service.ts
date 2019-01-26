@@ -17,6 +17,13 @@ interface alerta {
   tipo_alerta: 1
 }
 
+interface vehiculoDispo {
+  _id: string;
+  plate: string;
+  lateral: string;
+}
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -70,4 +77,13 @@ export class VehiculosService {
       headers: new HttpHeaders().append('token', token)
     });
   }
+
+  //listar los vehiculos
+  getVehiculosDisponibles(): Observable<vehiculoDispo[]> {
+    let token = localStorage
+      .getItem('token');
+    return this.http.get<vehiculoDispo[]>(this.URL_API, {
+      headers: new HttpHeaders().append('token', token)
+    });
+  };
 }
