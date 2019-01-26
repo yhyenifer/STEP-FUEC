@@ -2,16 +2,40 @@ const Vehiculo = require('../models/vehiculos');
 var moment = require('moment/moment');
 const vehiculoCtrl = {};
 
+async function validar_placa(placa) {
+    return await Vehiculo.find({ plate: placa, state: 'true' });
+}
+
 //listar Vehiculos
 vehiculoCtrl.getVehiculos = async (req, res) => {
     const vehiculos = await Vehiculo.find({ state: "true" });
     res.json(vehiculos);
 };
 
-async function validar_placa(placa) {
-    return await Vehiculo.find({ plate: placa, state: 'true' });
+//listar Vehiculos disponibles
+vehiculoCtrl.VehiculosDisponibles = async (req, res) => {
 
-}
+    var fecha_fin = req.body.fecha_fin;
+    const vehiculos = await Vehiculo.find({
+        exp_to: { $gte: fecha_fin }, exp_soat: { $gte: fecha_fin },
+        exp_tech: { $gte: fecha_fin }, exp_prev: { $gte: fecha_fin }
+    });
+
+    vehiculos.map((dato, key) => {
+        //console.log(dato);
+        console.log(key);
+
+        if (dato.GNV == "true") {
+
+            if (dato.exp_gnv <= fecha_fin) {
+                vehiculos.splice(key, 1);
+            }
+        }
+        res.json(vehiculos);
+    })
+
+
+};
 
 vehiculoCtrl.getAlertasVehiculos = async (req, res) => {
     const vehiculo = await Vehiculo.find({ state: "true" });

@@ -3,6 +3,9 @@ var moment = require('moment/moment');
 const conductorCtrl = {};
 
 
+async function validar_cedula(cedula) {
+    return await Conductor.find({ CC: cedula, state: 'true' });
+}
 
 //listar conductores
 conductorCtrl.getConductores = async (req, res) => {
@@ -12,14 +15,22 @@ conductorCtrl.getConductores = async (req, res) => {
     // Conductor.find()
     // .then(conductores =>  res.json( conductores))
     // .catch(err => console.log(err));
-
 };
 
-async function validar_cedula(cedula) {
-    return await Conductor.find({ CC: cedula, state: 'true' });
-}
+//listar Conductores disponibles
+conductorCtrl.ConductoresDisponibles = async (req, res) => {
+    console.log("aqui estoy bucanso");
 
+    var fecha_fin = req.body.fecha_fin;
+    console.log(fecha_fin);
 
+    const conductores = await Conductor.find({
+        license_expiration: { $gte: fecha_fin }, health_expiration: { $gte: fecha_fin },
+        drug_expiration: { $gte: fecha_fin }, simit_expiration: { $gte: fecha_fin }
+    });
+
+    res.json(conductores);
+};
 
 // crear conductor
 conductorCtrl.createConductor = async (req, res) => {

@@ -90,6 +90,7 @@ contratoCtrl.createContrato = async (req, res) => {
         });
 
 
+
         //invoco funcion ultimo contrato,guardo el numero del contrato
         const Valid_idenC = await definirct_identi();
         Valid_idenC.map(async UltimoContrato => {
