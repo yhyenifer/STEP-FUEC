@@ -80,10 +80,10 @@ export class VehiculosService {
 
   //listar los vehiculos disponibles
   getVehiculosDisponibles(fecha_fin): Observable<vehiculoDispo[]> {
-    console.log('dis');
+
     let token = localStorage
       .getItem('token');
-    return this.http.post<vehiculoDispo[]>(this.URL_API + `/disponible`,{fecha_fin: fecha_fin} ,{
+    return this.http.post<vehiculoDispo[]>(this.URL_API + `/disponible`, { fecha_fin: fecha_fin }, {
       headers: new HttpHeaders().append('token', token)
     });
   };

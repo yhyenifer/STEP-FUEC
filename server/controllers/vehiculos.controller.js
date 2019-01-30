@@ -14,8 +14,9 @@ vehiculoCtrl.getVehiculos = async (req, res) => {
 
 //listar Vehiculos disponibles
 vehiculoCtrl.VehiculosDisponibles = async (req, res) => {
-
+    console.log('vehiculos');
     var fecha_fin = req.body.fecha_fin;
+    console.log(fecha_fin);
     const vehiculos = await Vehiculo.find({
         exp_to: { $gte: fecha_fin }, exp_soat: { $gte: fecha_fin },
         exp_tech: { $gte: fecha_fin }, exp_prev: { $gte: fecha_fin }
@@ -23,7 +24,7 @@ vehiculoCtrl.VehiculosDisponibles = async (req, res) => {
 
     vehiculos.map((dato, key) => {
         //console.log(dato);
-        console.log(key);
+
 
         if (dato.GNV == "true") {
 
