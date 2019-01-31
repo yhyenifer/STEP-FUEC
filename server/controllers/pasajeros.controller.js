@@ -6,11 +6,6 @@ const pasajeroCtrl = {};
 pasajeroCtrl.getPasajeros = async (req, res) => {
     const pasajeros = await Pasajero.find({ state: "true" }).sort({ createdAt: -1 }); // ordenada desc
     res.json(pasajeros);
-    // otra forma de hacerlo, para ver el error
-    // Pasajero.find()
-    // .then(pasajeros =>  res.json(pasajeros))
-    // .catch(err => console.log(err));
-
 };
 
 //listar pasajeros por contrato

@@ -11,18 +11,12 @@ async function validar_cedula(cedula) {
 conductorCtrl.getConductores = async (req, res) => {
     const conductores = await Conductor.find({ state: "true" }).sort({ createdAt: -1 }); // ordenada desc
     res.json(conductores);
-    // otra forma de hacerlo, para ver el error
-    // Conductor.find()
-    // .then(conductores =>  res.json( conductores))
-    // .catch(err => console.log(err));
 };
 
 //listar Conductores disponibles
 conductorCtrl.ConductoresDisponibles = async (req, res) => {
-    console.log("aqui estoy bucanso");
 
     var fecha_fin = req.body.fecha_fin;
-    console.log(fecha_fin);
 
     const conductores = await Conductor.find({
         license_expiration: { $gte: fecha_fin }, health_expiration: { $gte: fecha_fin },
@@ -84,7 +78,6 @@ conductorCtrl.getConductor = async (req, res) => {
 };
 
 
-
 // generar alertas necesarias para los conductores
 conductorCtrl.getAlertasConductores = async (req, res) => {
     const conductor = await Conductor.find({ state: "true" });
@@ -96,7 +89,7 @@ conductorCtrl.getAlertasConductores = async (req, res) => {
         var fecha_diferencia = fecha_com.diff(fecha_Actual, 'days');// calcula la diferencia de fechas y se muestra en dias
 
         //condicion de fechas entre 1 y 15 dias para alerta tipo 1
-        if (fecha_diferencia >= 1 && fecha_diferencia <= 15) {
+        if (fecha_diferencia >= 6 && fecha_diferencia <= 20) {
             // objeto alerta tipo 1 -> warning amarilla
             const objAlerta1 = {
                 identificacion: dato.CC,
@@ -112,7 +105,7 @@ conductorCtrl.getAlertasConductores = async (req, res) => {
             alertas.push(objAlerta1);
         };
 
-        if (fecha_diferencia <= 0) {
+        if (fecha_diferencia <= 5) {
             //objeto alerta tipo 2 -> warning roja
             const objAlerta2 = {
                 identificacion: dato.CC,
@@ -131,7 +124,7 @@ conductorCtrl.getAlertasConductores = async (req, res) => {
         var fecha_diferencia = fecha_com.diff(fecha_Actual, 'days');// calcula la diferencia de fechas y se muestra en dias
 
         //condicion de fechas entre 1 y 15 dias para alerta tipo 1
-        if (fecha_diferencia >= 1 && fecha_diferencia <= 15) {
+        if (fecha_diferencia >= 6 && fecha_diferencia <= 20) {
             // objeto alerta tipo 1 -> warning amarilla
             const objAlerta1 = {
                 identificacion: dato.CC,
@@ -145,7 +138,7 @@ conductorCtrl.getAlertasConductores = async (req, res) => {
             alertas.push(objAlerta1);
         };
 
-        if (fecha_diferencia <= 0) {
+        if (fecha_diferencia <= 5) {
             // objeto alerta tipo 2 -> warning roja
             const objAlerta2 = {
                 identificacion: dato.CC,
@@ -164,7 +157,7 @@ conductorCtrl.getAlertasConductores = async (req, res) => {
         var fecha_diferencia = fecha_com.diff(fecha_Actual, 'days');// calcula la diferencia de fechas y se muestra en dias
 
         //condicion de fechas entre 1 y 15 dias para alerta tipo 1
-        if (fecha_diferencia >= 1 && fecha_diferencia <= 15) {
+        if (fecha_diferencia >= 6 && fecha_diferencia <= 20) {
             // objeto alerta tipo 1 -> warning amarilla
             const objAlerta1 = {
                 identificacion: dato.CC,
@@ -178,7 +171,7 @@ conductorCtrl.getAlertasConductores = async (req, res) => {
             alertas.push(objAlerta1);
         };
 
-        if (fecha_diferencia <= 0) {
+        if (fecha_diferencia <= 5) {
             // objeto alerta tipo 2 -> warning roja
             const objAlerta2 = {
                 identificacion: dato.CC,
@@ -197,7 +190,7 @@ conductorCtrl.getAlertasConductores = async (req, res) => {
         var fecha_diferencia = fecha_com.diff(fecha_Actual, 'days');// calcula la diferencia de fechas y se muestra en dias
 
         //condicion de fechas entre 1 y 15 dias para alerta tipo 1
-        if (fecha_diferencia >= 1 && fecha_diferencia <= 15) {
+        if (fecha_diferencia >= 6 && fecha_diferencia <= 20) {
             // objeto alerta tipo 1 -> warning amarilla
             const objAlerta1 = {
                 identificacion: dato.CC,
@@ -211,7 +204,7 @@ conductorCtrl.getAlertasConductores = async (req, res) => {
             alertas.push(objAlerta1);
         };
 
-        if (fecha_diferencia <= 0) {
+        if (fecha_diferencia <= 5) {
             // objeto alerta tipo 2 -> warning roja
             const objAlerta2 = {
                 identificacion: dato.CC,
@@ -231,7 +224,7 @@ conductorCtrl.getAlertasConductores = async (req, res) => {
             var fecha_diferencia = fecha_com.diff(fecha_Actual, 'days');// calcula la diferencia de fechas y se muestra en dias
 
             //condicion de fechas entre 1 y 15 dias para alerta tipo 1
-            if (fecha_diferencia >= 1 && fecha_diferencia <= 15) {
+            if (fecha_diferencia >= 6 && fecha_diferencia <= 20) {
                 // objeto alerta tipo 1 -> warning amarilla
                 const objAlerta1 = {
                     identificacion: dato.CC,
@@ -245,7 +238,7 @@ conductorCtrl.getAlertasConductores = async (req, res) => {
                 alertas.push(objAlerta1);
             };
 
-            if (fecha_diferencia <= 0) {
+            if (fecha_diferencia <= 5) {
                 // objeto alerta tipo 2 -> warning roja
                 const objAlerta2 = {
                     identificacion: dato.CC,
@@ -266,7 +259,7 @@ conductorCtrl.getAlertasConductores = async (req, res) => {
             var fecha_diferencia = fecha_com.diff(fecha_Actual, 'days');// calcula la diferencia de fechas y se muestra en dias
 
             //condicion de fechas entre 1 y 15 dias para alerta tipo 1
-            if (fecha_diferencia >= 1 && fecha_diferencia <= 15) {
+            if (fecha_diferencia >= 6 && fecha_diferencia <= 20) {
                 // objeto alerta tipo 1 -> warning amarilla
                 const objAlerta1 = {
                     identificacion: dato.CC,
@@ -280,7 +273,7 @@ conductorCtrl.getAlertasConductores = async (req, res) => {
                 alertas.push(objAlerta1);
             };
 
-            if (fecha_diferencia <= 0) {
+            if (fecha_diferencia <= 5) {
                 // objeto alerta tipo 2 -> warning roja
                 const objAlerta2 = {
                     identificacion: dato.CC,
@@ -301,7 +294,7 @@ conductorCtrl.getAlertasConductores = async (req, res) => {
             var fecha_diferencia = fecha_com.diff(fecha_Actual, 'days');// calcula la diferencia de fechas y se muestra en dias
 
             //condicion de fechas entre 1 y 15 dias para alerta tipo 1
-            if (fecha_diferencia >= 1 && fecha_diferencia <= 15) {
+            if (fecha_diferencia >= 6 && fecha_diferencia <= 20) {
                 // objeto alerta tipo 1 -> warning amarilla
                 const objAlerta1 = {
                     identificacion: dato.CC,
@@ -316,7 +309,7 @@ conductorCtrl.getAlertasConductores = async (req, res) => {
             };
 
 
-            if (fecha_diferencia <= 0) {
+            if (fecha_diferencia <= 5) {
                 // objeto alerta tipo 2 -> warning roja
                 const objAlerta2 = {
                     identificacion: dato.CC,
@@ -337,7 +330,7 @@ conductorCtrl.getAlertasConductores = async (req, res) => {
             var fecha_diferencia = fecha_com.diff(fecha_Actual, 'days');// calcula la diferencia de fechas y se muestra en dias
 
             //condicion de fechas entre 1 y 15 dias para alerta tipo 1
-            if (fecha_diferencia >= 1 && fecha_diferencia <= 15) {
+            if (fecha_diferencia >= 6 && fecha_diferencia <= 20) {
                 // objeto alerta tipo 1 -> warning amarilla
                 const objAlerta1 = {
                     identificacion: dato.CC,
@@ -351,7 +344,7 @@ conductorCtrl.getAlertasConductores = async (req, res) => {
                 alertas.push(objAlerta1);
             };
 
-            if (fecha_diferencia <= 0) {
+            if (fecha_diferencia <= 5) {
                 // objeto alerta tipo 2 -> warning roja
                 const objAlerta2 = {
                     identificacion: dato.CC,
@@ -372,7 +365,7 @@ conductorCtrl.getAlertasConductores = async (req, res) => {
             var fecha_diferencia = fecha_com.diff(fecha_Actual, 'days');// calcula la diferencia de fechas y se muestra en dias
 
             //condicion de fechas entre 1 y 15 dias para alerta tipo 1
-            if (fecha_diferencia >= 1 && fecha_diferencia <= 15) {
+            if (fecha_diferencia >= 6 && fecha_diferencia <= 20) {
                 // objeto alerta tipo 1 -> warning amarilla
                 const objAlerta1 = {
                     identificacion: dato.CC,
@@ -386,7 +379,7 @@ conductorCtrl.getAlertasConductores = async (req, res) => {
                 alertas.push(objAlerta1);
             };
 
-            if (fecha_diferencia <= 0) {
+            if (fecha_diferencia <= 5) {
                 // objeto alerta tipo 2 -> warning roja
                 const objAlerta2 = {
                     identificacion: dato.CC,
@@ -407,7 +400,7 @@ conductorCtrl.getAlertasConductores = async (req, res) => {
             var fecha_diferencia = fecha_com.diff(fecha_Actual, 'days');// calcula la diferencia de fechas y se muestra en dias
 
             //condicion de fechas entre 1 y 15 dias para alerta tipo 1
-            if (fecha_diferencia >= 1 && fecha_diferencia <= 15) {
+            if (fecha_diferencia >= 6 && fecha_diferencia <= 20) {
                 // objeto alerta tipo 1 -> warning amarilla
                 const objAlerta1 = {
                     identificacion: dato.CC,
@@ -421,7 +414,7 @@ conductorCtrl.getAlertasConductores = async (req, res) => {
                 alertas.push(objAlerta1);
             };
 
-            if (fecha_diferencia <= 0) {
+            if (fecha_diferencia <= 5) {
                 // objeto alerta tipo 2 -> warning roja
                 const objAlerta2 = {
                     identificacion: dato.CC,
@@ -441,7 +434,7 @@ conductorCtrl.getAlertasConductores = async (req, res) => {
             var fecha_diferencia = fecha_com.diff(fecha_Actual, 'days');// calcula la diferencia de fechas y se muestra en dias
 
             //condicion de fechas entre 1 y 15 dias para alerta tipo 1
-            if (fecha_diferencia >= 1 && fecha_diferencia <= 15) {
+            if (fecha_diferencia >= 6 && fecha_diferencia <= 20) {
                 // objeto alerta tipo 1 -> warning amarilla
                 const objAlerta1 = {
                     identificacion: dato.CC,
@@ -455,7 +448,7 @@ conductorCtrl.getAlertasConductores = async (req, res) => {
                 alertas.push(objAlerta1);
             };
 
-            if (fecha_diferencia <= 0) {
+            if (fecha_diferencia <= 5) {
                 // objeto alerta tipo 2 -> warning roja
                 const objAlerta2 = {
                     identificacion: dato.CC,
@@ -476,7 +469,7 @@ conductorCtrl.getAlertasConductores = async (req, res) => {
             var fecha_diferencia = fecha_com.diff(fecha_Actual, 'days');// calcula la diferencia de fechas y se muestra en dias
 
             //condicion de fechas entre 1 y 15 dias para alerta tipo 1
-            if (fecha_diferencia >= 1 && fecha_diferencia <= 15) {
+            if (fecha_diferencia >= 6 && fecha_diferencia <= 20) {
                 // objeto alerta tipo 1 -> warning amarilla
                 const objAlerta1 = {
                     identificacion: dato.CC,
@@ -491,7 +484,7 @@ conductorCtrl.getAlertasConductores = async (req, res) => {
             };
 
 
-            if (fecha_diferencia <= 0) {
+            if (fecha_diferencia <= 5) {
                 // objeto alerta tipo 2 -> warning roja
                 const objAlerta2 = {
                     identificacion: dato.CC,
@@ -512,7 +505,7 @@ conductorCtrl.getAlertasConductores = async (req, res) => {
             var fecha_diferencia = fecha_com.diff(fecha_Actual, 'days');// calcula la diferencia de fechas y se muestra en dias
 
             //condicion de fechas entre 1 y 15 dias para alerta tipo 1
-            if (fecha_diferencia >= 1 && fecha_diferencia <= 15) {
+            if (fecha_diferencia >= 6 && fecha_diferencia <= 20) {
                 // objeto alerta tipo 1 -> warning amarilla
                 const objAlerta1 = {
                     identificacion: dato.CC,
@@ -526,7 +519,7 @@ conductorCtrl.getAlertasConductores = async (req, res) => {
                 alertas.push(objAlerta1);
             };
 
-            if (fecha_diferencia <= 0) {
+            if (fecha_diferencia <= 5) {
                 // objeto alerta tipo 2 -> warning roja
                 const objAlerta2 = {
                     identificacion: dato.CC,
@@ -547,7 +540,7 @@ conductorCtrl.getAlertasConductores = async (req, res) => {
             var fecha_diferencia = fecha_com.diff(fecha_Actual, 'days');// calcula la diferencia de fechas y se muestra en dias
 
             //condicion de fechas entre 1 y 15 dias para alerta tipo 1
-            if (fecha_diferencia >= 1 && fecha_diferencia <= 15) {
+            if (fecha_diferencia >= 6 && fecha_diferencia <= 20) {
                 // objeto alerta tipo 1 -> warning amarilla
                 const objAlerta1 = {
                     identificacion: dato.CC,
@@ -561,7 +554,7 @@ conductorCtrl.getAlertasConductores = async (req, res) => {
                 alertas.push(objAlerta1);
             };
 
-            if (fecha_diferencia <= 0) {
+            if (fecha_diferencia <= 5) {
                 // objeto alerta tipo 2 -> warning roja
                 const objAlerta2 = {
                     identificacion: dato.CC,
@@ -581,7 +574,7 @@ conductorCtrl.getAlertasConductores = async (req, res) => {
             var fecha_diferencia = fecha_com.diff(fecha_Actual, 'days');// calcula la diferencia de fechas y se muestra en dias
 
             //condicion de fechas entre 1 y 15 dias para alerta tipo 1
-            if (fecha_diferencia >= 1 && fecha_diferencia <= 15) {
+            if (fecha_diferencia >= 6 && fecha_diferencia <= 20) {
                 // objeto alerta tipo 1 -> warning amarilla
                 const objAlerta1 = {
                     identificacion: dato.CC,
@@ -595,7 +588,7 @@ conductorCtrl.getAlertasConductores = async (req, res) => {
                 alertas.push(objAlerta1);
             };
 
-            if (fecha_diferencia <= 0) {
+            if (fecha_diferencia <= 5) {
                 // objeto alerta tipo 2 -> warning roja
                 const objAlerta2 = {
                     identificacion: dato.CC,
@@ -616,7 +609,7 @@ conductorCtrl.getAlertasConductores = async (req, res) => {
             var fecha_diferencia = fecha_com.diff(fecha_Actual, 'days');// calcula la diferencia de fechas y se muestra en dias
 
             //condicion de fechas entre 1 y 15 dias para alerta tipo 1
-            if (fecha_diferencia >= 1 && fecha_diferencia <= 15) {
+            if (fecha_diferencia >= 6 && fecha_diferencia <= 20) {
                 // objeto alerta tipo 1 -> warning amarilla
                 const objAlerta1 = {
                     identificacion: dato.CC,
@@ -630,7 +623,7 @@ conductorCtrl.getAlertasConductores = async (req, res) => {
                 alertas.push(objAlerta1);
             };
 
-            if (fecha_diferencia <= 0) {
+            if (fecha_diferencia <= 5) {
                 // objeto alerta tipo 2 -> warning roja
                 const objAlerta2 = {
                     identificacion: dato.CC,
@@ -651,7 +644,7 @@ conductorCtrl.getAlertasConductores = async (req, res) => {
             var fecha_diferencia = fecha_com.diff(fecha_Actual, 'days');// calcula la diferencia de fechas y se muestra en dias
 
             //condicion de fechas entre 1 y 15 dias para alerta tipo 1
-            if (fecha_diferencia >= 1 && fecha_diferencia <= 15) {
+            if (fecha_diferencia >= 6 && fecha_diferencia <= 20) {
                 // objeto alerta tipo 1 -> warning amarilla
                 const objAlerta1 = {
                     identificacion: dato.CC,
@@ -665,7 +658,7 @@ conductorCtrl.getAlertasConductores = async (req, res) => {
                 alertas.push(objAlerta1);
             };
 
-            if (fecha_diferencia <= 0) {
+            if (fecha_diferencia <= 5) {
                 // objeto alerta tipo 2 -> warning roja
                 const objAlerta2 = {
                     identificacion: dato.CC,
@@ -686,7 +679,7 @@ conductorCtrl.getAlertasConductores = async (req, res) => {
             var fecha_diferencia = fecha_com.diff(fecha_Actual, 'days');// calcula la diferencia de fechas y se muestra en dias
 
             //condicion de fechas entre 1 y 15 dias para alerta tipo 1
-            if (fecha_diferencia >= 1 && fecha_diferencia <= 15) {
+            if (fecha_diferencia >= 6 && fecha_diferencia <= 20) {
                 // objeto alerta tipo 1 -> warning amarilla
                 const objAlerta1 = {
                     identificacion: dato.CC,
@@ -700,7 +693,7 @@ conductorCtrl.getAlertasConductores = async (req, res) => {
                 alertas.push(objAlerta1);
             };
 
-            if (fecha_diferencia <= 0) {
+            if (fecha_diferencia <= 5) {
                 // objeto alerta tipo 2 -> warning roja
                 const objAlerta2 = {
                     identificacion: dato.CC,

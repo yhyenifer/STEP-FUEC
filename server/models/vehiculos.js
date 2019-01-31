@@ -18,6 +18,7 @@ const VehiculoSchema = new Schema({
     exp_rcc: { type: Date, required: true }, // Fecha de Expiracion Responsabilidad Civil Contractual (Año/Mes/Dia)
     active: { type: Boolean, default: true },
     internal: { type: Boolean, default: true },
+    usuario_actual: { type: String },
     state: { type: Boolean, default: true }
 
 }, { timestamps: true });

@@ -8,6 +8,7 @@ const UsuarioSchema = new Schema({
     name: { type: String, required: true },//nombre de usuario
     password: { type: String, required: true }, // contraseña
     role: { type: String, required: true },
+    usuario_actual: { type: String },
     state: { type: Boolean, default: true }
 
 }, { timestamps: true });
