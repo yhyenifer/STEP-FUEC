@@ -11,6 +11,7 @@ import { map, startWith } from 'rxjs/operators';
 import { ClienteService } from '../../services/clientes.service';
 import { VehiculosService } from '../../services/vehiculos.service';
 import { Vehiculos } from '../../models/vehiculos';
+import { ConductoresService } from '../../services/conductores.service';
 
 export interface Food {
   value: string;
@@ -26,6 +27,13 @@ declare var M: any;
   styleUrls: ['./contratos.component.css']
 })
 export class ContratosComponent implements OnInit {
+  arrayConductores: any[] = [];
+  conductor: string;
+  conductorPermiso: any;
+  posicionConductor: any;
+  idConductor: any;
+  nombreConductor: string;
+  conductoresDispo: any[];
   vehiculo: string;
   arrayVehiculos: any[] = [];
   posicionVehiculo: number;
@@ -60,6 +68,7 @@ export class ContratosComponent implements OnInit {
   tipoIdent: any = '';
   apellidoCliente: any = '';
   nombresCliente: any = '';
+  descripcionObjeto: string = "";
   // variables contrato
   objetoContrato: string = '';
   tipoContrato: string = '';
@@ -101,11 +110,12 @@ export class ContratosComponent implements OnInit {
   @ViewChild('dataTable') table: ElementRef;
 
   constructor(private clienteService: ClienteService,
-    private vehiculosService: VehiculosService) {
+    private vehiculosService: VehiculosService, private conductoresService: ConductoresService) {
     this.today = moment().add('days', 1).format('YYYY-MM-DD');
     this.fechaCreacion = moment(this.today).format('YYYY-MM-DD');
     this.fechaInicioPermiso = this.fechaInicio;
     this.vehiculosPermiso = [];
+    this.conductorPermiso = [];
 
     //this.url = 'http://localhost:8000/api/conductores';
 
@@ -137,6 +147,7 @@ export class ContratosComponent implements OnInit {
 
   cargarVehiculosConductores() {
     this.getVehiculos();
+    this.getConductores();
     // this.vehiculos = ;
     // si el campo vehiculo presenta un cambio, este aplica e filtrp
     this.filteredVehiculos = this.vehiculos.valueChanges
@@ -157,6 +168,12 @@ export class ContratosComponent implements OnInit {
     return this.vehiculosDispo.filter(option => option.plate.toLowerCase().includes(filterValue)
       || option.lateral.toLowerCase().includes(filterValue));
   }
+  private _filter(value: string): string[] {
+    console.log('filter');
+    const filterValue = value.toLowerCase();
+    return this.conductoresDispo.filter(option => option.CC.toLowerCase().includes(filterValue)
+      || option.name.toLowerCase().includes(filterValue));
+  }
 
   cargarClientes() {
     this.options = [];
@@ -166,12 +183,7 @@ export class ContratosComponent implements OnInit {
       });
   }
 
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-    return this.options.filter(option => option.nombre.toLowerCase().includes(filterValue)
-      || option.numero_identificacion.toLowerCase().includes(filterValue) || option.apellido.toLowerCase().includes(filterValue)
-    );
-  }
+
 
   cambiaTipo() {
     console.log('cambia');
@@ -262,6 +274,12 @@ export class ContratosComponent implements OnInit {
       this.verAddV = false
     }
   }
+  // identifica que el conductor se cambia y habilita o desabilita el boton de agregar
+  cambiaConductor() {
+    if (this.nombreConductor == '') {
+      this.verAddC = false
+    }
+  }
   // permite obtener el id del vehiculo una vez se selecciona y la posicion de arreglo de vehiculos
   setIDVehiculos(id, posicion) {
     if (id != undefined) {
@@ -275,6 +293,28 @@ export class ContratosComponent implements OnInit {
         this.posicionVehiculo = key;
       }
     });
+
+  }
+  // permite obtener el id del vehiculo una vez se selecciona y la posicion de arreglo de vehiculos
+  setIDConductores(id, posicion) {
+    if (id != undefined) {
+      this.verAddC = true;
+    }
+    this.idConductor = id;
+    // se busca el id para obtener la poscion del rreglo
+    this.conductoresDispo.map((op, key) => {
+
+      if (op._id == this.idConductor) {
+        this.posicionConductor = key;
+      }
+    });
+
+  }
+  agregarConductor() {
+    this.conductorPermiso.push(this.idConductor);
+    this.idConductor = "";
+    this.conductor = "";
+    this.arrayConductores.push(this.conductoresDispo[this.posicionConductor]);
 
   }
   agregarVehiculo() {
@@ -332,7 +372,7 @@ export class ContratosComponent implements OnInit {
   getVehiculos() {
     this.vehiculosDispo = [];
 
-    this.vehiculosService.getVehiculosDisponibles()
+    this.vehiculosService.getVehiculosDisponibles(this.fechaFinPermiso)
       .subscribe(res => {
         this.vehiculosDispo = res;
         if (this.vehiculosDispo.length > 0) {
@@ -342,12 +382,34 @@ export class ContratosComponent implements OnInit {
         }
       });
   }
+  getConductores() {
+    this.conductoresDispo = [];
+
+    this.conductoresService.getConductoresDisponibles(this.fechaFinPermiso)
+      .subscribe(res => {
+        this.conductoresDispo = res;
+        console.log(this.conductoresDispo);
+        if (this.conductoresDispo.length > 0) {
+          this.hayConductores = true;
+        } else {
+          this.hayConductores = false;
+        }
+      });
+  }
 
   removeVehiculo(posicion) {
     console.log(posicion);
     console.log(this.vehiculosPermiso);
     this.vehiculosPermiso.splice(posicion, 1);
     this.arrayVehiculos.splice(posicion, 1);
+
+  }
+
+  agergarOtroPermiso() {
+    console.log('agregar otro permiso');
+  }
+  agergarPermiso() {
+    console.log('no agregar otro permiso');
 
   }
 

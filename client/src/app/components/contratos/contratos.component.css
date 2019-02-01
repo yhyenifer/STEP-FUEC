@@ -10,6 +10,10 @@
     background-color: #0aad5c;
 }
 
+.back-naranja {
+    background-color: #d8860c;
+}
+
 .margin-separe {
     margin-right: 4px;
 }
@@ -120,4 +124,9 @@
     color: gray;
     font-size: 20px;
     margin-top: 2px;
+}
+
+.style-ask {
+    text-align: center;
+    font-size: 18px;
 }
