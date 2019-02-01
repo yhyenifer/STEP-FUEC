@@ -12,24 +12,48 @@ vehiculoCtrl.getVehiculos = async (req, res) => {
     res.json(vehiculos);
 };
 
+
 //listar Vehiculos disponibles
 vehiculoCtrl.VehiculosDisponibles = async (req, res) => {
-
     var fecha_fin = req.body.fecha_fin;
-    const vehiculos = await Vehiculo.find({
-        exp_to: { $gte: fecha_fin }, exp_soat: { $gte: fecha_fin },
-        exp_tech: { $gte: fecha_fin }, exp_prev: { $gte: fecha_fin }
-    });
+    var fecha_ini = req.body.fecha_ini;
+
+    const vehiculos = await Vehiculo.find({ state: "true" });
 
     vehiculos.map((dato, key) => {
+        var fechas = [moment(dato.exp_to), moment(dato.exp_soat), moment(dato.exp_tech), moment(dato.exp_prev),
+        moment(dato.exp_rcc)];
+        console.log(fechas);
+        console.log("1");
 
         if (dato.GNV == "true") {
+            if (moment(dato.exp_to) > fecha_ini && moment(dato.exp_soat) > fecha_ini && moment(dato.exp_tech) > fecha_ini
+                && moment(dato.exp_prev) > fecha_ini && moment(dato.exp_rcc) > fecha_ini && moment(dato.exp_gnv) > fecha_ini) {
 
-            if (dato.exp_gnv <= fecha_fin) {
-                vehiculos.splice(key, 1);
+                var fechas = [dato.exp_to, dato.exp_soat, dato.exp_tech, dato.exp_prev, dato.exp_rcc, dato.exp_gnv];
+                console.log(fechas);
+                console.log("2");
+                for (var i = 0; i < fechas.length; i++) {
+                    var fecha_menor = fechas[i];
+
+                }
             }
         }
-        res.json(vehiculos);
+        else
+            if (moment(dato.exp_to) > moment(fecha_ini) && moment(dato.exp_soat) > moment(fecha_ini) &&
+                moment(dato.exp_tech) > moment(fecha_ini) && moment(dato.exp_prev) > moment(fecha_ini) &&
+                moment(dato.exp_rcc) > moment(fecha_ini)) {
+
+                var fechas = [dato.exp_to, dato.exp_soat, dato.exp_tech, dato.exp_prev, dato.exp_rcc];
+                console.log(fechas);
+                console.log("3");
+                for (var i = 0; i < fechas.length; i++) {
+                    var fecha_menor = fechas[i];
+
+                }
+            }
+            else
+                res.json(vehiculos);
     })
 };
 

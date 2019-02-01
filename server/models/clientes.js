@@ -15,6 +15,7 @@ const ClienteSchema = new Schema({
     ciudad: { type: String, required: true },//
     telefono: { type: String, required: true },//numero telefonico
     correo_elect: { type: String, required: true }, //correo electronico
+    usuario_actual: { type: String },
     state: { type: Boolean, default: true }
 
 
