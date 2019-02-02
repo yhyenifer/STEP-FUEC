@@ -4,7 +4,9 @@ const { Schema } = mongoose;
 const ContratoSchema = new Schema({
 
     id_cliente: { type: String, required: true, ref: 'clientes' },//informacion del cliente
-    id_pasajero: { type: String },//lista de pasajeros
+    id_pasajero: { type: String },//lista de 
+    pasaj_respon: { type: String },//pasajero responsable del viaje
+    info_adicional: { type: String },//espacio para ingresar informacion adicional en el contrato
     tipo_contrato: { type: String },//empresas, ocasional, colegios.
     renewable: { type: Boolean },//Renovable si o no
     ct_object: { type: String, required: true },//Objeto del contrato
@@ -20,6 +22,7 @@ const ContratoSchema = new Schema({
     ct_number: { type: String },
     estadoContrato: { type: String },
     fecha_Pago: { type: Date },
+    usuario_actual: { type: String },
     state: { type: Boolean, default: true }
 
 }, { timestamps: true });

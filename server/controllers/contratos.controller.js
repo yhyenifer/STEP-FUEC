@@ -70,6 +70,9 @@ contratoCtrl.createContrato = async (req, res) => {
 
         const contrato = new Contrato({
             id_cliente: req.body.id_cliente,
+            id_pasajero: req.body.id_pasajero,
+            pasaj_respon: req.body.pasaj_respon,
+            info_adicional: req.body.info_adicional,
             tipo_contrato: req.body.tipo_contrato,
             renewable: req.body.renewable,
             ct_object: req.body.ct_object,
@@ -122,6 +125,9 @@ contratoCtrl.createContrato = async (req, res) => {
             const contrato = new Contrato({
                 id_cliente: req.body.id_cliente,
                 tipo_contrato: req.body.tipo_contrato,
+                id_pasajero: req.body.id_pasajero,
+                pasaj_respon: req.body.pasaj_respon,
+                info_adicional: req.body.info_adicional,
                 renewable: req.body.renewable,
                 ct_object: req.body.ct_object,
                 pass_number: req.body.pass_number,
@@ -174,7 +180,7 @@ contratoCtrl.getAlertasContratos = async (req, res) => {
             var fecha_diferencia = fecha_com.diff(fecha_Actual, 'days');// calcula la diferencia de fechas y se muestra en dias
 
             //condicion de fechas entre 1 y 15 dias para alerta tipo 1
-            if (fecha_diferencia >= 1 && fecha_diferencia <= 15) {
+            if (fecha_diferencia >= 6 && fecha_diferencia <= 20) {
                 // objeto alerta tipo 1 -> warning amarilla
                 const objAlerta1 = {
                     numero_contrato: dato.ct_number,
@@ -190,7 +196,7 @@ contratoCtrl.getAlertasContratos = async (req, res) => {
                 alertas.push(objAlerta1);
             };
 
-            if (fecha_diferencia <= 0) {
+            if (fecha_diferencia <= 5) {
                 //objeto alerta tipo 2 -> warning roja
                 const objAlerta2 = {
                     numero_contrato: dato.ct_number,
@@ -214,7 +220,7 @@ contratoCtrl.getAlertasContratos = async (req, res) => {
         var fecha_diferencia = fecha_com.diff(fecha_Actual, 'days');// calcula la diferencia de fechas y se muestra en dias
 
         //condicion de fechas entre 1 y 15 dias para alerta tipo 1
-        if (fecha_diferencia >= 1 && fecha_diferencia <= 15) {
+        if (fecha_diferencia >= 6 && fecha_diferencia <= 20) {
             // objeto alerta tipo 1 -> warning amarilla
             const objAlerta1 = {
                 numero_contrato: dato.ct_number,
@@ -230,7 +236,7 @@ contratoCtrl.getAlertasContratos = async (req, res) => {
             alertas.push(objAlerta1);
         };
 
-        if (fecha_diferencia <= 0) {
+        if (fecha_diferencia <= 5) {
             //objeto alerta tipo 2 -> warning roja
             const objAlerta2 = {
                 numero_contrato: dato.ct_number,
@@ -250,7 +256,7 @@ contratoCtrl.getAlertasContratos = async (req, res) => {
         var fecha_diferencia = fecha_com.diff(fecha_Actual, 'days');// calcula la diferencia de fechas y se muestra en dias
 
         //condicion de fechas entre 1 y 15 dias para alerta tipo 1
-        if (fecha_diferencia >= 1 && fecha_diferencia <= 15) {
+        if (fecha_diferencia >= 6 && fecha_diferencia <= 20) {
             // objeto alerta tipo 1 -> warning amarilla
             const objAlerta1 = {
                 numero_contrato: dato.ct_number,
@@ -266,7 +272,7 @@ contratoCtrl.getAlertasContratos = async (req, res) => {
             alertas.push(objAlerta1);
         };
 
-        if (fecha_diferencia <= 0) {
+        if (fecha_diferencia <= 5) {
             //objeto alerta tipo 2 -> warning roja
             const objAlerta2 = {
                 numero_contrato: dato.ct_number,
@@ -285,7 +291,7 @@ contratoCtrl.getAlertasContratos = async (req, res) => {
         var fecha_com = moment(dato.end); // captura fecha de fin del contrato
         var fecha_Actual = moment().format("YYYY-MM-DD"); // capturas la fecha actual del sistema y le da formato
         var fecha_diferencia = fecha_com.diff(fecha_Actual, 'days');// calcula la diferencia de fechas y se muestra en dias
-        if (fecha_diferencia <= 0) {
+        if (fecha_diferencia <= 5) {
             //objeto alerta tipo 2 -> warning roja
             if (estadoContrato == "En ejecucion") {
                 const objAlerta2 = {
@@ -333,6 +339,9 @@ contratoCtrl.updateContrato = async (req, res) => {
 
                     id_cliente: req.body.id_cliente,
                     tipo_contrato: req.body.tipo_contrato,
+                    id_pasajero: req.body.id_pasajero,
+                    pasaj_respon: req.body.pasaj_respon,
+                    info_adicional: req.body.info_adicional,
                     renewable: req.body.renewable,
                     ct_object: req.body.ct_object,
                     pass_number: req.body.pass_number,

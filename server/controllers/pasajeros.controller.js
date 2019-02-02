@@ -6,11 +6,6 @@ const pasajeroCtrl = {};
 pasajeroCtrl.getPasajeros = async (req, res) => {
     const pasajeros = await Pasajero.find({ state: "true" }).sort({ createdAt: -1 }); // ordenada desc
     res.json(pasajeros);
-    // otra forma de hacerlo, para ver el error
-    // Pasajero.find()
-    // .then(pasajeros =>  res.json(pasajeros))
-    // .catch(err => console.log(err));
-
 };
 
 //listar pasajeros por contrato
@@ -59,13 +54,9 @@ pasajeroCtrl.updatePasajero = async (req, res) => {
     const validacion = await validar_cedula(req.body.numero_identificacion);
     console.log(validacion);
     if (validacion != 0) {
-        console.log("entre en el primer if");
         validacion.map(async dato => {
-            console.log("estoy en map");
             if (id == dato._id) {
-                console.log("entre en el segundo if");
                 const newPasajero = {
-
                     nombre: req.body.nombre,
                     numero_identificacion: req.body.numero_identificacion,
                     telefono: req.body.telefono,
@@ -74,7 +65,6 @@ pasajeroCtrl.updatePasajero = async (req, res) => {
                 }
                 await Pasajero.findByIdAndUpdate(id, { $set: newPasajero }, { new: true });
                 res.json({ status: 'Pasajero Actualizado Exitosamente' });
-
             }
             else {
                 res.json({ status: 'El pasajero ya existe', success: 'false' });
