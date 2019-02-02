@@ -217,7 +217,7 @@
                                 <div class="input-field col s12 m6 l6 ">
                                   <mat-form-field>
                                     <input matInput class="example-full-width" [matDatepicker]="picker_feFinPermiso" [min]="today" name="picker_feFinPermiso"
-                                      [(ngModel)]="fechaFinPermiso" placeholder="Fecha Inicio del Permiso">
+                                      [(ngModel)]="fechaFinPermiso" placeholder="Fecha Fin del Permiso">
                                     <mat-datepicker-toggle matSuffix [for]="picker_feFinPermiso"></mat-datepicker-toggle>
                                     <mat-datepicker touchUi #picker_feFinPermiso></mat-datepicker>
                                   </mat-form-field>
@@ -241,9 +241,9 @@
                                         <div class="card-content">
                                           <div class="row">
                                             <div class="input-field col s12 m6 l6 ">
-
-                                              <form class="example-form">
-                                                <mat-form-field class="example-full-width " id="inputVehiculo">
+                                              <p class="centro">la fecha de xxxx de este vehículo se vence en: </p>
+                                              <form class="example-form style-fila">
+                                                <!-- <mat-form-field class="example-full-width " id="inputVehiculo">
                                                   <input type="text" class="centro" placeholder=Vehiculo: aria-label="Number" matInput [formControl]="vehiculos" [matAutocomplete]="autoVehiculos"
                                                     [(ngModel)]="vehiculo" (ngModelChange)="cambiaVehiculo()">
                                                   <a *ngIf="verAddV" class="waves-effect waves-light btn back-verde modal-trigger " (click)="agregarVehiculo()" type="button"
@@ -255,11 +255,24 @@
                                                       Placa: {{v.plate}} - Lateral: {{v.lateral}}
                                                     </mat-option>
                                                   </mat-autocomplete>
+                                                </mat-form-field> -->
+                                                <mat-form-field style="width: 80%;">
+                                                  <mat-select [formControl]="bankCtrl" placeholder="Vehiculos:" #singleSelect>
+                                                    <ngx-mat-select-search [formControl]="bankFilterCtrl"></ngx-mat-select-search>
+                                                    <mat-option *ngFor="let bank of filteredBanks | async;  let i = index" [value]="bank._id" (onSelectionChange)="setIDVehiculos( bank._id, i  )">
+                                                      Placa: {{bank.plate}} - Lateral: {{bank.lateral}}
+                                                    </mat-option>
+                                                  </mat-select>
+
                                                 </mat-form-field>
+                                                <a *ngIf="verAddV" class="waves-effect waves-light btn back-verde modal-trigger " (click)="agregarVehiculo()" type="button"
+                                                  data-position="right" title="Agregar Vehiculo">
+                                                  <i class="material-icons suffix">add</i>
+                                                </a>
                                               </form>
                                             </div>
                                             <div class="input-field col s12 m6 l6 ">
-                                              <p>Lista de Vehículos Agregados:</p>
+                                              <p>Vehículo Seleccinado:</p>
                                               <ul class="collection">
                                                 <li class="collection-item style-fila" *ngFor="let item of arrayVehiculos; let i=index">
                                                   <p>{{item.plate}} - {{item-lateral}}</p>
@@ -273,6 +286,8 @@
 
 
                                             </div>
+
+
                                           </div>
                                         </div>
                                       </div>
@@ -341,7 +356,11 @@
                                 <p class="style-ask">¿Desea adicionar otro Permiso?</p>
                                 <div class="row">
                                   <div class="col s12 m6 l6 alinear-derecha">
-                                    <button type="button" class="btn btn-default back-verde" href="/contratos#addPermiso" (click)="agergarOtroPermiso()"> SI </button>
+
+                                    <a href="/contratos#addPermiso">
+
+                                      <button type="button" class="btn btn-default back-verde" (click)="agergarOtroPermiso()"> SI </button>
+                                    </a>
                                   </div>
                                   <div class="col s12 m6 l6">
                                     <button type="button" class="btn btn-default back-naranja " (click)="agergarPermiso()"> NO </button>
@@ -366,7 +385,52 @@
                         </div>
                         <div class="collapsible-body card">
                           <div class="card-content">
+                            <div class="row">
+                              <div class="input-field col s12 m6 l6 ">
 
+                                <form class="example-form">
+                                  <mat-form-field class="example-full-width " id="inputPasajeros">
+                                    <input type="text" class="centro" placeholder=Pasajero: aria-label="Number" matInput [formControl]="pasajero" [matAutocomplete]="autoPasajero"
+                                      [(ngModel)]="nombrePasajero" (ngModelChange)="cambiaPasajero()">
+                                    <a *ngIf="verInfoP" class="waves-effect waves-light btn back-verde modal-trigger " (click)="seleccionarPasajero()" type="button"
+                                      href="#pasajero" data-position="right" title="Ver info del Pasajero">
+                                      <i class="material-icons suffix">info</i>
+
+                                    </a>
+                                    <a *ngIf="verInfoP" class="waves-effect waves-light btn back-verde modal-trigger " (click)="agregarPasajero()" type="button"
+                                      data-position="right" title="Agregar Pasajero">
+                                      <i class="material-icons suffix">add</i>
+                                    </a>
+                                    <mat-autocomplete #autoPasajero="matAutocomplete">
+                                      <mat-option *ngFor="let p of filteredPasajero | async ; let i = index " [value]="p.numero_identificacion + ' '+ p.nombre "
+                                        (onSelectionChange)="setIDPasajero( p._id, i  )">
+                                        {{p.numero_identificacion}} - {{p.nombre}}
+                                      </mat-option>
+                                    </mat-autocomplete>
+                                  </mat-form-field>
+                                  <mat-hint align="start">
+                                    <strong>Si no encuentras el Pasajero, presiona en
+                                      <a class="btn back-verde modal-trigger " type="button" href="#pasajero" (click)="resetFormPasajero()">¡Agregar Nuevo Pasajero!</a>
+                                    </strong>
+                                  </mat-hint>
+                                </form>
+                              </div>
+                              <div class="input-field col s12 m6 l6 ">
+                                <p>Lista de Pasajeros Agregados:</p>
+                                <ul class="collection">
+                                  <li class="collection-item style-fila" *ngFor="let item of arrayPasajeros; let i=index">
+                                    <p>{{item.numero_identificacion}} - {{item.nombre}}</p>
+                                    <a (click)="removePasajeros(i)">
+                                      <i class="material-icons style-close">close
+                                      </i>
+                                    </a>
+                                  </li>
+
+                                </ul>
+
+
+                              </div>
+                            </div>
 
                           </div>
                         </div>
@@ -481,7 +545,7 @@
       <div class="input-field col s12 m6 l4 ">
         <label class="active tamaño-letra">Tipo de Identificación:</label>
         <mat-form-field>
-          <mat-select class="border-select" name="class" [(ngModel)]="tipoIdent" required [(value)]="tipoIdent">
+          <mat-select class="border-select" name="tipoIdent" (selectionChange)="cambiaTipo()" [(ngModel)]="tipoIdent" required [(value)]="tipoIdent">
             <mat-option value="NIT">NIT</mat-option>
             <mat-option value="CC">Cédula de Ciudadania</mat-option>
           </mat-select>
@@ -542,5 +606,44 @@
 
     <button class="btn btn-default right darkgray modal-close " (click)="resetFormClientes()"> Cancelar </button>
     <button class="btn right waves-effect black margin-separe-lado modal-close" (click)="guardarCliente()"> Guardar </button>
+  </div>
+</div>
+
+
+<!-- Modal Structure -->
+<div id="pasajero" class="modal">
+  <div class="modal-content">
+    <div class="row">
+      <div class="input-field col s12 m6 l4">
+        <input type="text" name="nombPasajero" [(ngModel)]="nombPasajero" placeholder="" required>
+        <label class="active">Nombres*:</label>
+        <div *ngIf="nombPasajero.touched && !nombPasajero.valid">
+          <div class="required" *ngIf="nombPasajero.errors.required">Los Nombres son Requeridos</div>
+        </div>
+      </div>
+
+      <div class="input-field col s12 m6 l4">
+        <input type="text" name="numero_identificacion" [(ngModel)]="numero_identificacion" placeholder="" required>
+        <label class="active">Número de Identificación*:</label>
+      </div>
+
+
+
+      <div class="input-field col s12 m6 l4">
+        <input type="text" name="telefonoPasajero" [(ngModel)]="telefonoPasajero" placeholder="" required>
+        <label class="active">Teléfono:</label>
+      </div>
+
+      <div class="input-field col s12 m6 l6">
+        <input type="text" name="adulto_responsable" [(ngModel)]="adulto_responsable" placeholder="" required>
+        <label class="active">Adulto Responsable:</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+
+    <button class="btn btn-default right darkgray modal-close " (click)="resetFormPasajero()"> Cancelar </button>
+    <button class="btn right waves-effect black margin-separe-lado modal-close" (click)="guardarPasajero()"> Guardar </button>
   </div>
 </div>

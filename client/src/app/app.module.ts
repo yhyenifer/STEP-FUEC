@@ -60,7 +60,7 @@ import { EstadisticasComponent } from './components/estadisticas/estadisticas.co
 import { CalidadComponent } from './components/calidad/calidad.component';
 import { AuthGuard } from './_guards';
 import { ContratosComponent } from './components/contratos/contratos.component';
-
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 @NgModule({
 
@@ -122,7 +122,8 @@ import { ContratosComponent } from './components/contratos/contratos.component';
     MatTreeModule,
     ScrollingModule,
     DataTablesModule,
-    app_routing
+    app_routing,
+    NgxMatSelectSearchModule
 
   ],
   providers: [AuthGuard],

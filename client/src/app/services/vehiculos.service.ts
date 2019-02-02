@@ -21,6 +21,7 @@ interface vehiculoDispo {
   _id: string;
   plate: string;
   lateral: string;
+  adulto_responsable: string;
 }
 
 

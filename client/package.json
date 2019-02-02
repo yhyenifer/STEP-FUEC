@@ -32,6 +32,7 @@
     "jquery": "^3.3.1",
     "materialize-css": "^1.0.0",
     "moment": "^2.23.0",
+    "ngx-mat-select-search": "^1.5.2",
     "rxjs": "^6.3.3",
     "zone.js": "^0.8.27"
   },

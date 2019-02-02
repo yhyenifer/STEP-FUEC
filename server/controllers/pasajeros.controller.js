@@ -29,12 +29,9 @@ pasajeroCtrl.createPasajero = async (req, res) => {
     if (validacion == 0) {
         const pasajero = new Pasajero({
             nombre: req.body.nombre,
-            apellido: req.body.apellido,
             numero_identificacion: req.body.numero_identificacion,
-            direccion: req.body.direccion,
-            ciudad: req.body.ciudad,
             telefono: req.body.telefono,
-            correo_elect: req.body.correo_elect,
+            adulto_responsable: req.body.adulto_responsable,
             state: true
 
         });
@@ -70,12 +67,9 @@ pasajeroCtrl.updatePasajero = async (req, res) => {
                 const newPasajero = {
 
                     nombre: req.body.nombre,
-                    apellido: req.body.apellido,
                     numero_identificacion: req.body.numero_identificacion,
-                    direccion: req.body.direccion,
-                    ciudad: req.body.ciudad,
                     telefono: req.body.telefono,
-                    correo_elect: req.body.correo_elect,
+                    adulto_responsable: req.body.adulto_responsable,
                     state: true
                 }
                 await Pasajero.findByIdAndUpdate(id, { $set: newPasajero }, { new: true });
