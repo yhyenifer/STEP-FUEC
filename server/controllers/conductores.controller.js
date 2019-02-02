@@ -15,16 +15,62 @@ conductorCtrl.getConductores = async (req, res) => {
 
 //listar Conductores disponibles
 conductorCtrl.ConductoresDisponibles = async (req, res) => {
+    const conductores_disponibles = [];
+    var fecha_fin = moment(req.body.fecha_fin);
+    var fecha_ini = moment(req.body.fecha_ini);
 
-    var fecha_fin = req.body.fecha_fin;
+    const conductores = await Conductor.find({ state: "true" });
 
-    const conductores = await Conductor.find({
-        license_expiration: { $gte: fecha_fin }, health_expiration: { $gte: fecha_fin },
-        drug_expiration: { $gte: fecha_fin }, simit_expiration: { $gte: fecha_fin }
-    });
+    conductores.map((dato, key) => {
 
-    res.json(conductores);
+        if (moment(dato.license_expiration) > fecha_fin && moment(dato.health_expiration) > fecha_fin &&
+            moment(dato.drug_expiration) > fecha_fin && moment(dato.simit_expiration) > fecha_fin) {
+
+            const objCond_Dis = {
+                id: dato._id,
+                nombre: dato.name,
+                cedula: dato.CC,
+                fecha_exp: ""
+            }
+            conductores_disponibles.push(objCond_Dis);
+        }
+        else {
+            if (moment(dato.license_expiration) < fecha_fin || moment(dato.health_expiration) < fecha_fin ||
+                moment(dato.drug_expiration) < fecha_fin || moment(dato.simit_expiration) < fecha_fin) {
+
+                if (moment(dato.license_expiration) > fecha_ini && moment(dato.health_expiration) > fecha_ini &&
+                    moment(dato.drug_expiration) > fecha_ini && moment(dato.simit_expiration) > fecha_ini) {
+
+                    var dato_license_expiration = Math.abs(fecha_ini.diff(dato.license_expiration, 'days'));
+                    var dato_health_expiration = Math.abs(fecha_ini.diff(dato.health_expiration, 'days'));
+                    var dato_drug_expiration = Math.abs(fecha_ini.diff(dato.drug_expiration, 'days'));
+                    var dato_simit_expiration = Math.abs(fecha_ini.diff(dato.simit_expiration, 'days'));
+                    var fechas_diff = ["Expiracion Licencia Conduccion", "Expiracion Aportes de Salud", "Expiracion Examenes de Drogas y Alcoholemia",
+                        "Expiracion Consulta"];
+                    var fechas = [dato_license_expiration, dato_health_expiration, dato_drug_expiration, dato_simit_expiration];
+                    var fecha_menor = fechas[0];
+
+                    for (var i = 0; i < fechas.length; i++) {
+
+                        if (fechas[i] <= fecha_menor) {
+
+                            fecha_menor = fechas[i];
+                            var posicion = i;
+                        }
+                    }
+                    const objCond_Dis = {
+                        id: dato._id,
+                        nombre: dato.name,
+                        cedula: dato.CC,
+                        fecha_exp: fechas_diff[posicion]
+                    }
+                    conductores_disponibles.push(objCond_Dis);
+                }
+            }
+        }
+    })
 };
+
 
 // crear conductor
 conductorCtrl.createConductor = async (req, res) => {

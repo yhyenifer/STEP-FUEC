@@ -15,45 +15,102 @@ vehiculoCtrl.getVehiculos = async (req, res) => {
 
 //listar Vehiculos disponibles
 vehiculoCtrl.VehiculosDisponibles = async (req, res) => {
-    var fecha_fin = req.body.fecha_fin;
-    var fecha_ini = req.body.fecha_ini;
+    const vehiculos_disponibles = [];
+    var fecha_fin = moment(req.body.fecha_fin);
+    var fecha_ini = moment(req.body.fecha_ini);
 
     const vehiculos = await Vehiculo.find({ state: "true" });
 
     vehiculos.map((dato, key) => {
-        var fechas = [moment(dato.exp_to), moment(dato.exp_soat), moment(dato.exp_tech), moment(dato.exp_prev),
-        moment(dato.exp_rcc)];
-        console.log(fechas);
-        console.log("1");
 
-        if (dato.GNV == "true") {
-            if (moment(dato.exp_to) > fecha_ini && moment(dato.exp_soat) > fecha_ini && moment(dato.exp_tech) > fecha_ini
-                && moment(dato.exp_prev) > fecha_ini && moment(dato.exp_rcc) > fecha_ini && moment(dato.exp_gnv) > fecha_ini) {
+        if (moment(dato.exp_to) > fecha_fin && moment(dato.exp_soat) > fecha_fin &&
+            moment(dato.exp_tech) > fecha_fin && moment(dato.exp_prev) > fecha_fin &&
+            moment(dato.exp_rcc) > fecha_fin) {
 
-                var fechas = [dato.exp_to, dato.exp_soat, dato.exp_tech, dato.exp_prev, dato.exp_rcc, dato.exp_gnv];
-                console.log(fechas);
-                console.log("2");
-                for (var i = 0; i < fechas.length; i++) {
-                    var fecha_menor = fechas[i];
+            const objVehi_Dis = {
+                id: dato._id,
+                placa: dato.plate,
+                lateral: dato.lateral,
+                fecha_exp: ""
+            }
+            vehiculos_disponibles.push(objVehi_Dis);
+        }
+        else {
+            if (dato.GNV == true) {
+                if (moment(dato.exp_to) > fecha_fin && moment(dato.exp_soat) > fecha_fin &&
+                    moment(dato.exp_tech) > fecha_fin && moment(dato.exp_prev) > fecha_fin &&
+                    moment(dato.exp_rcc) > fecha_fin && moment(dato.exp_gnv) > fecha_fin) {
 
+                    const objVehi_Dis = {
+                        id: dato._id,
+                        placa: dato.plate,
+                        lateral: dato.lateral,
+                        fecha_exp: ""
+                    }
+                    vehiculos_disponibles.push(objVehi_Dis);
                 }
             }
         }
-        else
-            if (moment(dato.exp_to) > moment(fecha_ini) && moment(dato.exp_soat) > moment(fecha_ini) &&
-                moment(dato.exp_tech) > moment(fecha_ini) && moment(dato.exp_prev) > moment(fecha_ini) &&
-                moment(dato.exp_rcc) > moment(fecha_ini)) {
 
-                var fechas = [dato.exp_to, dato.exp_soat, dato.exp_tech, dato.exp_prev, dato.exp_rcc];
-                console.log(fechas);
-                console.log("3");
-                for (var i = 0; i < fechas.length; i++) {
-                    var fecha_menor = fechas[i];
+        if (moment(dato.exp_to) < fecha_fin || moment(dato.exp_soat) < fecha_fin || moment(dato.exp_tech) < fecha_fin
+            || moment(dato.exp_prev) < fecha_fin || moment(dato.exp_rcc) < fecha_fin || moment(dato.exp_gnv) < fecha_fin) {
 
+            var dato_exp_to = Math.abs(fecha_ini.diff(dato.exp_to, 'days'));
+            var dato_exp_soat = Math.abs(fecha_ini.diff(dato.exp_soat, 'days'));
+            var dato_exp_tech = Math.abs(fecha_ini.diff(dato.exp_tech, 'days'));
+            var dato_exp_prev = Math.abs(fecha_ini.diff(dato.exp_prev, 'days'));
+            var dato_exp_rcc = Math.abs(fecha_ini.diff(dato.exp_rcc, 'days'));
+            var dato_exp_GNV = Math.abs(fecha_ini.diff(dato.exp_gnv, 'days'));
+            var fechas_diff = ["Expiracion Tarjeta de Operacion", "Expiracion Soat", "Expiracion Revision Tecnomecanica",
+                "Expiracion Revision Preventiva", "Expiracion Responsabilidad Civil Contractual", "Expiracion GNV"];
+
+            if (dato.GNV == true) {
+                if (moment(dato.exp_to) > fecha_ini && moment(dato.exp_soat) > fecha_ini && moment(dato.exp_tech) > fecha_ini
+                    && moment(dato.exp_prev) > fecha_ini && moment(dato.exp_rcc) > fecha_ini && moment(dato.exp_gnv) > fecha_ini) {
+
+                    var fechas_GNV = [dato_exp_to, dato_exp_soat, dato_exp_tech, dato_exp_prev, dato_exp_rcc, dato_exp_GNV];
+                    var fecha_menor = fechas_GNV[0];
+                    for (var i = 0; i < fechas_GNV.length; i++) {
+
+                        if (fechas_GNV[i] < fecha_menor) {
+                            fecha_menor = fechas_GNV[i];
+                            var posicion_GNV = i;
+                        }
+                    }
+                    const objVehi_Dis = {
+                        id: dato._id,
+                        placa: dato.plate,
+                        lateral: dato.lateral,
+                        fecha_exp: fechas_diff[posicion_GNV]
+                    }
+                    vehiculos_disponibles.push(objVehi_Dis);
                 }
             }
-            else
-                res.json(vehiculos);
+            else {
+                if (moment(dato.exp_to) > fecha_ini && moment(dato.exp_soat) > fecha_ini &&
+                    moment(dato.exp_tech) > fecha_ini && moment(dato.exp_prev) > fecha_ini &&
+                    moment(dato.exp_rcc) > fecha_ini) {
+
+                    var fechas = [dato_exp_to, dato_exp_soat, dato_exp_tech, dato_exp_prev, dato_exp_rcc];
+                    var fecha_menor = fechas[0];
+                    for (var i = 0; i < fechas.length; i++) {
+
+                        if (fechas[i] <= fecha_menor) {
+
+                            fecha_menor = fechas[i];
+                            var posicion = i;
+                        }
+                    }
+                    const objVehi_Dis = {
+                        id: dato._id,
+                        placa: dato.plate,
+                        lateral: dato.lateral,
+                        fecha_exp: fechas_diff[posicion]
+                    }
+                    vehiculos_disponibles.push(objVehi_Dis);
+                }
+            }
+        }
     })
 };
 
