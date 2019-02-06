@@ -792,7 +792,7 @@ conductorCtrl.updateConductor = async (req, res) => {
                     state: req.body.state
                 }
                 await Conductor.findByIdAndUpdate(id, { $set: newConductor }, { new: true });
-                res.json({ status: 'Conductor Actualizado Exitosamente' });
+                res.json({ status: 'Conductor Actualizado Exitosamente', success: 'true' });
 
             }
             else {

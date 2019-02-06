@@ -49,7 +49,7 @@
                       placeholder="Seleccione">
                     <label>Fecha Expiración Licencia:</label> -->
                       <mat-form-field>
-                        <input matInput class="example-full-width" [matDatepicker]="picker_license" [min]="today" name="license_expiration" #license_expiration="ngModel"
+                        <input matInput class="example-full-width" [matDatepicker]="picker_license" name="license_expiration" #license_expiration="ngModel"
                           [(ngModel)]="conductoresService.selectedConductor.license_expiration" placeholder="Fecha de Expiración Licencia"
                           required>
                         <mat-datepicker-toggle matSuffix [for]="picker_license"></mat-datepicker-toggle>
@@ -61,7 +61,7 @@
                     </div>
                     <div class="col s12 m6 l3">
                       <mat-form-field>
-                        <input matInput class="example-full-width" [matDatepicker]="picker_healt" [min]="today" name="health_expiration" #health_expiration="ngModel"
+                        <input matInput class="example-full-width" [matDatepicker]="picker_healt" name="health_expiration" #health_expiration="ngModel"
                           [(ngModel)]="conductoresService.selectedConductor.health_expiration" placeholder="Fecha de Aportes a Salud"
                           required>
                         <mat-datepicker-toggle matSuffix [for]="picker_healt"></mat-datepicker-toggle>
@@ -73,7 +73,7 @@
                     </div>
                     <div class="col s12 m6 l3">
                       <mat-form-field>
-                        <input matInput class="example-full-width" [matDatepicker]="picker_drug" [min]="today" name="drug_expiration" #drug_expiration="ngModel"
+                        <input matInput class="example-full-width" [matDatepicker]="picker_drug" name="drug_expiration" #drug_expiration="ngModel"
                           [(ngModel)]="conductoresService.selectedConductor.drug_expiration" placeholder="Fecha de Drogas y Alcoholemia"
                           required>
                         <mat-datepicker-toggle matSuffix [for]="picker_drug"></mat-datepicker-toggle>
@@ -85,7 +85,7 @@
                     </div>
                     <div class="col s12 m6 l3">
                       <mat-form-field>
-                        <input matInput class="example-full-width" [matDatepicker]="picker_simit" [min]="today" name="simit_expiration" #simit_expiration="ngModel"
+                        <input matInput class="example-full-width" [matDatepicker]="picker_simit" name="simit_expiration" #simit_expiration="ngModel"
                           [(ngModel)]="conductoresService.selectedConductor.simit_expiration" placeholder="Fecha de Consultas en el SIMIT"
                           required>
                         <mat-datepicker-toggle matSuffix [for]="picker_simit"></mat-datepicker-toggle>
@@ -97,7 +97,7 @@
                     </div>
                     <div class="col s12 m6 l3">
                       <mat-form-field>
-                        <input matInput class="example-full-width" [matDatepicker]="picker_so" [min]="today" name="health_exam_expiration" #health_exam_expiration="ngModel"
+                        <input matInput class="example-full-width" [matDatepicker]="picker_so" name="health_exam_expiration" #health_exam_expiration="ngModel"
                           [(ngModel)]="conductoresService.selectedConductor.health_exam_expiration" placeholder="Fecha de Exámenes Salud Ocupacional">
                         <mat-datepicker-toggle matSuffix [for]="picker_so"></mat-datepicker-toggle>
                         <mat-datepicker touchUi #picker_so></mat-datepicker>

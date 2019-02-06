@@ -93,3 +93,8 @@ input:not([type]):focus:not([readonly])+label, input[type="text"]:not(.browser-d
 .alinear-derecha {
     text-align: right;
 }
+
+.separacion {
+    display: flex;
+    justify-content: space-between;
+}
