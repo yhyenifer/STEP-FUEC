@@ -50,24 +50,21 @@ contratoCtrl.getContrato = async (req, res) => {
 
 // crear contrato
 contratoCtrl.createContrato = async (req, res) => {
-
-    const Valid = await definirct_number(req.params.tipo_contrato);
     var tip_con = req.params.tipo_contrato;
+    const Valid = await definirct_number(req.params.tipo_contrato);
     var nume_cont;
 
     if (Valid == 0) {
 
-        if (tip_con = 'ocasional') {
-            nume_cont = '3000';
+        if (tip_con == "ocasionales") {
+            nume_cont = 000;
         }
-        if (tip_con = 'colegios') {
-            nume_cont = '6000';
+        if (tip_con == "colegios") {
+            nume_cont = 6000;
         }
-        if (tip_con = 'empresas') {
-            nume_cont = '9000';
+        if (tip_con == "empresas") {
+            nume_cont = 9000;
         }
-
-
         const contrato = new Contrato({
             id_cliente: req.body.id_cliente,
             id_pasajero: req.body.id_pasajero,
@@ -89,82 +86,69 @@ contratoCtrl.createContrato = async (req, res) => {
             estadoContrato: req.body.estadoContrato,
             fecha_Pago: req.body.fecha_Pago,
             state: true
-
-        });
-
-
-
-        //invoco funcion ultimo contrato,guardo el numero del contrato
-        const Valid_idenC = await definirct_identi();
-        Valid_idenC.map(async UltimoContrato => {
-            console.log(UltimoContrato);
-            const conductores = req.body.conductores;
-            const pasajeros = req.body.pasajeros;
-            const cooperacion = req.body.cooperacion;
-            const inicioPermiso = req.body.startPermiso;
-            const finalPermiso = req.body.endPermiso;
-
-            Permiso.createPermisoCon(UltimoContrato._id, UltimoContrato.car_number, startPermiso, endPermiso, conductores, pasajeros, cooperacion);
-        });
-
-        await contrato.save();
-        //funcion crear permiso que serio Permiso.funcion (que creo en permiso.controller) y debo enviar variable numero contrato y req.body.permisos 
-        //Permiso.createPermiso(Valid_idenC, req.body.Permiso);
-
+        })
+        contrato.save();
         res.json({
             status: 'Contrato Guardado Exitosamente', success: 'true'
-        });
+        })
+
     }
 
     else {
+        //Se trae el contrato inmediatamente creado para anexarle los permisos
+        const Valid_idenC = await definirct_identi();
+        Valid_idenC.map(async UltimoContrato => {
+            console.log(UltimoContrato);
+            const permisos = req.body.permisos;
+            if (permisos.length > 0) {
+                console.log("aqui vamos haciendole caso a yenifer para que no me mire con fastidio");
+                Permiso.createPermisoCon(UltimoContrato._id, UltimoContrato.car_number, permisos);
+            }
+            else {
+                //invoco funcion ultimo contrato,guardo el numero del contrato
+                Valid.map(async dato => {
 
-        Valid.map(async dato => {
+                    nume_cont = (parseInt(dato.ct_number) + 1).toString();
 
-            nume_cont = (parseInt(dato.ct_number) + 1).toString();
+                    const contrato = new Contrato({
+                        id_cliente: req.body.id_cliente,
+                        tipo_contrato: req.body.tipo_contrato,
+                        id_pasajero: req.body.id_pasajero,
+                        pasaj_respon: req.body.pasaj_respon,
+                        info_adicional: req.body.info_adicional,
+                        renewable: req.body.renewable,
+                        ct_object: req.body.ct_object,
+                        pass_number: req.body.pass_number,
+                        car_number: req.body.car_number,
+                        route: req.body.route,
+                        return_route: req.body.return_route,
+                        start: req.body.start,
+                        end: req.body.end,
+                        value: req.body.value,
+                        payment: req.body.payment,
+                        sign_date: req.body.sign_date,
+                        ct_number: nume_cont,
+                        estadoContrato: req.body.estadoContrato,
+                        fecha_Pago: req.body.fecha,
+                        state: true
 
-            const contrato = new Contrato({
-                id_cliente: req.body.id_cliente,
-                tipo_contrato: req.body.tipo_contrato,
-                id_pasajero: req.body.id_pasajero,
-                pasaj_respon: req.body.pasaj_respon,
-                info_adicional: req.body.info_adicional,
-                renewable: req.body.renewable,
-                ct_object: req.body.ct_object,
-                pass_number: req.body.pass_number,
-                car_number: req.body.car_number,
-                route: req.body.route,
-                return_route: req.body.return_route,
-                start: req.body.start,
-                end: req.body.end,
-                value: req.body.value,
-                payment: req.body.payment,
-                sign_date: req.body.sign_date,
-                ct_number: nume_cont,
-                estadoContrato: req.body.estadoContrato,
-                fecha_Pago: req.body.fecha,
-                state: true
+                    })
+                    await contrato.save();
+                    res.json({
+                        status: 'Contrato Guardado Exitosamente', success: 'true'
+                    })
+                });
 
-            });
 
-            await contrato.save();
-            //invoco funcion ultimo contrato,guardo el numero del contrato
-            const Valid_idenC = await definirct_identi();
-
-            Valid_idenC.map(async UltimoContrato => {
-
-                const vehiculos = req.body.vehiculos;
-                const conductores = req.body.conductores;
-                const pasajeros = req.body.pasajeros;
-                const cooperacion = req.body.cooperacion;
-                Permiso.createPermiso(UltimoContrato._id, UltimoContrato.car_number, UltimoContrato.start, UltimoContrato.end, vehiculos, conductores, pasajeros, cooperacion);
-            });
-
-            res.json({
-                status: 'Contrato Guardado Exitosamente', success: 'true'
-            });
+            }
         });
+
+
     }
+
+
 };
+
 
 
 //generar alertas de contratos
