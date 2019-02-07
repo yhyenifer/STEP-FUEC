@@ -52,7 +52,7 @@ export class ConductoresComponent implements OnInit {
   ngOnInit() {
     M.AutoInit(); //inicia los componentes de materilize
     var elems = document.querySelectorAll('.datepicker');
-    M.Datepicker.init(elems, { format: 'dd-mm-yyyy', autoClose: true });
+    M.Datepicker.init(elems, { format: 'mm-dd-yyyy', autoClose: true });
     this.getConductores();
     //this.conductoresService.selectedConductor.licenseExpiration = new Date(moment(this.conductoresService.selectedConductor.licenseExpiration).format('dd-mm-yyyy'));
   }
@@ -113,13 +113,15 @@ export class ConductoresComponent implements OnInit {
   }
 
   // elimina conductor
-  deleteVehiculo(id: String, state: String) {
+  deleteConductor(id: String, state: String) {
 
     this.id_eliminar = id;
     this.state_eliminar = state;
   }
 
   eliminar() {
+    console.log(this.id_eliminar);
+    this.conductoresService.selectedConductor = undefined;
     this.conductoresService.deleteConductor(this.id_eliminar, this.state_eliminar)
       .subscribe(res => {
         if (res.success == 'true') {

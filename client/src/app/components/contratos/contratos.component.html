@@ -21,7 +21,7 @@
                       <label >CC / NIT*:</label> -->
                       <form class="example-form">
                         <mat-form-field class="example-full-width " id="inputCliente">
-                          <input type="text" class="centro" placeholder=Cliente: aria-label="Number" matInput [formControl]="clientes" [matAutocomplete]="auto"
+                          <input type="text" class="centro" placeholder=Cliente: aria-label="Number" matInput [formControl]="clientes" [matAutocomplete]="autoCliente"
                             [(ngModel)]="nombreCliente" (ngModelChange)="cambiaCliente()">
                           <a *ngIf="verInfo" class="waves-effect waves-light btn back-verde modal-trigger " (click)="seleccionarCliente()" type="button"
                             href="#clientes" data-position="right" title="Ver info del Cliente">
@@ -29,9 +29,9 @@
 
                           </a>
 
-                          <mat-autocomplete #auto="matAutocomplete">
+                          <mat-autocomplete #autoCliente="matAutocomplete">
 
-                            <mat-option *ngFor="let option of filteredOptions | async ; let i = index " [value]="option.nombre + ' '+ option.apellido "
+                            <mat-option *ngFor="let option of filteredOptions | async ; let i = index " [value]="option.nombre + ' '+ option.apellido"
                               (onSelectionChange)="setIDCliente( option._id, i  )">
                               {{option.numero_identificacion}} - {{option.nombre}} {{option.apellido}}
                             </mat-option>
@@ -243,19 +243,7 @@
                                             <div class="input-field col s12 m6 l6 ">
                                               <p class="centro">la fecha de xxxx de este vehículo se vence en: </p>
                                               <form class="example-form style-fila">
-                                                <!-- <mat-form-field class="example-full-width " id="inputVehiculo">
-                                                  <input type="text" class="centro" placeholder=Vehiculo: aria-label="Number" matInput [formControl]="vehiculos" [matAutocomplete]="autoVehiculos"
-                                                    [(ngModel)]="vehiculo" (ngModelChange)="cambiaVehiculo()">
-                                                  <a *ngIf="verAddV" class="waves-effect waves-light btn back-verde modal-trigger " (click)="agregarVehiculo()" type="button"
-                                                    data-position="right" title="Agregar Vehiculo">
-                                                    <i class="material-icons suffix">add</i>
-                                                  </a>
-                                                  <mat-autocomplete #autoVehiculos="matAutocomplete">
-                                                    <mat-option *ngFor="let v of filteredVehiculos | async ; let i = index " [value]="v.plate + ' '+ v.lateral " (onSelectionChange)="setIDVehiculos( v._id, i  )">
-                                                      Placa: {{v.plate}} - Lateral: {{v.lateral}}
-                                                    </mat-option>
-                                                  </mat-autocomplete>
-                                                </mat-form-field> -->
+
                                                 <mat-form-field style="width: 80%;">
                                                   <mat-select [formControl]="bankCtrl" placeholder="Vehiculos:" #singleSelect>
                                                     <ngx-mat-select-search [formControl]="bankFilterCtrl"></ngx-mat-select-search>
@@ -455,8 +443,8 @@
                   <div class="row">
                     <div class="card-action">
                       <div class="input-field col col s12 ">
-                        <button class="btn btn-default right darkgray " (click)="resetForm(conductorForm)"> Cancelar </button>
-                        <button class="btn right waves-effect black margin-separe"> Guardar </button>
+                        <button class="btn btn-default right darkgray " (click)="resetFormContratos()"> Cancelar </button>
+                        <button class="btn right waves-effect black margin-separe" (click)="guardarContrato()"> Guardar </button>
                       </div>
                     </div>
                   </div>

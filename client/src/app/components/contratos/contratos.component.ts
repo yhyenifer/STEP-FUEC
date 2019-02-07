@@ -39,6 +39,7 @@ declare var M: any;
 })
 export class ContratosComponent implements OnInit {
 
+  tipoPago: string;
   _idPasajero: any;
   arrayPasajeros: any = [];
   pasajerosPermiso: any;
@@ -47,6 +48,7 @@ export class ContratosComponent implements OnInit {
   verInfoP: boolean;
   pasajero = new FormControl();
   listaPasajeros: any[];
+  options: any[];
   adulto_responsable: string;
   telefonoPasajero: string;
   numero_identificacion: string;
@@ -124,7 +126,7 @@ export class ContratosComponent implements OnInit {
   today: string;
   clientes = new FormControl();
   //options: string[] = ['One', 'Two', 'Three'];
-  options: any[];
+
   filteredOptions: Observable<string[]>;
   filteredVehiculos: Observable<string[]>;
   filteredConductores: Observable<string[]>;
@@ -187,13 +189,19 @@ export class ContratosComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
   ngOnInit() {
+    this.cargarClientes();
+    this.cargarPasajeros();
     // si el campo cliente presenta un cambio, este aplica e filtrp
+    console.log(this.clientes.valueChanges
+    );
+
     this.filteredOptions = this.clientes.valueChanges
       .pipe(
         startWith(''),
-        map(value => this._filter(value))
+        map(value => this._filterCliente(value))
       );
-
+    console.log(this.pasajero.valueChanges
+    );
     this.filteredPasajero = this.pasajero.valueChanges
       .pipe(
         startWith(''),
@@ -206,6 +214,7 @@ export class ContratosComponent implements OnInit {
       M.AutoInit(); //inicia los componentes de materilize
       this.renovable = false;
     }, 200);
+
 
     // set initial selection
     this.bankCtrl.setValue(this.banks[10]);
@@ -222,8 +231,6 @@ export class ContratosComponent implements OnInit {
       });
 
 
-    this.cargarClientes();
-    this.cargarPasajeros();
 
   }
 
@@ -298,6 +305,12 @@ export class ContratosComponent implements OnInit {
     return this.vehiculosDispo.filter(option => option.plate.toLowerCase().includes(filterValue)
       || option.lateral.toLowerCase().includes(filterValue));
   }
+
+  private _filterCliente(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    return this.options.filter(option => option.numero_identificacion.toLowerCase().includes(filterValue)
+      || option.nombre.toLowerCase().includes(filterValue) || option.apellido.toLowerCase().includes(filterValue));
+  }
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
     return this.conductoresDispo.filter(option => option.CC.toLowerCase().includes(filterValue)
@@ -305,8 +318,6 @@ export class ContratosComponent implements OnInit {
   }
   private _filterPasajero(value: string): string[] {
     const filterValue = value.toLowerCase();
-
-
     return this.listaPasajeros.filter(option => option.numero_identificacion.toLowerCase().includes(filterValue)
       || option.nombre.toLowerCase().includes(filterValue));
   }
@@ -316,6 +327,8 @@ export class ContratosComponent implements OnInit {
     this.clienteService.getClientes()
       .subscribe((res) => {
         this.options = res;
+        console.log('carga');
+        console.log(this.options);
       });
   }
   cargarPasajeros() {
@@ -323,6 +336,8 @@ export class ContratosComponent implements OnInit {
     this.pasajeroService.getPasajero()
       .subscribe((res) => {
         this.listaPasajeros = res;
+        console.log('carga 2');
+        console.log(this.listaPasajeros);
       });
   }
 
@@ -400,8 +415,7 @@ export class ContratosComponent implements OnInit {
 
     // this._idPasajero
 
-    console.log('guardar pasajero');
-    console.log(newPasajero);
+
     this.pasajeroService.addPasajero(newPasajero)
       .subscribe((res) => {
         if (res.success == 'true') {
@@ -435,7 +449,7 @@ export class ContratosComponent implements OnInit {
   }
   // identifica que el cliente se cambia y habilita o desabilita el boton de info
   cambiaCliente() {
-
+    console.log('cam cli');
     if (this.nombreCliente == '') {
       this.verInfo = false
     }
@@ -688,6 +702,50 @@ export class ContratosComponent implements OnInit {
     console.log(this.vehiculosContrato);
     console.log(this.conductoresContrato);
   }
+
+  resetFormContratos() {
+    console.log('reset contrato');
+
+  }
+
+  guardarContrato() {
+    console.log('contrato');
+    console.log('cliente: ' + this.idCliente);
+    console.log('tipoContrato: ' + this.tipoContrato);
+    console.log('objetoContrato: ' + this.objetoContrato);
+    console.log('descripcionObjeto: ' + this.descripcionObjeto);
+    console.log('renovable: ' + this.renovable);
+    console.log('cantPasajeros: ' + this.cantPasajeros);
+    console.log('cantVehiculos: ' + this.cantVehiculos);
+    console.log('rutaIda: ' + this.rutaIda);
+    console.log('rutaRegreso: ' + this.rutaRegreso);
+    console.log('fechaInicio: ' + this.fechaInicio);
+    console.log('fechaFin: ' + this.fechaFin);
+    console.log('fechaCreacion: ' + this.fechaCreacion);
+    console.log('valor: ' + this.valor);
+    console.log('tipoPago: ' + this.tipoPago);
+    console.log('fechaPago: ' + this.fechaPago);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  }
+
+
 
 
 }
