@@ -7,7 +7,7 @@ const ContratoSchema = new Schema({
     id_pasajero: { type: String },//lista de 
     pasaj_respon: { type: String },//pasajero responsable del viaje
     info_adicional: { type: String },//espacio para ingresar informacion adicional en el contrato
-    tipo_contrato: { type: String },//empresas, ocasional, colegios.
+    tipo_contrato: { type: String },//empresas, ocasionales, colegios.
     renewable: { type: Boolean },//Renovable si o no
     ct_object: { type: String, required: true },//Objeto del contrato
     pass_number: { type: Number, required: true }, //Numero de pasajeros
