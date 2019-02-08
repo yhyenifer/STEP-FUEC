@@ -123,18 +123,14 @@
                             <div class="input-field col s12 m6 l6 ">
                               <label class="active">Ruta de Ida:</label>
 
-                              <mat-form-field>
+                              <input type="text" name="rutaIda" [(ngModel)]="rutaIda" required>
 
-                                <textarea matInput #rutaIda="ngModel" ngModel></textarea>
-                              </mat-form-field>
                             </div>
                             <div class="input-field col s12 m6 l6 ">
                               <label class="active">Ruta de Regreso:</label>
+                              <input type="text" name="rutaRegreso" [(ngModel)]="rutaRegreso" required>
 
-                              <mat-form-field>
 
-                                <textarea matInput [(ngModel)]="rutaRegreso"></textarea>
-                              </mat-form-field>
                             </div>
                           </div>
                         </div>

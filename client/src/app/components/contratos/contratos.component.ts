@@ -15,6 +15,7 @@ import { Vehiculos } from '../../models/vehiculos';
 import { ConductoresService } from '../../services/conductores.service';
 import { takeUntil } from 'rxjs/internal/operators/takeUntil';
 import { take } from 'rxjs/internal/operators/take';
+import { ContratosService } from '../../services/contratos.service';
 //import { Subject } from 'rxjs/Subject';
 
 export interface Food {
@@ -39,6 +40,8 @@ declare var M: any;
 })
 export class ContratosComponent implements OnInit {
 
+  permisos: any = [];
+  rutaida: any;
   tipoPago: string;
   _idPasajero: any;
   arrayPasajeros: any = [];
@@ -169,6 +172,7 @@ export class ContratosComponent implements OnInit {
   private _onDestroy = new Subject<void>();
   constructor(private clienteService: ClienteService,
     private vehiculosService: VehiculosService, private conductoresService: ConductoresService,
+    private contratosService: ContratosService,
     private pasajeroService: PasajerosService, ) {
     this.today = moment().add('days', 1).format('YYYY-MM-DD');
     this.fechaCreacion = moment(this.today).format('YYYY-MM-DD');
@@ -192,16 +196,14 @@ export class ContratosComponent implements OnInit {
     this.cargarClientes();
     this.cargarPasajeros();
     // si el campo cliente presenta un cambio, este aplica e filtrp
-    console.log(this.clientes.valueChanges
-    );
+
 
     this.filteredOptions = this.clientes.valueChanges
       .pipe(
         startWith(''),
         map(value => this._filterCliente(value))
       );
-    console.log(this.pasajero.valueChanges
-    );
+
     this.filteredPasajero = this.pasajero.valueChanges
       .pipe(
         startWith(''),
@@ -213,7 +215,7 @@ export class ContratosComponent implements OnInit {
     setTimeout(() => {
       M.AutoInit(); //inicia los componentes de materilize
       this.renovable = false;
-    }, 200);
+    }, 300);
 
 
     // set initial selection
@@ -277,7 +279,9 @@ export class ContratosComponent implements OnInit {
 
 
   cargarVehiculosConductores() {
-    if (this.fechaFinPermiso != undefined && this.fechaFinPermiso != '') {
+    console.log('cargar ve con');
+
+    if ((this.fechaFinPermiso != undefined && this.fechaFinPermiso != '') && (this.fechaInicioPermiso != undefined && this.fechaInicioPermiso != '')) {
       this.getVehiculos();
       this.getConductores();
       // this.vehiculos = ;
@@ -609,9 +613,10 @@ export class ContratosComponent implements OnInit {
 
   }
   getVehiculos() {
+    console.log('vehi');
     this.vehiculosDispo = [];
 
-    this.vehiculosService.getVehiculosDisponibles(this.fechaFinPermiso)
+    this.vehiculosService.getVehiculosDisponibles(this.fechaFinPermiso, this.fechaInicioPermiso)
       .subscribe(res => {
         this.vehiculosDispo = res;
         console.log('vehiculos dispo');
@@ -633,7 +638,7 @@ export class ContratosComponent implements OnInit {
   getConductores() {
     this.conductoresDispo = [];
 
-    this.conductoresService.getConductoresDisponibles(this.fechaFinPermiso)
+    this.conductoresService.getConductoresDisponibles(this.fechaFinPermiso, this.fechaInicioPermiso)
       .subscribe(res => {
         this.conductoresDispo = res;
         console.log(this.conductoresDispo);
@@ -680,6 +685,13 @@ export class ContratosComponent implements OnInit {
     }
     console.log(this.vehiculosContrato);
     console.log(this.conductoresContrato);
+    const newPermiso = {
+      start: this.fechaInicioPermiso,
+      end: this.fechaFinPermiso,
+      car_id: this.vehiculosContrato,
+      driver_ids: this.conductoresContrato
+    }
+    this.permisos.push(newPermiso);
     this.arrayVehiculos = [];
     this.arrayConductores = [];
     this.fechaFinPermiso = "";
@@ -689,7 +701,7 @@ export class ContratosComponent implements OnInit {
   agergarPermiso() {
     console.log('no agregar otro permiso');
     var posicion = this.vehiculosContrato.length;
-    var posicionC = this.vehiculosContrato.length;
+    var posicionC = this.conductoresContrato.length;
     this.vehiculosContrato[posicion] = [];
     this.conductoresContrato[posicion] = [];
 
@@ -699,8 +711,14 @@ export class ContratosComponent implements OnInit {
     for (let index = 0; index < this.arrayConductores.length; index++) {
       this.conductoresContrato[posicionC].push(this.arrayConductores[index]._id);
     }
-    console.log(this.vehiculosContrato);
-    console.log(this.conductoresContrato);
+
+    const newPermiso = {
+      start: this.fechaInicioPermiso,
+      end: this.fechaFinPermiso,
+      car_id: this.vehiculosContrato,
+      driver_ids: this.conductoresContrato
+    }
+    this.permisos.push(newPermiso);
   }
 
   resetFormContratos() {
@@ -725,27 +743,57 @@ export class ContratosComponent implements OnInit {
     console.log('valor: ' + this.valor);
     console.log('tipoPago: ' + this.tipoPago);
     console.log('fechaPago: ' + this.fechaPago);
+    console.log('pasajeros');
+    console.log(this.pasajerosPermiso);
+    console.log('permisos');
+    console.log(this.permisos);
 
 
 
+    // validaciones numericcas
+    // validacin de vehiculos numero de pasajeros
+    // validar que la fec fin del contrato no sea inferir a la de inicio
 
+    const newContrato = {
+      id_cliente: this.idCliente,
+      id_pasajero: this.pasajerosPermiso,
+      tipo_contrato: this.tipoContrato,
+      info_adicional: this.descripcionObjeto,
+      renewable: this.renovable,
+      ct_object: this.objetoContrato,
+      pass_number: this.cantPasajeros,
+      car_number: this.cantVehiculos,
+      route: this.rutaIda,
+      return_rout: this.rutaRegreso,
+      start: this.fechaInicio,
+      end: this.fechaFin,
+      value: this.valor,
+      payment: this.tipoPago,
+      sign_date: this.fechaCreacion,
+      fecha_pago: "",
+      permisos: []
+    }
+    // validacion de tipo de pago
+    if (this.tipoPago != "Efectivo") {
+      newContrato.fecha_pago = this.fechaPago;
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
+    // this.contratosService.addContrato(newContrato)
+    //   .subscribe(res => {
+    //     if (res.success == 'true') {
+    //       this.resetFormularioContrato();
+    //       this.getContratos();
+    //     }
+    //     M.toast({ html: res.status });
+    //   });
 
   }
 
-
-
+  getContratos() {
+    // listar los contratos
+  }
+  resetFormularioContrato() {
+    // debe limpiar todos los capos
+  }
 
 }

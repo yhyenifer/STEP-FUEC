@@ -50,8 +50,8 @@ contratoCtrl.getContrato = async (req, res) => {
 
 // crear contrato
 contratoCtrl.createContrato = async (req, res) => {
-    var tip_con = req.params.tipo_contrato;
-    const Valid = await definirct_number(req.params.tipo_contrato);
+    var tip_con = req.body.tipo_contrato;
+    const Valid = await definirct_number(tip_con);
     var nume_cont;
 
     if (Valid == 0) {

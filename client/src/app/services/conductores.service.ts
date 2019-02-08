@@ -18,8 +18,10 @@ interface alerta {
 
 interface conductoresDispo {
   _id: string;
-  CC: string;
-  name: string;
+  cedula: string;
+  nombre: string;
+  fecha_exp: string;
+
 }
 @Injectable({
   providedIn: 'root'
@@ -79,11 +81,11 @@ export class ConductoresService {
   }
 
   //listar los conductores disponibles
-  getConductoresDisponibles(fecha_fin): Observable<conductoresDispo[]> {
+  getConductoresDisponibles(fecha_fin, fecha_ini): Observable<conductoresDispo[]> {
 
     let token = localStorage
       .getItem('token');
-    return this.http.post<conductoresDispo[]>(this.URL_API + `/disponible`, { fecha_fin: fecha_fin }, {
+    return this.http.post<conductoresDispo[]>(this.URL_API + `/disponible`, { fecha_fin: fecha_fin, fecha_ini: fecha_ini }, {
       headers: new HttpHeaders().append('token', token)
     });
   };
