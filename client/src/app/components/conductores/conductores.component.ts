@@ -58,6 +58,10 @@ export class ConductoresComponent implements OnInit {
   }
   // agregar conductor
   addConductor(form?: NgForm) {
+    if (isNaN(form.value.CC)) {
+      M.toast({ html: 'En el campo cedula sólo se aceptan números' });
+      return;
+    }
     if (form.value._id) { // si existe el id, actualizamos
       this.conductoresService.updateConductor(form.value)
         .subscribe(res => {
@@ -85,6 +89,10 @@ export class ConductoresComponent implements OnInit {
   // funcion que permite igualar CC con licencia
   onBlur() {
     this.conductoresService.selectedConductor.license = this.conductoresService.selectedConductor.CC;
+  }
+  onKeyUp() {
+    this.conductoresService.selectedConductor.CC = this.conductoresService.selectedConductor.CC.replace(" ", "");
+    this.conductoresService.selectedConductor.CC = this.conductoresService.selectedConductor.CC.replace(".", "");
   }
   // limpiar campos de pantalla
   resetForm(form?: NgForm) {

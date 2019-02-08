@@ -24,8 +24,8 @@
                     </div>
 
                     <div class="input-field col s12 m6 l4">
-                      <input type="text" name="CC" #CC="ngModel" (blur)="onBlur()" [(ngModel)]="conductoresService.selectedConductor.CC" placeholder=""
-                        required maxlength="10" minlength="7">
+                      <input type="text" name="CC" #CC="ngModel" (blur)="onBlur()" (keyup)="onKeyUp()" [(ngModel)]="conductoresService.selectedConductor.CC"
+                        placeholder="" required maxlength="10" minlength="7">
                       <label class="active">Número de Identificación del Conductor*:</label>
                       <div *ngIf="CC.touched && !CC.valid">
                         <div class="required" *ngIf="CC.errors.required">La Identificación es Requerido</div>
