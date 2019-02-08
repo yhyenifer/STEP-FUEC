@@ -47,7 +47,7 @@ export class VehiculosComponent implements OnInit {
   ngOnInit() {
     M.AutoInit(); //inicia los componentes de materilize
     var elems = document.querySelectorAll('.datepicker');
-    M.Datepicker.init(elems, { format: 'dd-mm-yyyy', autoClose: true });
+    M.Datepicker.init(elems, { format: 'mm-dd-yyyy', autoClose: true });
     this.getVehiculos();
 
   }

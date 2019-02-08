@@ -394,7 +394,7 @@ vehiculoCtrl.updateVehiculo = async (req, res) => {
                     vehiculo.exp_gnv = req.body.exp_gnv;
                 }
                 await Vehiculo.findByIdAndUpdate(id, { $set: newVehiculo }, { new: true });
-                res.json({ status: 'Vehiculo Actualizado Exitosamente' });
+                res.json({ status: 'Vehiculo Actualizado Exitosamente', success: 'true' });
             }
             else {
                 res.json({ status: 'Verificar la placa del vehiculo, la ingresada, ya existe', success: 'false' });
@@ -421,7 +421,7 @@ vehiculoCtrl.deleteVehiculo = async (req, res) => {
         state: req.body.state
     }
     await Vehiculo.findByIdAndUpdate(id, { $set: newState }, { new: true });
-    res.json({ status: 'Vehiculo Eliminado Exitosamente' });
+    res.json({ status: 'Vehiculo Eliminado Exitosamente', success: 'true' });
 };
 
 

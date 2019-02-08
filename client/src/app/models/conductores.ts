@@ -33,7 +33,7 @@ export class Conductores {
     senses_expiration: Date;
     car_security_expiration: Date;
     road_security_expiration: Date;
-    state: Boolean = true;
+    state: Boolean;
 
 
 

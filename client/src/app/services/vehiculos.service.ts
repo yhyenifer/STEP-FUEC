@@ -19,9 +19,9 @@ interface alerta {
 
 interface vehiculoDispo {
   _id: string;
-  plate: string;
+  placa: string;
   lateral: string;
-  adulto_responsable: string;
+  fecha_exp: string;
 }
 
 
@@ -80,11 +80,11 @@ export class VehiculosService {
   }
 
   //listar los vehiculos disponibles
-  getVehiculosDisponibles(fecha_fin): Observable<vehiculoDispo[]> {
+  getVehiculosDisponibles(fecha_fin, fecha_ini): Observable<vehiculoDispo[]> {
 
     let token = localStorage
       .getItem('token');
-    return this.http.post<vehiculoDispo[]>(this.URL_API + `/disponible`, { fecha_fin: fecha_fin }, {
+    return this.http.post<vehiculoDispo[]>(this.URL_API + `/disponible`, { fecha_fin: fecha_fin, fecha_ini: fecha_ini }, {
       headers: new HttpHeaders().append('token', token)
     });
   };
