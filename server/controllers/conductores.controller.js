@@ -69,6 +69,7 @@ conductorCtrl.ConductoresDisponibles = async (req, res) => {
             }
         }
     })
+    res.json(conductores_disponibles);
 };
 
 

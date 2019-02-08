@@ -112,6 +112,7 @@ vehiculoCtrl.VehiculosDisponibles = async (req, res) => {
             }
         }
     })
+    res.json(vehiculos_disponibles);
 };
 
 

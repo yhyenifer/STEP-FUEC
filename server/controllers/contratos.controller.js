@@ -101,7 +101,7 @@ contratoCtrl.createContrato = async (req, res) => {
             const permisos = req.body.permisos;
             if (permisos.length > 0) {
                 console.log("aqui vamos haciendole caso a yenifer para que no me mire con fastidio");
-                Permiso.createPermisoCon(UltimoContrato._id, UltimoContrato.car_number, permisos);
+                Permiso.createPermisoCon(UltimoContrato._id, permisos);
             }
             else {
                 //invoco funcion ultimo contrato,guardo el numero del contrato
@@ -127,7 +127,7 @@ contratoCtrl.createContrato = async (req, res) => {
                         payment: req.body.payment,
                         sign_date: req.body.sign_date,
                         ct_number: nume_cont,
-                        fecha_Pago: req.body.fecha,
+                        fecha_Pago: req.body.fecha_pago,
                         state: true
 
                     })
@@ -337,7 +337,7 @@ contratoCtrl.updateContrato = async (req, res) => {
                     sign_date: req.body.sign_date,
                     ct_number: nume_cont,
                     estadoContrato: req.body.estadoContrato,
-                    fecha_Pago: req.body.fecha,
+                    fecha_Pago: req.body.fecha_pago,
                     state: req.body.state
                 }
                 await Contrato.findByIdAndUpdate(id, { $set: newContrato }, { new: true });

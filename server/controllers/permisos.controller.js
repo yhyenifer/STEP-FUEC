@@ -53,7 +53,7 @@ permisoCtrl.createPermiso = async (req, res) => {
 
 
 //crear permisos desde contratos y basados en el numero de vehiculos estipu
-permisoCtrl.createPermisoCon = async (idContrato, car_number, permisos) => {
+permisoCtrl.createPermisoCon = async (idContrato, permisos) => {
     console.log("creando permiso");
     console.log(permisos);
     cconsole.log(car_number);
@@ -61,7 +61,6 @@ permisoCtrl.createPermisoCon = async (idContrato, car_number, permisos) => {
     for (let i = 0; i < permisos.length; i++) {
 
         console.log(i);
-
         var numPer;
         const ultiPerm = await definirct_NumPer();
 
@@ -77,11 +76,10 @@ permisoCtrl.createPermisoCon = async (idContrato, car_number, permisos) => {
         const permiso = new Permiso({
             pt_number: numPer,
             ct_id: idContrato,
-            car_id: vehiculos[i],
-            driver_ids: conductores[i],
-            start: startPermiso,
-            coop: cooperacion,
-            end: endPermiso
+            car_id: permisos[i].car_id,
+            driver_ids: permisos[i].driver_ids,
+            start: permisos[i].start,
+            end: permisos[i].end
         });
 
         console.log(permiso);
