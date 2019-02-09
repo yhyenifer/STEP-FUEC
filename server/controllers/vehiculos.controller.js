@@ -15,31 +15,37 @@ vehiculoCtrl.getVehiculos = async (req, res) => {
 
 //listar Vehiculos disponibles
 vehiculoCtrl.VehiculosDisponibles = async (req, res) => {
-    const vehiculos_disponibles = [];
+    var disponibles_temporal = [];
+    var vehiculos_disponibles = [];
     var fecha_fin = moment(req.body.fecha_fin);
     var fecha_ini = moment(req.body.fecha_ini);
 
     const vehiculos = await Vehiculo.find({ state: "true" });
 
     vehiculos.map((dato, key) => {
+        if (dato.GNV == false) {
+            if (moment(dato.exp_to) > fecha_fin && moment(dato.exp_soat) > fecha_fin &&
+                moment(dato.exp_tech) > fecha_fin && moment(dato.exp_prev) > fecha_fin &&
+                moment(dato.exp_rcc) > fecha_fin) {
 
-        if (moment(dato.exp_to) > fecha_fin && moment(dato.exp_soat) > fecha_fin &&
-            moment(dato.exp_tech) > fecha_fin && moment(dato.exp_prev) > fecha_fin &&
-            moment(dato.exp_rcc) > fecha_fin) {
-
-            const objVehi_Dis = {
-                id: dato._id,
-                placa: dato.plate,
-                lateral: dato.lateral,
-                fecha_exp: ""
+                const objVehi_Dis = {
+                    id: dato._id,
+                    placa: dato.plate,
+                    lateral: dato.lateral,
+                    fecha_exp: ""
+                }
+                disponibles_temporal.push(objVehi_Dis);
+                console.log(objVehi_Dis);
             }
-            vehiculos_disponibles.push(objVehi_Dis);
         }
+
         else {
             if (dato.GNV == true) {
                 if (moment(dato.exp_to) > fecha_fin && moment(dato.exp_soat) > fecha_fin &&
                     moment(dato.exp_tech) > fecha_fin && moment(dato.exp_prev) > fecha_fin &&
                     moment(dato.exp_rcc) > fecha_fin && moment(dato.exp_gnv) > fecha_fin) {
+                    console.log(dato.exp_gnv);
+
 
                     const objVehi_Dis = {
                         id: dato._id,
@@ -47,7 +53,8 @@ vehiculoCtrl.VehiculosDisponibles = async (req, res) => {
                         lateral: dato.lateral,
                         fecha_exp: ""
                     }
-                    vehiculos_disponibles.push(objVehi_Dis);
+                    disponibles_temporal.push(objVehi_Dis);
+                    console.log(objVehi_Dis);
                 }
             }
         }
@@ -67,12 +74,13 @@ vehiculoCtrl.VehiculosDisponibles = async (req, res) => {
             if (dato.GNV == true) {
                 if (moment(dato.exp_to) > fecha_ini && moment(dato.exp_soat) > fecha_ini && moment(dato.exp_tech) > fecha_ini
                     && moment(dato.exp_prev) > fecha_ini && moment(dato.exp_rcc) > fecha_ini && moment(dato.exp_gnv) > fecha_ini) {
-
+                    console.log(dato.exp_gnv);
                     var fechas_GNV = [dato_exp_to, dato_exp_soat, dato_exp_tech, dato_exp_prev, dato_exp_rcc, dato_exp_GNV];
+                    var fechas_gnv = [moment(dato.exp_to), moment(dato.exp_soat), moment(dato.exp_tech), moment(dato.exp_prev), moment(dato.exp_rcc), moment(dato.exp_gnv)];
                     var fecha_menor = fechas_GNV[0];
                     for (var i = 0; i < fechas_GNV.length; i++) {
 
-                        if (fechas_GNV[i] < fecha_menor) {
+                        if (fechas_GNV[i] <= fecha_menor) {
                             fecha_menor = fechas_GNV[i];
                             var posicion_GNV = i;
                         }
@@ -81,9 +89,12 @@ vehiculoCtrl.VehiculosDisponibles = async (req, res) => {
                         id: dato._id,
                         placa: dato.plate,
                         lateral: dato.lateral,
-                        fecha_exp: fechas_diff[posicion_GNV]
+                        nombre_exp: fechas_diff[posicion_GNV],
+                        fecha_exp: fechas_gnv[posicion_GNV]
+
                     }
-                    vehiculos_disponibles.push(objVehi_Dis);
+                    disponibles_temporal.push(objVehi_Dis);
+                    console.log(objVehi_Dis);
                 }
             }
             else {
@@ -91,11 +102,12 @@ vehiculoCtrl.VehiculosDisponibles = async (req, res) => {
                     moment(dato.exp_tech) > fecha_ini && moment(dato.exp_prev) > fecha_ini &&
                     moment(dato.exp_rcc) > fecha_ini) {
 
-                    var fechas = [dato_exp_to, dato_exp_soat, dato_exp_tech, dato_exp_prev, dato_exp_rcc];
-                    var fecha_menor = fechas[0];
-                    for (var i = 0; i < fechas.length; i++) {
+                    var fechas_vehiculos = [dato_exp_to, dato_exp_soat, dato_exp_tech, dato_exp_prev, dato_exp_rcc];
+                    var fechas = [moment(dato.exp_to), moment(dato.exp_soat), moment(dato.exp_tech), moment(dato.exp_prev), moment(dato.exp_rcc)];
+                    var fecha_menor = fechas_vehiculos[0];
+                    for (var i = 0; i < fechas_vehiculos.length; i++) {
 
-                        if (fechas[i] <= fecha_menor) {
+                        if (fechas_vehiculos[i] <= fecha_menor) {
 
                             fecha_menor = fechas[i];
                             var posicion = i;
@@ -105,12 +117,21 @@ vehiculoCtrl.VehiculosDisponibles = async (req, res) => {
                         id: dato._id,
                         placa: dato.plate,
                         lateral: dato.lateral,
-                        fecha_exp: fechas_diff[posicion]
+                        nombre_exp: fechas_diff[posicion],
+                        fecha_exp: fechas[posicion]
                     }
-                    vehiculos_disponibles.push(objVehi_Dis);
+                    disponibles_temporal.push(objVehi_Dis);
+                    //console.log(objVehi_Dis);
+
                 }
             }
         }
+    })
+    vehiculos_disponibles = disponibles_temporal.filter((valorActual, indiceActual, arreglo) => {
+
+        return arreglo.findIndex(valorDelArreglo => JSON.stringify(valorDelArreglo.id) === JSON.stringify(valorActual.id)) === indiceActual
+
+        // return arreglo.indexOf(valorActual) === indiceActual.id;
     })
     res.json(vehiculos_disponibles);
 };

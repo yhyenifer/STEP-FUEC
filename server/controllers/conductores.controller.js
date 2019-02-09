@@ -15,7 +15,8 @@ conductorCtrl.getConductores = async (req, res) => {
 
 //listar Conductores disponibles
 conductorCtrl.ConductoresDisponibles = async (req, res) => {
-    const conductores_disponibles = [];
+    var conductores_disponibles = [];
+    var disponibles_temporal = [];
     var fecha_fin = moment(req.body.fecha_fin);
     var fecha_ini = moment(req.body.fecha_ini);
 
@@ -32,7 +33,7 @@ conductorCtrl.ConductoresDisponibles = async (req, res) => {
                 cedula: dato.CC,
                 fecha_exp: ""
             }
-            conductores_disponibles.push(objCond_Dis);
+            disponibles_temporal.push(objCond_Dis);
         }
         else {
             if (moment(dato.license_expiration) < fecha_fin || moment(dato.health_expiration) < fecha_fin ||
@@ -64,10 +65,17 @@ conductorCtrl.ConductoresDisponibles = async (req, res) => {
                         cedula: dato.CC,
                         fecha_exp: fechas_diff[posicion]
                     }
-                    conductores_disponibles.push(objCond_Dis);
+                    disponibles_temporal.push(objCond_Dis);
                 }
             }
         }
+    })
+
+    conductores_disponibles = disponibles_temporal.filter((valorActual, indiceActual, arreglo) => {
+
+        return arreglo.findIndex(valorDelArreglo => JSON.stringify(valorDelArreglo.id) === JSON.stringify(valorActual.id)) === indiceActual
+
+        // return arreglo.indexOf(valorActual) === indiceActual.id;
     })
     res.json(conductores_disponibles);
 };
